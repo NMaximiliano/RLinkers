@@ -17,8 +17,8 @@ class _MyTextFieldState extends State<MyTextField> {
     return  Container(
       padding: EdgeInsets.symmetric(vertical: 17, horizontal: widget.titleField!=null ? MediaQuery.of(context).size.width*0.05 : 34),
       child: TextField(
-        style: TextStyle(fontSize: 18, color: Colors.white),
-        cursorColor: Colors.white,
+        style: TextStyle(fontSize: 18, color: Colors.black26),
+        cursorColor: Colors.black87,
         obscureText: widget.titleField=="Password",
         decoration: InputDecoration(
           labelText: widget.titleField ?? "",

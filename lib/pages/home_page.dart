@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                       child: CircleAvatar(
                           maxRadius: 50,
                           backgroundImage:
-                              NetworkImage('../../assets/images/perfil.jpg')
+                                AssetImage('assets/images/perfil.jpg')
                           /*Image.asset(
                           '../../assets/images/perfil.jpg',
                           width: 80,
@@ -132,7 +132,7 @@ class HomePage extends StatelessWidget {
             ),
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             //color: Colors.blue.shade200,
-            height: MediaQuery.of(context).size.height,
+            height: 1000,
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
@@ -156,7 +156,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10,),
-                Image(image: NetworkImage("../../assets/images/imagenconfacu.jpg"),
+                Image(image: AssetImage("../../assets/images/imagenconfacu.jpg"), //NetworkImage("../../assets/images/imagenconfacu.jpg"),//usar AssetImage
                   fit: BoxFit.cover,
                   height: 300.0,
                   width: 300.0,

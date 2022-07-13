@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import '../Models/proyectos.dart';
+import '../business_logic/responsive_helper.dart';
 import '../widgets/customForms/my_textfield.dart';
 import '../widgets/navigationdrawerwidget.dart';
 
+final List<Proyectos> proyectosList = <Proyectos>[
+  Proyectos(titulo: 'Proyecto 1', link: 'link1', fecha: DateTime.now()),
+  Proyectos(titulo: 'Proyecto 2', link: 'link2', fecha: DateTime.now()),
+  Proyectos(titulo: 'Proyecto 3', link: 'link3', fecha: DateTime.now())
+];
+
 class ProfilePage extends StatelessWidget {
+  addTextoPubli(String texto, double fontSize){
+    return (Text(texto,                                             textAlign: TextAlign.center,
+      style: TextStyle(
+          color: const Color(0xFF1d2125),
+          fontSize: fontSize,
+          fontFamily: GoogleFonts.getFont(
+              "Playfair Display")
+              .fontFamily),
+    ));
+  }
   addEncabezadoPubli(String texto, double fontSize) {
     return (Row(children: [
       SizedBox(
@@ -13,7 +32,11 @@ class ProfilePage extends StatelessWidget {
         texto,
         //textAlign: TextAlign.right,
         style: TextStyle(
-            fontSize: fontSize, decorationStyle: TextDecorationStyle.dotted),
+            color: const Color(0xFF1d2125),
+            fontSize: fontSize,
+            fontFamily: GoogleFonts.getFont(
+                "Acme")
+                .fontFamily),
       ),
       SizedBox(
         width: 40,
@@ -41,17 +64,19 @@ class ProfilePage extends StatelessWidget {
               color: Colors.blueAccent.shade100,
             ),
           ),
+          SizedBox(width: 10,),
           Text(texto,
               textScaleFactor: 2,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: fontSize,
-              )),
+              style:  TextStyle(
+                  color: const Color(0xFF1d2125),
+                  fontSize: fontSize,
+                  fontFamily: GoogleFonts.getFont(
+                      "Playfair Display")
+                      .fontFamily),),
         ],
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -77,39 +102,64 @@ class ProfilePage extends StatelessWidget {
                         margin: const EdgeInsets.all(50),
                         decoration: BoxDecoration(
                           image: const DecorationImage(
-                              image:
-                                  NetworkImage("../../asset/img/mandala.jpg"),
+                              image: AssetImage("assets/images/perfil.jpg"),
                               fit: BoxFit.cover),
                           border:
                               Border.all(color: Colors.blue.shade100, width: 5),
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
-                      Flexible(
-                        child: Container(
-                          width: 600,
-                          height: 300,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
-                                bottom: Radius.elliptical(20, 30),
-                                top: Radius.elliptical(20, 30)),
-                            color: Colors.blue.shade50,
-                          ),
-                          child: Column(
-                            children: [
-                              MyTextField(titleField: "Nombre y Apellido"),
-                              MyTextField(
-                                titleField: "Titulo Cargo",
+                      ResponsiveHelper.isSmallScreen(context)
+                          ? SizedBox.shrink()
+                          : Flexible(
+                              child: Container(
+                                width: 600,
+                                height: 300,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.elliptical(20, 30),
+                                      top: Radius.elliptical(20, 30)),
+                                  color: Colors.blue.shade50,
+                                ),
+                                child: Column(
+                                  children: [
+                                    MyTextField(
+                                        titleField: "Nombre y Apellido"),
+                                    MyTextField(
+                                      titleField: "Titulo Cargo",
+                                    ),
+                                    MyTextField(
+                                      titleField: "Pais",
+                                    ),
+                                  ],
+                                ),
                               ),
-                              MyTextField(
-                                titleField: "Pais",
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
+                            )
                     ]),
               ),
+              MediaQuery.of(context).size.width < 800
+                  ? Container(
+                      width: 600,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                            bottom: Radius.elliptical(20, 30),
+                            top: Radius.elliptical(20, 30)),
+                        color: Colors.blue.shade50,
+                      ),
+                      child: Column(
+                        children: [
+                          MyTextField(titleField: "Nombre y Apellido"),
+                          MyTextField(
+                            titleField: "Titulo Cargo",
+                          ),
+                          MyTextField(
+                            titleField: "Pais",
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox.shrink(),
               Container(
                 padding: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width - 80,
@@ -119,7 +169,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    addEncabezadoPubli("Acerca de:", 24),
+                    addEncabezadoPubli("Acerca de:", 28),
                     SizedBox(
                       height: 20,
                     ),
@@ -127,9 +177,11 @@ class ProfilePage extends StatelessWidget {
                     Text(
                       "este es un texto para poner como ejemplo de acerca de ",
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 14),
+                          color: const Color(0xFF1d2125),
+                          fontSize: 20,
+                          fontFamily: GoogleFonts.getFont(
+                              "Playfair Display")
+                              .fontFamily),
                     )
                   ],
                 ),
@@ -148,7 +200,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    addEncabezadoPubli("Intereses:", 24),
+                    addEncabezadoPubli("Intereses:", 28),
                     Expanded(
                       child: ListView(
                         shrinkWrap: true,
@@ -187,27 +239,19 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    addEncabezadoPubli("Pacientes Tratados", 24),
-                    Expanded(
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(20.0),
-                        children: <Widget>[
-                          addTextTip("Paciente 1", 10),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          addTextTip("Paciente 2", 10),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          addTextTip("Paciente 3", 10),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          addTextTip("Paciente 4", 10)
-                        ],
-                      ),
+                    addEncabezadoPubli("Pacientes Tratados", 28),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    //addText("Este seria el aceca de nosotros poner un texto copado", 20)
+                    Text(
+                      "este es un texto para poner como ejemplo de los pacientes tratados ",
+                      style: TextStyle(
+                          color: const Color(0xFF1d2125),
+                          fontSize: 20,
+                          fontFamily: GoogleFonts.getFont(
+                              "Playfair Display")
+                              .fontFamily),
                     )
                   ],
                 ),
@@ -226,26 +270,79 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 20,),
-                    addEncabezadoPubli("Publicaciones / Proyectos", 24),
-                    SizedBox(height: 10,),
-                    Image(image: NetworkImage("../../assets/images/imagenconfacu.jpg"),
-                      fit: BoxFit.cover,
-                      height: 300.0,
-                      width: 300.0,
-
+                    SizedBox(
+                      height: 20,
                     ),
-                    SizedBox(height: 20,),
-                    Text(
-                      "este es un texto para poner como ejemplo de acerca de ",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 14),
-                    )
+                    addEncabezadoPubli("Publicaciones / Proyectos", 28),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    for (Proyectos proyecto in proyectosList)
+
+                      Container(
+                        padding: const EdgeInsets.only(top: 10.0, left: 250),
+                        child: Row(
+
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30,),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.lightBlue.shade50,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.lightBlue.shade600,
+                                      spreadRadius: 2),
+                                ],
+                              ),
+                              child: addTextoPubli(proyecto.titulo, 16)
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.lightBlue.shade50,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.lightBlue.shade600,
+                                      spreadRadius: 2),
+                                ],
+                              ),
+                              child: addTextoPubli(DateFormat('dd-MM-yyyy').format(proyecto.fecha), 16)
+
+                            ),
+
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white38,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.blueGrey.shade50,
+                                        spreadRadius: 2),
+                                  ],
+                                ),
+                                child: Icon(Icons.zoom_in, color: Colors.blueAccent.shade100,),
+                              ),
+                            ),
+
+
+
+                          ],
+                        ),
+                      )
                   ],
                 ),
-                height: 600,
+                height: 800,
                 //color: Colors.deepOrangeAccent,
               ),
               SizedBox(
@@ -258,11 +355,30 @@ class ProfilePage extends StatelessWidget {
                   border: Border.all(color: Colors.blue.shade100, width: 5),
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: Text(
-                  "Capacidades de investigacion",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30),
-                ),
+                child: Column(children: [
+                  addEncabezadoPubli("Capacidades de Investigacion", 28),
+                  Expanded(
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(20.0),
+                      children: <Widget>[
+                        addTextTip("Capacidad 1", 10),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        addTextTip("Capacidad 2", 10),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        addTextTip("Capacidad 3", 10),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        addTextTip("Capacidad 4", 10)
+                      ],
+                    ),
+                  ),
+                ]),
                 height: 300,
                 //color: Colors.deepOrangeAccent,
               ),
@@ -277,11 +393,7 @@ class ProfilePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: Column(children: [
-                  Text(
-                    "Grupos en los que participa",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30),
-                  ),
+                  addEncabezadoPubli("Grupos en los que Participa", 28),
                   Expanded(
                     child: ListView(
                       shrinkWrap: true,
@@ -320,7 +432,11 @@ class ProfilePage extends StatelessWidget {
                 child: Text(
                   "Puntaje",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20,
+                      fontFamily: GoogleFonts.getFont(
+                          "Playfair Display")
+                          .fontFamily
+                  ),
                 ),
                 height: 80,
                 //color: Colors.deepOrangeAccent,

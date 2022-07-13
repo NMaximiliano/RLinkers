@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/profile_page.dart';
+import '../pages/prueba_page.dart';
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
 
@@ -92,7 +93,11 @@ class NavigationDrawerWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: ListTile(
-            onTap: (){},
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PruebaPage(),
+              ));
+            },
             contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
             leading: Icon(Icons.attach_email, color: Colors.blue.shade400,),
             title: Text(
