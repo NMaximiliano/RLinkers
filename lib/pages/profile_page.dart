@@ -5,80 +5,36 @@ import '../Models/proyectos.dart';
 import '../business_logic/responsive_helper.dart';
 import '../widgets/customForms/my_textfield.dart';
 import '../widgets/navigationdrawerwidget.dart';
+import '../widgets/customForms/my_drop_down.dart';
 
-final List<Proyectos> proyectosList = <Proyectos>[
-  Proyectos(titulo: 'Proyecto 1', link: 'link1', fecha: DateTime.now()),
-  Proyectos(titulo: 'Proyecto 2', link: 'link2', fecha: DateTime.now()),
-  Proyectos(titulo: 'Proyecto 3', link: 'link3', fecha: DateTime.now())
-];
-
-class ProfilePage extends StatelessWidget {
-  addTextoPubli(String texto, double fontSize){
-    return (Text(texto,                                             textAlign: TextAlign.center,
-      style: TextStyle(
-          color: const Color(0xFF1d2125),
-          fontSize: fontSize,
-          fontFamily: GoogleFonts.getFont(
-              "Playfair Display")
-              .fontFamily),
-    ));
-  }
-  addEncabezadoPubli(String texto, double fontSize) {
-    return (Row(children: [
-      SizedBox(
-        width: 30,
-      ),
-      Text(
-        texto,
-        //textAlign: TextAlign.right,
-        style: TextStyle(
-            color: const Color(0xFF1d2125),
-            fontSize: fontSize,
-            fontFamily: GoogleFonts.getFont(
-                "Acme")
-                .fontFamily),
-      ),
-      SizedBox(
-        width: 40,
-      ),
-      Icon(Icons.edit),
-    ]));
-  }
-
-  addTextTip(String texto, double fontSize) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.white,
-      ),
-      height: 30,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            width: 10.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0)),
-              color: Colors.blueAccent.shade100,
-            ),
-          ),
-          SizedBox(width: 10,),
-          Text(texto,
-              textScaleFactor: 2,
-              style:  TextStyle(
-                  color: const Color(0xFF1d2125),
-                  fontSize: fontSize,
-                  fontFamily: GoogleFonts.getFont(
-                      "Playfair Display")
-                      .fontFamily),),
-        ],
-      ),
-    );
-  }
+@override
+class ProfilePage extends StatefulWidget {
+  ProfilePage({Key? key}) : super(key: key);
 
   @override
+  State<ProfilePage> createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
+  final List<Proyectos> proyectosList = <Proyectos>[
+    Proyectos(titulo: 'Proyecto 1', link: 'link1', fecha: DateTime.now()),
+    Proyectos(titulo: 'Proyecto 2', link: 'link2', fecha: DateTime.now()),
+    Proyectos(titulo: 'Proyecto 3', link: 'link3', fecha: DateTime.now())
+  ];
+  final List<String> intereses = ['Intereses 1', 'Intereses 2', 'Intereses 3', 'Intereses 4'];
+  final List<String> capacidadesInvestigacion = ['Capacidad 1', 'Capacidad 2', 'Capacidad 3', 'Capacidad 4'];
+  late String _chosenInteres;
+  late String _chosenCapacidad;
+
+  @override
+  void initState() {
+    //Incializo los valores seleccionados
+
+    _chosenInteres = intereses[0];
+    _chosenCapacidad = capacidadesInvestigacion[0];
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
@@ -179,8 +135,7 @@ class ProfilePage extends StatelessWidget {
                       style: TextStyle(
                           color: const Color(0xFF1d2125),
                           fontSize: 20,
-                          fontFamily: GoogleFonts.getFont(
-                              "Playfair Display")
+                          fontFamily: GoogleFonts.getFont("Playfair Display")
                               .fontFamily),
                     )
                   ],
@@ -201,6 +156,20 @@ class ProfilePage extends StatelessWidget {
                 child: Column(
                   children: [
                     addEncabezadoPubli("Intereses:", 28),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    myDropDown(
+                        dropItems: intereses,
+                        chosenValue: _chosenInteres,
+                        choosingValue: (value) {
+                            setState(() {
+                          _chosenInteres = value;
+                           });
+                        }),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Expanded(
                       child: ListView(
                         shrinkWrap: true,
@@ -224,7 +193,7 @@ class ProfilePage extends StatelessWidget {
                     )
                   ],
                 ),
-                height: 300,
+                height: 450,
                 //color: Colors.deepOrangeAccent,
               ),
               SizedBox(
@@ -249,8 +218,7 @@ class ProfilePage extends StatelessWidget {
                       style: TextStyle(
                           color: const Color(0xFF1d2125),
                           fontSize: 20,
-                          fontFamily: GoogleFonts.getFont(
-                              "Playfair Display")
+                          fontFamily: GoogleFonts.getFont("Playfair Display")
                               .fontFamily),
                     )
                   ],
@@ -278,50 +246,52 @@ class ProfilePage extends StatelessWidget {
                       height: 30,
                     ),
                     for (Proyectos proyecto in proyectosList)
-
                       Container(
                         padding: const EdgeInsets.only(top: 10.0, left: 250),
                         child: Row(
-
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30,),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.lightBlue.shade50,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.lightBlue.shade600,
-                                      spreadRadius: 2),
-                                ],
-                              ),
-                              child: addTextoPubli(proyecto.titulo, 16)
-                            ),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 15,
+                                  horizontal: 30,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.lightBlue.shade50,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.lightBlue.shade600,
+                                        spreadRadius: 2),
+                                  ],
+                                ),
+                                child: addTextoPubli(proyecto.titulo, 16)),
                             SizedBox(
                               width: 20,
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.lightBlue.shade50,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.lightBlue.shade600,
-                                      spreadRadius: 2),
-                                ],
-                              ),
-                              child: addTextoPubli(DateFormat('dd-MM-yyyy').format(proyecto.fecha), 16)
-
-                            ),
-
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 30),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.lightBlue.shade50,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.lightBlue.shade600,
+                                        spreadRadius: 2),
+                                  ],
+                                ),
+                                child: addTextoPubli(
+                                    DateFormat('dd-MM-yyyy')
+                                        .format(proyecto.fecha),
+                                    16)),
                             SizedBox(
                               width: 10,
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 30),
                               child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.white38,
@@ -331,12 +301,12 @@ class ProfilePage extends StatelessWidget {
                                         spreadRadius: 2),
                                   ],
                                 ),
-                                child: Icon(Icons.zoom_in, color: Colors.blueAccent.shade100,),
+                                child: Icon(
+                                  Icons.zoom_in,
+                                  color: Colors.blueAccent.shade100,
+                                ),
                               ),
                             ),
-
-
-
                           ],
                         ),
                       )
@@ -357,6 +327,20 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(children: [
                   addEncabezadoPubli("Capacidades de Investigacion", 28),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  myDropDown(
+                      dropItems: capacidadesInvestigacion,
+                      chosenValue: _chosenCapacidad,
+                      choosingValue: (value) {
+                        setState(() {
+                        _chosenCapacidad = value;
+                         });
+                      }),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Expanded(
                     child: ListView(
                       shrinkWrap: true,
@@ -379,7 +363,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                 ]),
-                height: 300,
+                height: 400,
                 //color: Colors.deepOrangeAccent,
               ),
               SizedBox(
@@ -432,17 +416,82 @@ class ProfilePage extends StatelessWidget {
                 child: Text(
                   "Puntaje",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20,
-                      fontFamily: GoogleFonts.getFont(
-                          "Playfair Display")
-                          .fontFamily
-                  ),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily:
+                          GoogleFonts.getFont("Playfair Display").fontFamily),
                 ),
-                height: 80,
+                height: 100,
                 //color: Colors.deepOrangeAccent,
               ),
             ],
           ),
         ));
+  }
+
+  addTextoPubli(String texto, double fontSize) {
+    return (Text(
+      texto,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+          color: const Color(0xFF1d2125),
+          fontSize: fontSize,
+          fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
+    ));
+  }
+
+  addEncabezadoPubli(String texto, double fontSize) {
+    return (Row(children: [
+      SizedBox(
+        width: 30,
+      ),
+      Text(
+        texto,
+        //textAlign: TextAlign.right,
+        style: TextStyle(
+            color: const Color(0xFF1d2125),
+            fontSize: fontSize,
+            fontFamily: GoogleFonts.getFont("Acme").fontFamily),
+      ),
+      SizedBox(
+        width: 40,
+      ),
+      Icon(Icons.edit),
+    ]));
+  }
+
+  addTextTip(String texto, double fontSize) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.white,
+      ),
+      height: 30,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            width: 10.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0)),
+              color: Colors.blueAccent.shade100,
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            texto,
+            textScaleFactor: 2,
+            style: TextStyle(
+                color: const Color(0xFF1d2125),
+                fontSize: fontSize,
+                fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
+          ),
+        ],
+      ),
+    );
   }
 }

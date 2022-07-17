@@ -134,42 +134,44 @@ class HomePage extends StatelessWidget {
             //color: Colors.blue.shade200,
             height: 1000,
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage("../../assets/images/facuPerfil.jpg"),
-                        radius: 50,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage("../../assets/images/facuPerfil.jpg"),
+                          radius: 50,
+                        ),
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Text("Empresa", style: TextStyle(fontSize: 25)),
-                        Text("1.100 seguidores", style: TextStyle(fontSize: 10)),
-                        Text("3 dias atras", style: TextStyle(fontSize: 10))
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Image(image: AssetImage("../../assets/images/imagenconfacu.jpg"), //NetworkImage("../../assets/images/imagenconfacu.jpg"),//usar AssetImage
-                  fit: BoxFit.cover,
-                  height: 300.0,
-                  width: 300.0,
+                      Column(
+                        children: [
+                          Text("Empresa", style: TextStyle(fontSize: 25)),
+                          Text("1.100 seguidores", style: TextStyle(fontSize: 10)),
+                          Text("3 dias atras", style: TextStyle(fontSize: 10))
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  Image(image: AssetImage("../../assets/images/imagenconfacu.jpg"), //NetworkImage("../../assets/images/imagenconfacu.jpg"),//usar AssetImage
+                    fit: BoxFit.cover,
+                    height: 300.0,
+                    width: 300.0,
 
-                ),
-                Text("Las invenciones pueden constituir la mejor protección ante las crisis económicas y/o la competencia. Registrá tus innovaciones industriales, nosotros te ayudamos.",
-                  textAlign: TextAlign.center,
-                  textDirection: TextDirection.ltr,
-                  style: TextStyle(fontSize: 15, decorationStyle: TextDecorationStyle.solid),
-                ),
+                  ),
+                  Text("Las invenciones pueden constituir la mejor protección ante las crisis económicas y/o la competencia. Registrá tus innovaciones industriales, nosotros te ayudamos.",
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(fontSize: 15, decorationStyle: TextDecorationStyle.solid),
+                  ),
 
 
-              ],
+                ],
+              ),
             ),
           ),
         )
