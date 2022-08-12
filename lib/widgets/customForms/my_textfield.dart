@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 class MyTextField extends StatefulWidget {
    MyTextField({
     Key? key,
@@ -17,7 +18,10 @@ class _MyTextFieldState extends State<MyTextField> {
     return  Container(
       padding: EdgeInsets.symmetric(vertical: 17, horizontal: widget.titleField!=null ? MediaQuery.of(context).size.width*0.05 : 34),
       child: TextField(
-        style: TextStyle(fontSize: 18, color: Colors.black26),
+        style: TextStyle(
+            color: Colors.black87,
+            fontSize: 18,
+            fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
         cursorColor: Colors.black87,
         obscureText: widget.titleField=="Password",
         decoration: InputDecoration(
@@ -26,7 +30,10 @@ class _MyTextFieldState extends State<MyTextField> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             //labelText: "Machine Code",
-            labelStyle: TextStyle(fontSize: 20, color: Colors.black26),
+            labelStyle: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
             //fillColor: Color(Colors.blue.blue),
             filled: true),
       ),

@@ -20,7 +20,8 @@ class myDropDownState extends State<myDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 34, right: 34, top: 4, bottom: 42),
+      //padding: EdgeInsets.only(left: 34, right: 34, top: 4, bottom: 42),
+      padding: EdgeInsets.symmetric(vertical: 17, horizontal:  MediaQuery.of(context).size.width*0.05 ),
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),

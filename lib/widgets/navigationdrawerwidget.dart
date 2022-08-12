@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:rlinkers/pages/home_page.dart';
+
 import '../pages/profile_page.dart';
 import '../pages/prueba_page.dart';
+import '../pages/login_page.dart';
+import '../pages/structure_page.dart';
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
 
@@ -25,6 +29,30 @@ class NavigationDrawerWidget extends StatelessWidget {
           ),
           child: ListTile(
             contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
+            leading: Icon(Icons.login, color: Colors.blue.shade400,),
+            title: Text(
+              "Login/Registro",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.blue.shade700,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            onTap: (){
+              selectedItem(context, 2);
+            },
+          ),
+        ),
+        Card(
+          color: Colors.blue.shade50,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.blue.shade600,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
             leading: Icon(Icons.home, color: Colors.blue.shade400,),
             title: Text(
               "Home",
@@ -34,6 +62,9 @@ class NavigationDrawerWidget extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            onTap: (){
+              selectedItem(context, 1);
+            },
           ),
         ),
         Card(
@@ -68,9 +99,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           ),
           child: ListTile(
             onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ProfilePage(),
-              ));
+              selectedItem(context, 0);
             },
             contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
             leading: Icon(Icons.assignment_ind, color: Colors.blue.shade400,),
@@ -113,23 +142,23 @@ class NavigationDrawerWidget extends StatelessWidget {
       ],
     ),));
   }
-  /*selectedItem(BuildContext context, int index) {
+  selectedItem(BuildContext context, int index) {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ),
+          builder: (context) => StructurePage(ProfilePage(), iconos.menu,"Perfil de Usuario"),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(AddStopPage(), iconos.menu, "Add Stop"),
+          builder: (context) => StructurePage(HomePage(),iconos.sinIcono, "Inicio"),
         ));
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(HomePage(),iconos.sinIcono, ""),
+          builder: (context) => StructurePage(MyLoginPage(),iconos.sinIcono, "Login"),
         ));
         break;
     }
-  }*/
+  }
 }
