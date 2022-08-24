@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:rlinkers/pages/recover_user_page.dart';
 import 'package:rlinkers/pages/register_page.dart';
 import 'package:rlinkers/pages/structure_page.dart';
+import 'package:rlinkers/widgets/customForms/my_textfield.dart';
 
 import '../business_logic/Auth_Provider.dart';
+
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key}) : super(key: key);
 
@@ -16,102 +18,143 @@ class MyLoginPage extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyLoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: <Widget>[
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child:  Text(
-                  'Login de Usuario',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30,
-                      fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily)),
-                ),
-          /*  Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child:  Text(
-                  'Login',
-                  style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
-                )),
-
-           */
-            SizedBox(height: 30,),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Usuario',
-                ),
-                style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextField(
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-                style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
-              ),
-            ),
-            SizedBox(height: 30,),
-            TextButton(
-              onPressed: () {
-                //forgot password screen
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => StructurePage(MyRecoverUserPage(),
-                      iconos.sinIcono,"Recuperacion de Usuario"),
-                ));
-
-              },
-              child:  Text('Olvido su Password',
-                style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
-            ),
-            SizedBox(height: 30,),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                  child:  Text('Login', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
-                  onPressed: () {
-                    Provider.of<AuthProvider>(context, listen:false).login(nameController.text,passwordController.text, context);
-                  },
-                )
-            ),
-            SizedBox(height: 50,),
-            Row(
-              children: <Widget>[
-                 Text('Usted no tiene cuenta?', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
-                TextButton(
-                  child:  Text(
-                    'Registro',
-                    style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
+        child: Form(
+          key: _formKey,
+          child: Builder(
+            builder: (context) {
+              return ListView(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(10),
+                    child: Text('Login de Usuario',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 30,
+                            fontFamily: GoogleFonts.getFont("Playfair Display")
+                                .fontFamily)),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => StructurePage(MyRegisterPage(),
-                          iconos.sinIcono,"Registro de Usuario"),
-                    ));
+                  SizedBox(
+                    height: 30,
+                  ),
+                  MyTextField(titleField: "Usuario",nameController: nameController,),
+                  MyTextField(titleField: "Password",nameController: passwordController,),
+                  /*Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Usuario',
+                      ),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily:
+                              GoogleFonts.getFont("Playfair Display").fontFamily),
+                    ),
+                  ),
 
-                  },
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-            ),
-          ],
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: TextField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily:
+                              GoogleFonts.getFont("Playfair Display").fontFamily),
+                    ),
+                  ),*/
+                  SizedBox(
+                    height: 30,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      //forgot password screen
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => StructurePage(MyRecoverUserPage(),
+                            iconos.sinIcono, "Recuperacion de Usuario"),
+                      ));
+                    },
+                    child: Text(
+                      'Olvido su Password',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily:
+                              GoogleFonts.getFont("Playfair Display").fontFamily),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                      height: 50,
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: ElevatedButton(
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: GoogleFonts.getFont("Playfair Display")
+                                  .fontFamily),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState != null) {
+                            if (_formKey.currentState!.validate()) {
+                              Provider.of<AuthProvider>(context, listen: false).login(
+                                  nameController.text,
+                                  passwordController.text,
+                                  context);
+                            }
+                          }
+
+                        },
+                      )),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Usted no tiene cuenta?',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily:
+                                GoogleFonts.getFont("Playfair Display").fontFamily),
+                      ),
+                      TextButton(
+                        child: Text(
+                          'Registro',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: GoogleFonts.getFont("Playfair Display")
+                                  .fontFamily),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => StructurePage(MyRegisterPage(),
+                                iconos.sinIcono, "Registro de Usuario"),
+                          ));
+                        },
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ],
+              );
+            }
+          ),
         ));
   }
 }

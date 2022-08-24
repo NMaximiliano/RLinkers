@@ -14,9 +14,9 @@ class DBProvider with ChangeNotifier { //ChangeNotifier para poder usarlo como P
 
 
 
-  List<Usuario> usuarios = [];
+  List<Perfil> usuarios = [];
 
-  Future<Usuario> getUsuarios() async {//Leo las maquinas de la DB
+  Future<Perfil> getUsuarios() async {//Leo las maquinas de la DB
 
     usuarios.clear();
     final ref = database.ref('Usuarios/');
@@ -25,7 +25,7 @@ class DBProvider with ChangeNotifier { //ChangeNotifier para poder usarlo como P
 
     if (snapshot.exists) {
       (snapshot.value as Map).forEach((i, value) {
-        usuarios.add(Usuario.fromJson(value));
+        usuarios.add(Perfil.fromJson(value));
       });
     } else {
       print('No data available.');
@@ -50,7 +50,13 @@ class DBProvider with ChangeNotifier { //ChangeNotifier para poder usarlo como P
   Future<void> addStop(Usuario usuarios) async {
 
 
-    final ref = database.ref('Usuarios/${usuarios.perfil}');
-    await ref.update(usuarios.toJson());
+
+  }
+
+  Future<void> addUsuario(Perfil perfil, String? uid )
+  async {
+    uid='uidNoSeteado';
+    final ref = database.ref('Usuarios/${uid}');
+    await ref.set(perfil.toJson());
   }
 }

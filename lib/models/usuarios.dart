@@ -30,7 +30,7 @@ class Perfil {
   PublicacionesExternas? publicacionesExternas;
   int? puntaje;
   String? tituloCargo;
-
+  DateTime? fechaNacimiento;
   Perfil(
       {this.acercaDe,
         this.apellido,
@@ -40,7 +40,8 @@ class Perfil {
         this.pais,
         this.publicacionesExternas,
         this.puntaje,
-        this.tituloCargo});
+        this.tituloCargo,
+      this.fechaNacimiento});
 
   Perfil.fromJson(Map<String, dynamic> json) {
     acercaDe = json['AcercaDe'];
@@ -62,6 +63,7 @@ class Perfil {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['AcercaDe'] = this.acercaDe;
     data['Apellido'] = this.apellido;
+    data['FechaNacimiento'] = this.fechaNacimiento?.toString();
     data['Mail'] = this.mail;
     data['Nombre'] = this.nombre;
     if (this.pacientesTratados != null) {

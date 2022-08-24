@@ -5,12 +5,10 @@ import '../pages/structure_page.dart';
 
 class AuthProvider with ChangeNotifier { //ChangeNotifier es para los Provider que necesitan
 
-  static String? uid;
+  static String? uid = 'uidNoSeteado';
 
   bool get isLoggedIn => true;
   String get userId => '';
-
-
 
    Future<void> register(String emailAddress, String password,BuildContext context) async {
      try {

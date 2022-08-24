@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../Models/proyectos.dart';
+import '../business_logic/DB_Provider.dart';
 import '../business_logic/responsive_helper.dart';
+import '../models/usuarios.dart';
 import '../widgets/customForms/my_textfield.dart';
 import '../widgets/customForms/my_drop_down.dart';
 
@@ -58,16 +61,19 @@ class ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+
   Widget build(BuildContext context) {
     // TODO: implement build
-     /*FutureBuilder<Usuario>(
-          future: Provider.of<DBProvider>(context).getUsuarios(),
+    return FutureBuilder<Perfil>(
+          future: Provider.of<DBProvider>(context, listen:false).getUsuarios(),
           builder: (context, snapshot) {
             if(snapshot.connectionState!=ConnectionState.done){
               return Center(child: CircularProgressIndicator(),);
             }
-           Perfil miPerfil = snapshot.data!.perfil!;
-            miPerfil.*/
+           Perfil miPerfil = snapshot.data!;
+            String nombre = miPerfil.nombre??'';
+            String apellido = miPerfil.apellido??'';
+            String nombreApellido = nombre + ' ' + apellido;
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -104,6 +110,7 @@ class ProfilePageState extends State<ProfilePage> {
                                     child: Column(
                                       children: [
                                         MyTextField(
+                                          initialValue: nombreApellido,
                                             titleField: "Nombre y Apellido"),
                                         MyTextField(
                                           titleField: "Titulo Cargo",
@@ -167,14 +174,17 @@ class ProfilePageState extends State<ProfilePage> {
                           height: 20,
                         ),
                         //addText("Este seria el aceca de nosotros poner un texto copado", 20)
-                        Text(
-                          "este es un texto para poner como ejemplo de acerca de ",
+                        MyTextField(
+                            initialValue: miPerfil.acercaDe,
+                            titleField: "Acerca de "),
+                        /*Text(
+                          miPerfil.acercaDe??"este es un texto para poner como ejemplo de acerca de ",
                           style: TextStyle(
                               color: const Color(0xFF1d2125),
                               fontSize: 20,
                               fontFamily: GoogleFonts.getFont("Playfair Display")
                                   .fontFamily),
-                        )
+                        )*/
                       ],
                     ),
                     height: 300,
@@ -482,8 +492,8 @@ class ProfilePageState extends State<ProfilePage> {
               ),
             );
           }
-        //);//);
-  //}
+        );//);
+  }
 
   addTextoPubli(String texto, double fontSize) {
     return (Text(
@@ -512,7 +522,22 @@ class ProfilePageState extends State<ProfilePage> {
       SizedBox(
         width: 40,
       ),
-      Icon(Icons.edit),
+      IconButton(
+        icon: Icon(Icons.save),
+        color: Colors.blue,
+        highlightColor: Colors.red,
+        hoverColor: Colors.green,
+        focusColor: Colors.purple,
+        splashColor: Colors.yellow,
+        disabledColor: Colors.amber,
+        iconSize: 30,
+        onPressed: () {
+          setState(() {
+
+          });
+        },
+      ),
+
     ]));
   }
 
@@ -550,4 +575,5 @@ class ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
 }

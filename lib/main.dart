@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/Auth_Provider.dart';
+import 'package:rlinkers/business_logic/DB_Provider.dart';
 import 'package:rlinkers/pages/login_page.dart';
 import 'package:rlinkers/pages/structure_page.dart';
 import 'firebase_options.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
 
       ]
       , child: MaterialApp(
