@@ -43,14 +43,14 @@ class DBProvider with ChangeNotifier { //ChangeNotifier para poder usarlo como P
   }
 
   Future<void> removeStop(Usuario usuarios) async {
-    final ref = database.ref('Usuarios/${usuarios.perfil}/ActiveStop');
+    final ref = database.ref('Usuarios/${usuarios.perfil}');
     await ref.remove();
   }
 
-  Future<void> addStop(Usuario usuarios) async {
-
-
-
+  Future<void> updateUsuario(Perfil perfil, String? uid) async {
+    uid='uidNoSeteado';
+    final ref = database.ref('Usuarios/${uid}');
+    await ref.update(perfil.toJson());
   }
 
   Future<void> addUsuario(Perfil perfil, String? uid )

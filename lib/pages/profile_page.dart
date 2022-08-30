@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../Models/proyectos.dart';
+import '../business_logic/Auth_Provider.dart';
 import '../business_logic/DB_Provider.dart';
 import '../business_logic/responsive_helper.dart';
 import '../models/usuarios.dart';
@@ -13,11 +14,18 @@ import '../widgets/customForms/my_drop_down.dart';
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
 
+
+
   @override
   State<ProfilePage> createState() => ProfilePageState();
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  late Perfil miPerfil;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surnameController = TextEditingController();
+  TextEditingController tituloCargoController = TextEditingController();
+  TextEditingController acercaDeController = TextEditingController();
   final List<Proyectos> proyectosList = <Proyectos>[
     Proyectos(titulo: 'Proyecto 1', link: 'link1', fecha: DateTime.now()),
     Proyectos(titulo: 'Proyecto 2', link: 'link2', fecha: DateTime.now()),
@@ -70,10 +78,8 @@ class ProfilePageState extends State<ProfilePage> {
             if(snapshot.connectionState!=ConnectionState.done){
               return Center(child: CircularProgressIndicator(),);
             }
-           Perfil miPerfil = snapshot.data!;
-            String nombre = miPerfil.nombre??'';
-            String apellido = miPerfil.apellido??'';
-            String nombreApellido = nombre + ' ' + apellido;
+            miPerfil = snapshot.data!;
+
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -100,7 +106,7 @@ class ProfilePageState extends State<ProfilePage> {
                               : Flexible(
                                   child: Container(
                                     width: 600,
-                                    height: 300,
+                                    height: 400,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.vertical(
                                           bottom: Radius.elliptical(20, 30),
@@ -110,9 +116,16 @@ class ProfilePageState extends State<ProfilePage> {
                                     child: Column(
                                       children: [
                                         MyTextField(
-                                          initialValue: nombreApellido,
-                                            titleField: "Nombre y Apellido"),
+                                          nameController: nameController,
+                                          initialValue: miPerfil.nombre??'' ,
+                                            titleField: "Nombre"),
                                         MyTextField(
+                                            nameController: surnameController,
+                                            initialValue: miPerfil.apellido??'',
+                                            titleField: "Apellido"),
+                                        MyTextField(
+                                          nameController: tituloCargoController,
+                                          initialValue: miPerfil.tituloCargo??'',
                                           titleField: "Titulo Cargo",
                                         ),
                                         myDropDown(
@@ -141,13 +154,19 @@ class ProfilePageState extends State<ProfilePage> {
                           ),
                           child: Column(
                             children: [
-                              MyTextField(titleField: "Nombre y Apellido"),
                               MyTextField(
+                                  nameController: nameController,
+                                  initialValue: miPerfil.nombre??'' ,
+                                  titleField: "Nombre"),
+                              MyTextField(
+                                  nameController: surnameController,
+                                  initialValue: miPerfil.apellido??'',
+                                  titleField: "Apellido"),
+                              MyTextField(
+                                nameController: tituloCargoController,
+                                initialValue: miPerfil.tituloCargo??'',
                                 titleField: "Titulo Cargo",
                               ),
-                              /*MyTextField(
-                                titleField: "Pais",
-                              ),*/
                               myDropDown(
                                   dropItems: paises,
                                   chosenValue: _chosenPaises,
@@ -169,12 +188,13 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                     child: Column(
                       children: [
-                        addEncabezadoPubli("Acerca de:", 28),
+                        addEncabezadoPubli(texto:  "Acerca de:", fontSize:  28),
                         SizedBox(
                           height: 20,
                         ),
                         //addText("Este seria el aceca de nosotros poner un texto copado", 20)
                         MyTextField(
+                            nameController: acercaDeController,
                             initialValue: miPerfil.acercaDe,
                             titleField: "Acerca de "),
                         /*Text(
@@ -202,7 +222,7 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                     child: Column(
                       children: [
-                        addEncabezadoPubli("Intereses:", 28),
+                        addEncabezadoPubli(texto: "Intereses:", fontSize:  28),
                         SizedBox(
                           height: 20,
                         ),
@@ -262,7 +282,7 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                     child: Column(
                       children: [
-                        addEncabezadoPubli("Pacientes Tratados", 28),
+                        addEncabezadoPubli(texto: "Pacientes Tratados", fontSize:  28),
                         SizedBox(
                           height: 20,
                         ),
@@ -295,7 +315,7 @@ class ProfilePageState extends State<ProfilePage> {
                         SizedBox(
                           height: 20,
                         ),
-                        addEncabezadoPubli("Publicaciones / Proyectos", 28),
+                        addEncabezadoPubli(texto: "Publicaciones / Proyectos", fontSize:  28),
                         SizedBox(
                           height: 30,
                         ),
@@ -382,7 +402,7 @@ class ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Column(children: [
-                      addEncabezadoPubli("Capacidades de Investigacion", 28),
+                      addEncabezadoPubli(texto: "Capacidades de Investigacion", fontSize:  28),
                       SizedBox(
                         height: 20,
                       ),
@@ -441,7 +461,7 @@ class ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Column(children: [
-                      addEncabezadoPubli("Grupos en los que Participa", 28),
+                      addEncabezadoPubli(texto: "Grupos en los que Participa", fontSize: 28 ),
                       Expanded(
                         child: ListView(
                           shrinkWrap: true,
@@ -506,7 +526,8 @@ class ProfilePageState extends State<ProfilePage> {
     ));
   }
 
-  addEncabezadoPubli(String texto, double fontSize) {
+  addEncabezadoPubli({required texto, required fontSize}) {
+
     return (Row(children: [
       SizedBox(
         width: 30,
@@ -533,7 +554,17 @@ class ProfilePageState extends State<ProfilePage> {
         iconSize: 30,
         onPressed: () {
           setState(() {
+            miPerfil.acercaDe = acercaDeController.text;
+            miPerfil.nombre = nameController.text;
+            miPerfil.tituloCargo = tituloCargoController.text;
+            if (miPerfil != null) {
 
+              actualizarUsuario(context: context,  perfil: miPerfil);
+            }
+            else
+              {
+                return;
+              }
           });
         },
       ),
@@ -574,6 +605,13 @@ class ProfilePageState extends State<ProfilePage> {
         ],
       ),
     );
+  }
+
+  void actualizarUsuario({required BuildContext context,  required Perfil perfil}) {
+
+
+
+    Provider.of<DBProvider>(context,listen: false).updateUsuario(perfil,Provider.of<AuthProvider>(context, listen: false).userId);
   }
 
 }
