@@ -17,6 +17,7 @@ class myDropDown extends StatefulWidget {
   State<myDropDown> createState() => myDropDownState();
 }
 class myDropDownState extends State<myDropDown> {
+  String? newValue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +34,7 @@ class myDropDownState extends State<myDropDown> {
             child: DropdownButton<String>(
               isExpanded: true,
               dropdownColor: Colors.blue.shade200,
-              value: widget.chosenValue,
+              value: newValue??widget.chosenValue,
               style: TextStyle(color: Colors.white),
               iconEnabledColor: Colors.white,
               //Lo siguiente pasea por todos los dropItems
@@ -62,6 +63,9 @@ class myDropDownState extends State<myDropDown> {
               ),
               onChanged: (String? value) {
                 widget.choosingValue(value!);
+                setState((){
+                  newValue = value;
+                });
               },
             ),
           ),
