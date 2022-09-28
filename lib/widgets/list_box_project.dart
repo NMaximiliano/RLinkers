@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rlinkers/widgets/texto_publi.dart';
-import '../Models/proyectos.dart';
+import '../models/project_model.dart';
 import 'encabezado_publicacion.dart';
 class ListBoxProject extends StatelessWidget {
   ListBoxProject({required this.proyectosList});
 
-  List proyectosList;
+  List<ProjectImported> proyectosList;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,12 @@ class ListBoxProject extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          EncabezadoPubli(texto: "Publicaciones / Proyectos", fontSize:  28),
+          EncabezadoPubli(fontSize:  28 ),
           SizedBox(
             height: 30,
           ),
 
-          for (Proyectos proyecto in proyectosList)
+          for (ProjectImported project in proyectosList)
             Container(
               padding: const EdgeInsets.only(top: 10, left: 250),
               child: Row(
@@ -46,7 +46,7 @@ class ListBoxProject extends StatelessWidget {
                               spreadRadius: 2),
                         ],
                       ),
-                      child: TextoPubli(proyecto.titulo, 16)),
+                      child: TextoPubli(project.title, 16)),
                   SizedBox(
                     width: 20,
                   ),
@@ -64,7 +64,7 @@ class ListBoxProject extends StatelessWidget {
                       ),
                       child: TextoPubli(
                           DateFormat('dd-MM-yyyy')
-                              .format(proyecto.fecha),
+                              .format(DateTime.fromMillisecondsSinceEpoch(project.date)),
                           16)),
                   SizedBox(
                     width: 10,

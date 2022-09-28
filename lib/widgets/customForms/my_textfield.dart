@@ -7,11 +7,18 @@ class MyTextField extends StatefulWidget {
     this.initialValue,
     this.titleField,
     this.nameController,
+    this.lines = 1,
+    this.onChanged,
+    this.onSubmited,
+    //required this.keyForm;
   }) : super(key: key);
-
+  Function()? onSubmited;
+  int lines;
+  //GlobalKey<FormState> keyForm;
   String? titleField;
   String? initialValue;
-   TextEditingController? nameController;
+  Function(String)? onChanged;
+  TextEditingController? nameController;
 
   @override
   State<MyTextField> createState() => _MyTextFieldState();
@@ -37,6 +44,16 @@ class _MyTextFieldState extends State<MyTextField> {
               ? MediaQuery.of(context).size.width * 0.05
               : 34),
       child: TextFormField(
+        onChanged: (value){
+          if(widget.onChanged!=null){
+            widget.onChanged!(value);
+          }
+          },
+        onFieldSubmitted: (value){
+          widget.onSubmited!();
+        },
+        maxLines: widget.lines,
+        minLines: widget.lines,
         controller: widget.nameController,
         style: TextStyle(
             color: Colors.black87,
@@ -58,9 +75,13 @@ class _MyTextFieldState extends State<MyTextField> {
             filled: true),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Ingrese un Texto';
+            if (widget.titleField == "Password")
+              return 'Ingrese un Password';
+            else
+              return 'Ingrese un Texto';
+
           }
-          return null;
+          //return null;
         },
       ),
     );

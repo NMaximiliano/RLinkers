@@ -1,72 +1,67 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:rlinkers/models/usuarios.dart';
+import 'package:rlinkers/models/project_model.dart';
+import 'package:rlinkers/models/user_model.dart';
 
-import '../models/Intereses.dart';
+import '../models/interest_model.dart';
 import 'Auth_Provider.dart';
 
-class DBProvider with ChangeNotifier { //ChangeNotifier para poder usarlo como Provider
+class DBProvider with ChangeNotifier {
+  //ChangeNotifier para poder usarlo como Provider
   static FirebaseDatabase database = FirebaseDatabase.instance;
+
   //Un stream al q le pueda poner la oreja si hay cambios en la base de datos (Para refrescar en tiempo real)
 
+  static Stream get machinesStream =>
+      FirebaseDatabase.instance.ref('Usuarios/').onChildChanged;
 
-  static Stream get machinesStream => FirebaseDatabase.instance.ref('Usuarios/').onChildChanged;
+  List<Profile> profiles = [];
+  List<ProjectImported> projectsImported = [];
+  List<Interest> allInterests = [];
+  List<String> interestsIdsOfUser = [];
+  List<Interest> interestsOfUser = [];
+  late AuthProvider _authProvider;
 
-
-
-  List<Perfil> usuarios = [];
-  List<Intereses> intereses = [];
-  List<Intereses> matchingIntereses = [];
-  List<String> interesesUsuario = [];
-
-
-
-
-
-  Future<void> init() async {
-  await  getUsuarios();
-  await  getIntereses();
-  await getInteresesUsuario();
+  void init(AuthProvider authProvider) {
+    _authProvider = authProvider;
   }
 
+  Future<void> loadLoggedUserData() async {
+    await getProfileOfUser();
+    await getAllInterests();
+    await getInterestsOfUser();
+    await getProjectsImportedFromUserId();
+  }
 
-
-  List getMatchingIntereses(){
-
-    for(String miInteresId in interesesUsuario) {
-     matchingIntereses.add( intereses.firstWhere((e) => e.id == miInteresId));
+  List getMatchingIntereses() {
+    interestsOfUser.clear();
+    //Esto mezcla los datos en interesesUsuario y la variable Intereses,
+    // en un list llamado matchingIntereses
+    for (String miInteresId in interestsIdsOfUser) {
+      interestsOfUser.add(allInterests.firstWhere((e) => e.id == miInteresId));
     }
-    return matchingIntereses;
-
-
+    return interestsOfUser;
   }
 
-  Future<Perfil> getUsuarios() async {//Leo las maquinas de la DB
+  Interest getInteresFromDescripcion(String descripcion) {
+    return allInterests.firstWhere((e) => e.descripcion == descripcion);
+  }
 
+  Future<Profile> getProfileOfUser() async {
+    //Leo las maquinas de la DB
 
-    usuarios.clear();
-    final ref = database.ref('Usuarios/');
+    profiles.clear();
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
     DataSnapshot snapshot = await ref.get();
 
-
     if (snapshot.exists) {
-      (snapshot.value as Map).forEach((i, value) {
-        usuarios.add(Perfil.fromJson(value));
-      });
+      profiles.add(Profile.fromJson(snapshot.value as Map<String, dynamic>));
     } else {
       print('No data available.');
     }
     //usuarios.sort((a, b) => a.t4bMSOFM5bgp81BoCOCKm5TUdbp2.toLowerCase().compareTo(b.t4bMSOFM5bgp81BoCOCKm5TUdbp2.mail.toLowerCase()));
     notifyListeners();
-    return usuarios[0];
-  }
-
-  Future<void> UpdateFirebaseToken() async { //Guardo el Token de Firebase q luego usare para Notificaciones
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-
-    final ref = database.ref('Users/${AuthProvider.uid}');
-    await ref.update({'firebaseToken': fcmToken});
+    return profiles[0];
   }
 
   Future<void> removeStop(Usuario usuarios) async {
@@ -74,21 +69,34 @@ class DBProvider with ChangeNotifier { //ChangeNotifier para poder usarlo como P
     await ref.remove();
   }
 
-  Future<void> updateUsuario(Perfil perfil, String? uid) async {
-    uid='uidNoSeteado';
-    final ref = database.ref('Usuarios/${uid}');
-    await ref.update(perfil.toJson());
+  Future<void> saveNewInteresUsuario(String descripcion) async {
+    final ref = database.ref('InteresesUsuarios/${_authProvider.uid}');
+    await ref.update({getInteresFromDescripcion(descripcion).id: ''});
   }
 
-  Future<void> addUsuario(Perfil perfil, String? uid )
-  async {
-    uid='uidNoSeteado';
-    final ref = database.ref('Usuarios/${uid}');
+  Future<void> removeInteresUsuario(String descripcion) async {
+    var interesARemover = getInteresFromDescripcion(descripcion).id;
+    final ref = database
+        .ref('InteresesUsuarios/${_authProvider.uid}/${interesARemover}');
+    await ref.remove();
+  }
+
+  Future<void> updateUsuario(Profile perfil) async {
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
+    if (ref == null) {
+      addUsuario(perfil);
+    } else {
+      await ref.update(perfil.toJson());
+    }
+  }
+
+  Future<void> addUsuario(Profile perfil) async {
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
     await ref.set(perfil.toJson());
   }
-  Future<List<Intereses>> getIntereses() async {
 
-    intereses.clear();
+  Future<List<Interest>> getAllInterests() async {
+    allInterests.clear();
     final ref = database.ref('Intereses/');
     DataSnapshot snapshot = await ref.get();
 /*
@@ -109,33 +117,66 @@ class DBProvider with ChangeNotifier { //ChangeNotifier para poder usarlo como P
 
     if (snapshot.exists) {
       (snapshot.value as Map).forEach((key, value) {
-        intereses.add(Intereses.fromJson(value, key));
+        allInterests.add(Interest.fromJson(value, key));
       });
     } else {
       print('No data available.');
     }
-    //usuarios.sort((a, b) => a.t4bMSOFM5bgp81BoCOCKm5TUdbp2.toLowerCase().compareTo(b.t4bMSOFM5bgp81BoCOCKm5TUdbp2.mail.toLowerCase()));
     notifyListeners();
-    return intereses;
+    return allInterests;
   }
 
-  Future<List<String>> getInteresesUsuario() async {
-
-    interesesUsuario.clear();
-    final ref = database.ref('InteresesUsuarios/');
+  Future<List<ProjectImported>> getProjectsImportedFromUserId() async {
+    projectsImported.clear();
+    final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
     DataSnapshot snapshot = await ref.get();
-
+    if (snapshot.exists) {
+      (snapshot.value as Map).forEach((key, value) {
+        projectsImported.add(ProjectImported.fromJson(value, key));
+      });
+    } else {
+      print('No Project Imported available.');
+    }
+    notifyListeners();
+    return projectsImported;
+  }
+  Future<List<String>> getInterestsOfUser() async {
+    interestsIdsOfUser.clear();
+    final ref = database.ref('InteresesUsuarios/${_authProvider.uid}');
+    DataSnapshot snapshot = await ref.get();
 
     if (snapshot.exists) {
       (snapshot.value as Map).forEach((key, value) {
-        (value as Map).forEach((key, _) {
-        interesesUsuario.add(key);
-      });
+        interestsIdsOfUser.add(key);
       });
     } else {
-      print('No data available.');
+      print('No Interest available.');
     }
     notifyListeners();
-    return interesesUsuario;
+    getMatchingIntereses();
+    return interestsIdsOfUser;
+  }
+  Future<void> updateNombre(String nuevoValor) async {
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
+    await ref.update({'Nombre': nuevoValor});
+  }
+  Future<void> updateApellido(String nuevoValor) async {
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
+    await ref.update({'Apellido': nuevoValor});
+  }
+  Future<void> updateTituloCargo(
+    String nuevoValor,
+  ) async {
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
+    await ref.update({'TituloCargo': nuevoValor});
+  }
+  Future<void> updateLugarNacimiento(String nuevoValor) async {
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
+    await ref.update({'LugarNacimiento': nuevoValor});
+  }
+  Future<void> createProjectImported(ProjectImported projectImported) async {
+    AuthProvider().uid;
+    final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
+    await ref.child(DateTime.now().millisecondsSinceEpoch.toString()).set(projectImported.toJson());
   }
 }

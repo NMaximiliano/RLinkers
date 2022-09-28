@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
-
       ]
       , child: MaterialApp(
 
@@ -79,7 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     //return StructurePage( HomePage(),iconos.sinIcono,'Home Page');
-    return StructurePage(MyLoginPage(), iconos.sinIcono, 'Inicio');
+    Provider.of<DBProvider>(context).init(Provider.of<AuthProvider>(context));
+    return StructurePage(MyLoginPage(), enumIconos.sinIcono, 'Inicio');
     /* return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue.shade300,

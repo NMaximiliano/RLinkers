@@ -78,7 +78,7 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => StructurePage(MyRegisterPage(),
-                          iconos.sinIcono,"Registro de Usuario"),
+                          enumIconos.sinIcono,"Registro de Usuario"),
                     ));
 
                   },

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rlinkers/business_logic/Auth_Provider.dart';
 
 import 'package:rlinkers/pages/home_page.dart';
 
 import '../pages/profile_page.dart';
-import '../pages/prueba_page.dart';
 import '../pages/login_page.dart';
 import '../pages/structure_page.dart';
 class NavigationDrawerWidget extends StatelessWidget {
-  const NavigationDrawerWidget({Key? key}) : super(key: key);
+   NavigationDrawerWidget({Key? key}) : super(key: key);
 
+
+  List items = ['Login/Registro', 'Home', 'Proyectos','Perfil','Mensajes'];
+  List icons = [Icons.login, Icons.home, Icons.article, Icons.assignment_ind,Icons.attach_email];
+  List isShownOnLogin = [true,false,false,false,false];
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return(Drawer(child: ListView(
       children: [
         UserAccountsDrawerHeader(accountName: Text("NMaximiliano"), accountEmail: Text("n.maximiliano.83@gmail.com"),
@@ -19,122 +23,33 @@ class NavigationDrawerWidget extends StatelessWidget {
             backgroundImage: NetworkImage("../../assets/images/perfil.jpg"),
           ),
         ),
-        Card(
-          color: Colors.blue.shade50,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.blue.shade600,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
-            leading: Icon(Icons.login, color: Colors.blue.shade400,),
-            title: Text(
-              "Login/Registro",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.blue.shade700,
-                fontWeight: FontWeight.w600,
+        for(String item in items)
+        Visibility(
+          visible: isShownOnLogin[items.indexOf(item)] || Provider.of<AuthProvider>(context).uid!=null,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
+            child: Card(
+              color: Colors.blue.shade50,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.blue.shade600,
+                ),
+                borderRadius: BorderRadius.circular(10.0),
               ),
-            ),
-            onTap: (){
-              selectedItem(context, 2);
-            },
-          ),
-        ),
-        Card(
-          color: Colors.blue.shade50,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.blue.shade600,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
-            leading: Icon(Icons.home, color: Colors.blue.shade400,),
-            title: Text(
-              "Home",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.blue.shade700,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            onTap: (){
-              selectedItem(context, 1);
-            },
-          ),
-        ),
-        Card(
-          color: Colors.blue.shade50,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.blue.shade600,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: ListTile(
-
-            contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
-            leading: Icon(Icons.article, color: Colors.blue.shade400,),
-            title: Text(
-              "Proyectos",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.blue.shade700,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-        Card(
-          color: Colors.blue.shade50,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.blue.shade600,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: ListTile(
-            onTap: (){
-              selectedItem(context, 0);
-            },
-            contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
-            leading: Icon(Icons.assignment_ind, color: Colors.blue.shade400,),
-            title: Text(
-              "Perfil",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.blue.shade700,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-        Card(
-          color: Colors.blue.shade50,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.blue.shade600,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: ListTile(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PruebaPage(),
-              ));
-            },
-            contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
-            leading: Icon(Icons.attach_email, color: Colors.blue.shade400,),
-            title: Text(
-              "Mensajes",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.blue.shade700,
-                fontWeight: FontWeight.w600,
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 50),
+                leading: Icon(icons[items.indexOf(item)], color: Colors.blue.shade400,),
+                title: Text(
+                  item,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.blue.shade700,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onTap: (){
+                  selectedItem(context, items.indexOf(item));
+                },
               ),
             ),
           ),
@@ -146,19 +61,20 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(ProfilePage(), iconos.menu,"Perfil de Usuario"),
+          builder: (context) => StructurePage(MyLoginPage(),enumIconos.sinIcono, "Login"),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(HomePage(),iconos.sinIcono, "Inicio"),
+          builder: (context) => StructurePage(HomePage(),enumIconos.sinIcono, "Inicio"),
         ));
         break;
-      case 2:
+      case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(MyLoginPage(),iconos.sinIcono, "Login"),
+          builder: (context) => StructurePage(ProfilePage(), enumIconos.menu,"Perfil de Usuario"),
         ));
         break;
+
     }
   }
 }

@@ -5,17 +5,13 @@ import '../pages/structure_page.dart';
 
 class AuthProvider with ChangeNotifier { //ChangeNotifier es para los Provider que necesitan
 
-  static String? uid = 'uidNoSeteado';
+   String? uid ;
 
-  bool get isLoggedIn => true;
-  String get userId => '';
+  bool get isLoggedIn => uid!=null;
 
    Future<void> register(String emailAddress, String password,BuildContext context) async {
      try {
-
        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailAddress, password: password);
-
-
 
      } on FirebaseAuthException catch (e) {
 
@@ -28,6 +24,7 @@ class AuthProvider with ChangeNotifier { //ChangeNotifier es para los Provider q
        notifyListeners();
        return;
      }
+
     await login(emailAddress, password, context);
 
 
@@ -72,7 +69,7 @@ class AuthProvider with ChangeNotifier { //ChangeNotifier es para los Provider q
 
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => StructurePage(
-              ProfilePage(), iconos.menu, "Perfil")));
+              ProfilePage(), enumIconos.menu, "Perfil")));
     }
     notifyListeners();
 
