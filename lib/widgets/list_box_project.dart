@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:rlinkers/widgets/texto_publi.dart';
+import '../business_logic/section_profile_provider.dart';
 import '../models/project_model.dart';
 import 'encabezado_publicacion.dart';
+import 'package:url_launcher/url_launcher.dart';
 class ListBoxProject extends StatelessWidget {
   ListBoxProject({required this.proyectosList});
 
@@ -10,6 +13,7 @@ class ListBoxProject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SectionProfileProvider model = Provider.of<SectionProfileProvider>(context, listen: true);
     return Container(
       padding: EdgeInsets.only(top: 10),
       width: MediaQuery.of(context).size.width - 80,
@@ -63,7 +67,7 @@ class ListBoxProject extends StatelessWidget {
                         ],
                       ),
                       child: TextoPubli(
-                          DateFormat('dd-MM-yyyy')
+                          DateFormat('dd/MM/yyyy')
                               .format(DateTime.fromMillisecondsSinceEpoch(project.date)),
                           16)),
                   SizedBox(
@@ -73,7 +77,7 @@ class ListBoxProject extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 30),
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
+                          vertical: 3, horizontal: 5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white38,
@@ -83,12 +87,42 @@ class ListBoxProject extends StatelessWidget {
                               spreadRadius: 2),
                         ],
                       ),
-                      child: Icon(
-                        Icons.zoom_in,
-                        color: Colors.blueAccent.shade100,
+                      child:IconButton(
+                        icon : Icon( Icons.zoom_in,
+                          color: Colors.blueAccent.shade100,),
+                        onPressed: () {
+                          launchUrl(Uri.parse(project.link));
+                        },
+
                       ),
                     ),
                   ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 3, horizontal: 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white38,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.blueGrey.shade50,
+                              spreadRadius: 2),
+                        ],
+                      ),
+                      child: IconButton(
+                        icon : Icon(Icons.remove_circle_outline,
+                          color: Colors.redAccent.shade100,),
+                        onPressed: () {
+                          model.functionDeleteProjectImported(project);
+                        },
+
+                      ),
+                    ),
+                  ),
+
                 ],
               ),
             )
