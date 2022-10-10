@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-import 'custom_text.dart';
+import 'generic/custom_text.dart';
 import 'encabezado_publicacion.dart';
 class ListViewBox extends StatelessWidget {
    ListViewBox({ required this.tituloEncabezado}) ;
@@ -20,7 +20,7 @@ class ListViewBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
       ),
       child: Column(children: [
-        EncabezadoPubli(texto: "Grupos en los que Participa", fontSize: 28),
+        EncabezadoPubli( fontSize: 28),
         Expanded(
           child: ListView(
             shrinkWrap: true,

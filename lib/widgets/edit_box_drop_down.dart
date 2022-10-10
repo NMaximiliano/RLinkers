@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../business_logic/DB_Provider.dart';
-
+import '../pages/profile_page.dart';
+import '../pages/structure_page.dart';
 import 'customForms/my_drop_down.dart';
-import 'custom_text.dart';
+import 'generic/custom_text.dart';
 import 'encabezado_publicacion.dart';
 class EditBoxDropDown extends StatelessWidget {
-  late final String _chosenInteres;
+  late String _chosenInteres;
    EditBoxDropDown({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    List<String> interesesInString = Provider.of<DBProvider>(context).intereses.map((e) => e.descripcion).toList();
+    DBProvider _dbProvider = Provider.of<DBProvider>(context, listen: false);
+
+    List<String> interesesInString = _dbProvider.allInterests.map((e) => e.descripcion).toList();
     _chosenInteres = interesesInString[0];
     return Container(
       padding: EdgeInsets.all(10),
@@ -27,7 +29,7 @@ class EditBoxDropDown extends StatelessWidget {
       ),
       child: Column(
         children: [
-          EncabezadoPubli(texto: "Intereses:", fontSize: 28),
+          EncabezadoPubli(fontSize: 28, ),
           SizedBox(
             height: 20,
           ),
@@ -37,14 +39,29 @@ class EditBoxDropDown extends StatelessWidget {
                 child: myDropDown(
                     dropItems: interesesInString,
                     chosenValue: _chosenInteres,
-                    choosingValue: (value) {
+                    choosingValue: (String value) {
                       _chosenInteres = value;
                     }),
               ),
-              IconButton(onPressed: () {},
-                  padding: EdgeInsets.only(bottom: 25, right: 60),
+              IconButton(onPressed: () {
+                _dbProvider.removeInteresUsuario(_chosenInteres);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StructurePage(ProfilePage(), enumIconos.menu,"Perfil de Usuario"),
+                ));
+              },
+                  padding: EdgeInsets.only(bottom: 10, right: 30),
                   icon: Icon(
-                    Icons.add_box, color: Colors.blueAccent, size: 50,))
+                    Icons.remove, color: Colors.redAccent, size: 30,)),
+              IconButton(onPressed: () {
+                _dbProvider.saveNewInteresUsuario(_chosenInteres);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StructurePage(ProfilePage(), enumIconos.menu,"Perfil de Usuario"),
+                ));
+              },
+                  padding: EdgeInsets.only(bottom: 10, right: 30),
+                  icon: Icon(
+                    Icons.add, color: Colors.blueAccent, size: 30,)),
+
             ],
           ),
           SizedBox(
@@ -55,19 +72,11 @@ class EditBoxDropDown extends StatelessWidget {
               shrinkWrap: true,
               padding: const EdgeInsets.all(70.0),
               children: <Widget>[
-                GlobalTextFont(text: "Interes 1", fontSize: 10),
-                SizedBox(
-                  height: 10,
+                for(var matchingInterest in _dbProvider.interestsOfUser)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: GlobalTextFont(text: matchingInterest.descripcion, fontSize: 10),
                 ),
-                GlobalTextFont(text: "Interes 2", fontSize: 10),
-                SizedBox(
-                  height: 10,
-                ),
-                GlobalTextFont(text: "Interes 3", fontSize: 10),
-                SizedBox(
-                  height: 10,
-                ),
-                GlobalTextFont(text: "Interes 4", fontSize: 10)
               ],
             ),
           )
@@ -76,5 +85,23 @@ class EditBoxDropDown extends StatelessWidget {
       height: 450,
       //color: Colors.deepOrangeAccent,
     );
+  }
+
+  _saveInterest(context) {
+
+
+      miPerfil.acercaDe = acercaDeController.text;
+      miPerfil.nombre = nameController.text;
+      miPerfil.apellido = surnameController.text;
+      miPerfil.tituloCargo= tituloCargoController.text;
+      miPerfil.tituloCargo = tituloCargoController.text;
+      miPerfil.pacientesTratados = pacientesTratadosController.text;
+      if (miPerfil != null) {
+        Provider.of<DBProvider>(context, listen: false).updateUsuario(
+            miPerfil);
+      } else {
+        return;
+      }
+
   }
 }

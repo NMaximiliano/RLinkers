@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/navigationdrawerwidget.dart';
 
-enum iconos { sinIcono, menu }
+enum enumIconos { sinIcono, menu }
 
 
 class StructurePage extends StatelessWidget {
@@ -10,7 +10,7 @@ class StructurePage extends StatelessWidget {
   StructurePage(@required this.widgetBody,@required this.iconoAMostrar, @required this.titulo);
 
   Widget widgetBody;
-  iconos iconoAMostrar;
+  enumIconos iconoAMostrar;
   String titulo;
 
   @override
@@ -36,16 +36,16 @@ class StructurePage extends StatelessWidget {
     );
   }
 
-  formatoAppBar(iconos? iconoAMostrar, String titulo) {
+  formatoAppBar(enumIconos? iconoAMostrar, String titulo) {
     switch (iconoAMostrar) {
-      case iconos.sinIcono:
+      case enumIconos.sinIcono:
         return Container(
           color: Color(0xFF455A64),
           width: double.infinity,
           height: 66,
         );
 
-      case iconos.menu:
+      case enumIconos.menu:
         return Container(
           color: Color(0xFF455A64),
           width: double.infinity,

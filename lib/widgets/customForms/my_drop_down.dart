@@ -11,7 +11,7 @@ class myDropDown extends StatefulWidget {
 
   List<String> dropItems;
   String chosenValue;
-  Function choosingValue;
+  void Function(String) choosingValue;
 
   @override
   State<myDropDown> createState() => myDropDownState();

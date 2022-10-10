@@ -53,6 +53,9 @@ dependencies:
   universal_io: ^2.0.4
   cloud_firestore: ^3.5.1
 
+  jiffy: ^5.0.0
+  flutter_linkify: ^5.0.2
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:

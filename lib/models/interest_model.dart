@@ -1,11 +1,11 @@
-class Intereses {
+class Interest {
   late bool activo;
   late String descripcion;
   late String id;
 
-  Intereses({required this.activo,required this.descripcion});
+  Interest({required this.activo,required this.descripcion});
 
-  Intereses.fromJson(Map<String, dynamic> json, key) {
+  Interest.fromJson(Map<String, dynamic> json, key) {
     activo = json['Activo'];
     descripcion = json['Descripcion'];
     id = key;

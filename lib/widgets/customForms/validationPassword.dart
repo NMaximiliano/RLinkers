@@ -30,8 +30,8 @@ class _MyValidationPasswordState extends State<MyValidationPassword> {
         height: 100,
         onSuccess: () {
           print("MATCHED");
-          ScaffoldMessenger.of(context).showSnackBar(
-              new SnackBar(content: new Text("Password is matched")));
+        /*  ScaffoldMessenger.of(context).showSnackBar(
+              new SnackBar(content: new Text("Password is matched")));*/
         },
         onFail: () {
           print("NOT MATCHED");

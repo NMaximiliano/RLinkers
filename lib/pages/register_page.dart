@@ -7,9 +7,15 @@ import 'package:rlinkers/business_logic/DB_Provider.dart';
 import 'package:rlinkers/widgets/customForms/my_textfield.dart';
 
 import '../business_logic/Auth_Provider.dart';
-import '../models/usuarios.dart';
+import '../generic_enums.dart';
+import '../models/user_model.dart';
 import '../widgets/customForms/my_datepicker.dart';
+import '../widgets/customForms/my_drop_down.dart';
 import '../widgets/customForms/validationPassword.dart';
+
+
+ late String _chosenPaises;
+
 
 class MyRegisterPage extends StatefulWidget {
   const MyRegisterPage({Key? key}) : super(key: key);
@@ -26,6 +32,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
   TextEditingController paisController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController repeatPasswordController = TextEditingController();
+  TextEditingController lugarNacimientoController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   validador() {}
@@ -35,43 +42,6 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
     return Padding(
         padding: const EdgeInsets.all(10),
         child: Form(
-          onChanged: () {
-            if (_formKey.currentState != null) {
-              if (_formKey.currentState!.validate()) {
-                // If the form is valid, display a snackbar. In the real world,
-                // you'd often call a server or save the information in a database.
-                if (EmailValidator.validate(mailController.text)) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Email valido')),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Email Invalido')),
-                  );
-                  return;
-                }
-
-                if (passwordController.text != repeatPasswordController.text) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Los password son distintos')),
-                  );
-                  return;
-                }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Revise los datos ingresados')),
-                );
-                return;
-              }
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('El current State es Null')),
-              );
-            }
-          },
           key: _formKey,
           child: ListView(
             children: <Widget>[
@@ -91,6 +61,15 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
               MyTextField(titleField: "Nombre", nameController: nameController),
               MyTextField(
                   titleField: "Apellido", nameController: surnameController),
+              myDropDown(
+                  dropItems: paises,
+                  chosenValue: _chosenPaises = paises.first,
+                  choosingValue: (String value) {
+                    _chosenPaises = value;
+                    Provider.of<DBProvider>(context,
+                        listen: false)
+                        .updateLugarNacimiento(value);
+                  }),
               MyDatePicker(
                   titleField: "Fecha de Nacimiento",
                   nameController: dateBirthController),
@@ -121,23 +100,66 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                                   GoogleFonts.getFont("Playfair Display")
                                       .fontFamily)),
                       onPressed: () {
-    crearUsuario(context: context, password: passwordController.text, perfil: Perfil(mail: mailController.text,
-    apellido: surnameController.text, nombre: nameController.text,fechaNacimiento: DateFormat('dd-MM-yyyy').parse(dateBirthController.text)  ));
-
+                        if (_formKey.currentState != null) {
+                          if (_formKey.currentState!.validate()) {
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            if (EmailValidator.validate(mailController.text)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Email valido')),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Email Invalido')),
+                              );
+                              return;
+                            }
+                            if (passwordController.text !=
+                                repeatPasswordController.text) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Los password son distintos')),
+                              );
+                              return;
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+                            crearUsuario(
+                                context: context,
+                                password: passwordController.text,
+                                perfil: Profile(
+                                    mail: mailController.text,
+                                    apellido: surnameController.text,
+                                    nombre: nameController.text,
+                                    lugarNacimiento: _chosenPaises,
+                                    fechaNacimiento: DateFormat('dd-MM-yyyy')
+                                        .parse(dateBirthController.text)));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Revise los datos ingresados')),
+                            );
+                            return;
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('El current State es Null')),
+                          );
                         }
-                      )),
+                      })),
             ],
           ),
         ));
   }
 }
 
-void crearUsuario({context, required Perfil perfil, password}) {
+Future<void> crearUsuario({context, required Profile perfil, password}) async {
+  await Provider.of<AuthProvider>(context, listen: false)
+      .register(perfil.mail, password, context);
 
-
-
-  Provider.of<AuthProvider>(context, listen: false)
-      .register( perfil.mail  , password, context);
-
-  Provider.of<DBProvider>(context,listen: false).addUsuario(perfil,Provider.of<AuthProvider>(context, listen: false).userId);
+  await Provider.of<DBProvider>(context, listen: false).addUsuario(
+      perfil);
 }

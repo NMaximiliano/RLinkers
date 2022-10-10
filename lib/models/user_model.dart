@@ -1,11 +1,11 @@
 class Usuario {
-  late Perfil? perfil;
+  late Profile? perfil;
 
   Usuario({required this.perfil});
 
   Usuario.fromJson(Map<String, dynamic> json) {
     perfil = json['t4bMSOFM5bgp81BoCOCKm5TUdbp2'] != null
-        ? new Perfil.fromJson(
+        ? new Profile.fromJson(
         json['t4bMSOFM5bgp81BoCOCKm5TUdbp2'])
         : null;
   }
@@ -20,38 +20,37 @@ class Usuario {
   }
 }
 
-class Perfil {
+class Profile {
   String? acercaDe;
   String? apellido;
   late String mail;
   String? nombre;
-  late PacientesTratados? pacientesTratados;
-  String? pais;
+  late String? pacientesTratados;
+  String? lugarNacimiento;
   PublicacionesExternas? publicacionesExternas;
   int? puntaje;
   String? tituloCargo;
   DateTime? fechaNacimiento;
-  Perfil(
+  Profile(
       {this.acercaDe,
         this.apellido,
         required this.mail,
         this.nombre,
         this.pacientesTratados,
-        this.pais,
+        this.lugarNacimiento,
         this.publicacionesExternas,
         this.puntaje,
         this.tituloCargo,
       this.fechaNacimiento});
 
-  Perfil.fromJson(Map<String, dynamic> json) {
+  Profile.fromJson(Map<String, dynamic> json) {
     acercaDe = json['AcercaDe'];
     apellido = json['Apellido'];
+
     mail = json['Mail'];
     nombre = json['Nombre'];
-    pacientesTratados = json['PacientesTratados'] != null
-        ? new PacientesTratados.fromJson(json['PacientesTratados'])
-        : null;
-    pais = json['Pais'];
+    pacientesTratados = json['PacientesTratados'] ;
+    lugarNacimiento = json['LugarNacimiento'];
     publicacionesExternas = json['PublicacionesExternas'] != null
         ? new PublicacionesExternas.fromJson(json['PublicacionesExternas'])
         : null;
@@ -66,10 +65,8 @@ class Perfil {
     data['FechaNacimiento'] = this.fechaNacimiento?.toString();
     data['Mail'] = this.mail;
     data['Nombre'] = this.nombre;
-    if (this.pacientesTratados != null) {
-      data['PacientesTratados'] = this.pacientesTratados!.toJson();
-    }
-    data['Pais'] = this.pais;
+    data['PacientesTratados'] = this.pacientesTratados;
+    data['LugarNacimiento'] = this.lugarNacimiento;
     if (this.publicacionesExternas != null) {
       data['PublicacionesExternas'] = this.publicacionesExternas!.toJson();
     }
@@ -79,21 +76,6 @@ class Perfil {
   }
 }
 
-class PacientesTratados {
-  late String descripcion;
-
-  PacientesTratados({required this.descripcion});
-
-  PacientesTratados.fromJson(Map<String, dynamic> json) {
-    descripcion = json['descripcion'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['descripcion'] = this.descripcion;
-    return data;
-  }
-}
 
 class PublicacionesExternas {
   late PublicacionesExternasDetalle publi1;
