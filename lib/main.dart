@@ -1,8 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:rlinkers/pages/home_page.dart';
-import 'package:rlinkers/widgets/navigationdrawerwidget.dart';
+import 'package:provider/provider.dart';
+import 'package:rlinkers/business_logic/Auth_Provider.dart';
+import 'package:rlinkers/business_logic/DB_Provider.dart';
+import 'package:rlinkers/pages/login_page.dart';
+import 'package:rlinkers/pages/structure_page.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -12,22 +22,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
+
+      ]
+      , child: MaterialApp(
+
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+
+    ));
   }
 }
 
@@ -52,8 +70,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
 
-
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -62,7 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
+    //return StructurePage( HomePage(),iconos.sinIcono,'Home Page');
+    return StructurePage(MyLoginPage(), iconos.sinIcono, 'Inicio');
+    /* return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue.shade300,
           // Here we take the value from the MyHomePage object that was created by
@@ -70,6 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text("Home"),
         ),
         drawer: NavigationDrawerWidget(),
-        body: HomePage());
+        body: HomePage());*/
   }
 }
