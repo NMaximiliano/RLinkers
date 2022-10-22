@@ -31,8 +31,8 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                 return ListView(
                   children: <Widget>[
                     Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.all(55),
                       child: Text('Login de Usuario',
                           style: TextStyle(
                               color: Colors.blue,
@@ -74,28 +74,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                     SizedBox(
                       height: 30,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        //forgot password screen
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              StructurePage(MyRecoverUserPage(),
-                                  enumIconos.sinIcono, "Recuperacion de Usuario"),
-                        ));
-                      },
-                      child: Text(
-                        'Olvido su Password',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily:
-                            GoogleFonts
-                                .getFont("Playfair Display")
-                                .fontFamily),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
+
                     Container(
                         height: 50,
                         padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
@@ -123,7 +102,28 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                     SizedBox(
                       height: 50,
                     ),
-
+                    TextButton(
+                      onPressed: () {
+                        //forgot password screen
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              StructurePage(MyRecoverUserPage(),
+                                  enumIconos.sinIcono, "Recuperacion de Usuario"),
+                        ));
+                      },
+                      child: Text(
+                        'Olvido su Password',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily:
+                            GoogleFonts
+                                .getFont("Playfair Display")
+                                .fontFamily),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
                     Row(
                       children: <Widget>[
                         Text(

@@ -40,24 +40,30 @@ class ProjectInternal implements Project {
   late String title;
   @override
   late int date;
+  late String description;
+  String? idProyectoIntUsuario;
+  String? urlImagen;
+  ProjectInternal({ required this.date, required this.title,required this.description});
 
-  ProjectInternal({ required this.date, required this.title});
-
-  ProjectInternal.fromJson(Map<String, dynamic> json) {
-    title = json['Descripcion'];
+  ProjectInternal.fromJson(Map<String, dynamic> json, key) {
+    title = json['Titulo'];
+    description = json['Descripcion'];
     date = json['FechaProyecto'];
+    idProyectoIntUsuario = key;
+    urlImagen = json['ImagenUrl'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Descripcion'] = this.title;
+    data['Titulo'] = this.title;
     data['FechaProyecto'] = this.date;
+    data['Descripcion'] = this.description;
+    data['ImagenUrl'] = this.urlImagen;
+
     return data;
   }
 
-  @override
-  // TODO: implement idProyectoExtUsuario
-  get idProyectoExtUsuario => throw UnimplementedError();
+
 
 
 }

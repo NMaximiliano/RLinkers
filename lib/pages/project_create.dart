@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '/widgets/navigationdrawerwidget.dart';
-import '/pages/project_page.dart';
-//import 'package:file_picker/file_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProjectCreate extends StatefulWidget {
@@ -26,7 +24,7 @@ final controllerDesc = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationDrawerWidget(),
+      drawer:  NavigationDrawerWidget(),
         appBar: AppBar(
           title: const Text("Create Project"),
         ),

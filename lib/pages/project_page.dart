@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-import '/widgets/navigationdrawerwidget.dart';
-import 'package:timelines/timelines.dart';
+import 'package:provider/provider.dart';
+import 'package:rlinkers/models/project_model.dart';
+import '../business_logic/DB_Project_Provider.dart';
+import '../business_logic/section_projects_provider.dart';
+import '../widgets/list_box_project_internal.dart';
 import '/pages/project_data.dart';
 
-class ProjectPage extends StatelessWidget {
+late List<ProjectInternal> myProjectInternal;
+
+class ProjectPage extends StatefulWidget {
   const ProjectPage({Key? key}) : super(key: key);
+
+  @override
+  State<ProjectPage> createState() => ProjectPageState();
 
   addEncabezadoPubli(String texto, double fontSize) {
     return (Row(children: [
@@ -20,7 +28,6 @@ class ProjectPage extends StatelessWidget {
       SizedBox(
         width: 40,
       ),
-
     ]));
   }
 
@@ -53,252 +60,64 @@ class ProjectPage extends StatelessWidget {
       ),
     );
   }
+}
 
+class ProjectPageState extends State<ProjectPage> {
+  void initState() {
+    //Incializo los valores seleccionados
+
+//_file =
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text("Project"),
-        ),
-        drawer: NavigationDrawerWidget(),
-        body:
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width - 100,
-                      height: 350,
-                      margin: const EdgeInsets.all(50),
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image:
-                                NetworkImage("/assets/images/medical-research.jpg"),
-                            fit: BoxFit.cover),
-                        border:
-                            Border.all(color: Colors.blue.shade100, width: 2),
-                        borderRadius: BorderRadius.circular(30),
+    return FutureBuilder<void>(
+        future: Provider.of<DBProjectProvider>(context, listen: false)
+            .loadLoggedUserData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          myProjectInternal = Provider.of<DBProjectProvider>(context, listen: false).projectsInternal;
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                ChangeNotifierProvider<SectionProjectsProvider>.value(
+                  value:SectionProjectsProvider()..init(enumEncabezadoProjects.internal, context),
+                  child: ListBoxProjectInternal(
+                    proyectosList: Provider.of<DBProjectProvider>(context, listen: false).projectsInternal,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.dataset),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ProjectData(),
+                          ));
+                        },
+                        label: const Text("Project Data"),
                       ),
-                    ),
-                   ]),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width - 80,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue.shade100, width: 5),
-                  borderRadius: BorderRadius.circular(50),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    Text("Título de Proyecto:",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      decoration: TextDecoration.none,
-                      fontSize: 18),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Evaluación de la relación entre el consumo de anticonceptivos y el infarto de miocardio. Estudio de casos y controles",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontSize: 24),
-                    )
-                  ],
-                ),
-
-                //color: Colors.deepOrangeAccent,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.dataset),
-                      onPressed: (){
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ProjectData(),
-                        ));
-                      },
-                      label: const Text("Project Data"),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width - 80,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue.shade100, width: 5),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Column(
-                  children: [
-                    Text("Descripción:",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontSize: 24),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Investigar la relación entre el consumo de anticonceptivos y el infarto de miocardio, a través de estudios realizados a pacientes...",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontSize: 18),
-                    )
-                  ],
-                ),
-                height: 300,
-                //color: Colors.deepOrangeAccent,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width - 80,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue.shade100, width: 5),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Column(
-                  children: [
-                    addEncabezadoPubli("Integrantes", 24),
-                    Expanded(
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(20.0),
-                        children: <Widget>[
-                          addTextTip("Investigador Lider", 10),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          addTextTip("Investigador 2", 10),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          addTextTip("Investigador 3", 10),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          addTextTip("Investigador 4", 10)
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                height: 300,
-                //color: Colors.deepOrangeAccent,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width - 80,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue.shade100, width: 5),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 20,),
-                    Image(image: NetworkImage("/assets/images/miocardio1.jpg"),
-                      fit: BoxFit.cover,
-                      ),
-                    SizedBox(height: 20,),
-                    Text(
-                      "Etapa 1 de investigación: ...",
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 16),
-                    )
-                  ],
-                ),
-               //color: Colors.deepOrangeAccent,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width - 80,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue.shade100, width: 5),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 20,),
-                    Image(image: NetworkImage("/assets/images/estudio_miocardio.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 20,),
-                    Text(
-                      "Paciente 162: Iniciales: AU...",
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 16),
-                    )
-                  ],
-                ),
-                //color: Colors.deepOrangeAccent,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width - 80,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue.shade100, width: 5),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 20,),
-                    Image(image: NetworkImage("/assets/images/anticonceptivos.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 20,),
-                    Text(
-                      "Utilización de anticonceptivos, aumento de miocardio, estudio...",
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 16),
-                    )
-                  ],
-                ),
-                //color: Colors.deepOrangeAccent,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ));
+              ],
+            ),
+          );
+        });
   }
 }

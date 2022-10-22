@@ -31,6 +31,8 @@ class Profile {
   int? puntaje;
   String? tituloCargo;
   DateTime? fechaNacimiento;
+  String? urlImage;
+  String? url;
   Profile(
       {this.acercaDe,
         this.apellido,
@@ -41,12 +43,13 @@ class Profile {
         this.publicacionesExternas,
         this.puntaje,
         this.tituloCargo,
+        this.urlImage,
       this.fechaNacimiento});
 
   Profile.fromJson(Map<String, dynamic> json) {
     acercaDe = json['AcercaDe'];
     apellido = json['Apellido'];
-
+    urlImage = json['ImagenUrl'];
     mail = json['Mail'];
     nombre = json['Nombre'];
     pacientesTratados = json['PacientesTratados'] ;
@@ -72,6 +75,7 @@ class Profile {
     }
     data['Puntaje'] = this.puntaje;
     data['TituloCargo'] = this.tituloCargo;
+    data['ImagenUrl'] = this.urlImage;
     return data;
   }
 }

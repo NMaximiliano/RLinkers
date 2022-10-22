@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/Auth_Provider.dart';
-
 import 'package:rlinkers/pages/home_page.dart';
-
 import '../pages/profile_page.dart';
 import '../pages/login_page.dart';
+import '../pages/project_page.dart';
 import '../pages/structure_page.dart';
 class NavigationDrawerWidget extends StatelessWidget {
    NavigationDrawerWidget({Key? key}) : super(key: key);
@@ -72,6 +71,11 @@ class NavigationDrawerWidget extends StatelessWidget {
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => StructurePage(ProfilePage(), enumIconos.menu,"Perfil de Usuario"),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => StructurePage(ProjectPage(), enumIconos.menu,"Proyectos"),
         ));
         break;
 

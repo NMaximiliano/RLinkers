@@ -17,6 +17,7 @@ class DBProvider with ChangeNotifier {
 
   List<Profile> profiles = [];
   List<ProjectImported> projectsImported = [];
+
   List<Interest> allInterests = [];
   List<String> interestsIdsOfUser = [];
   List<Interest> interestsOfUser = [];
@@ -26,6 +27,9 @@ class DBProvider with ChangeNotifier {
   void init(AuthProvider authProvider) {
     _authProvider = authProvider;
   }
+
+
+  AuthProvider get authProvider => _authProvider;
 
   Future<void> loadLoggedUserData() async {
     await getProfileOfUser();
@@ -111,7 +115,6 @@ class DBProvider with ChangeNotifier {
     notifyListeners();
     return allInterests;
   }
-
   Future<List<ProjectImported>> getProjectsImportedFromUserId() async {
     projectsImported.clear();
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
@@ -142,6 +145,10 @@ class DBProvider with ChangeNotifier {
     getMatchingIntereses();
     return interestsIdsOfUser;
   }
+  Future<void> updateTituloProyecto(String nuevoValor) async {
+    final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
+    await ref.update({'Nombre': nuevoValor});
+  }
   Future<void> updateNombre(String nuevoValor) async {
     final ref = database.ref('Usuarios/${_authProvider.uid}');
     await ref.update({'Nombre': nuevoValor});
@@ -165,7 +172,6 @@ class DBProvider with ChangeNotifier {
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
     await ref.child(DateTime.now().millisecondsSinceEpoch.toString()).set(projectImported.toJson());
   }
-
   Future<ProjectImported> getProjectsImportedFromId(String idProjectImported) async{
    // projectImported;
     final ref = database.ref('ProyectosExternosXUsuarios/${idProjectImported}');
@@ -182,5 +188,10 @@ class DBProvider with ChangeNotifier {
   Future<void> removeProjectImported(ProjectImported _projectImported) async {
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}/${_projectImported.idProyectoExtUsuario}');
     await ref.remove();
+  }
+
+  Future<void> insertImageProfileURL(String downloadURL) async {
+    final ref = database.ref('Usuarios/${_authProvider.uid}');
+    await ref.update({'ImagenUrl': downloadURL});
   }
 }

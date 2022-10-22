@@ -5,6 +5,8 @@ import 'package:rlinkers/business_logic/Auth_Provider.dart';
 import 'package:rlinkers/business_logic/DB_Provider.dart';
 import 'package:rlinkers/pages/login_page.dart';
 import 'package:rlinkers/pages/structure_page.dart';
+import 'business_logic/DB_Project_Provider.dart';
+import 'business_logic/Storage_Provider.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -25,7 +27,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<StorageProvider>(create: (_) => StorageProvider()),
         ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
+        ChangeNotifierProvider<DBProjectProvider>(create: (_) => DBProjectProvider()),
       ]
       , child: MaterialApp(
 
@@ -79,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     //return StructurePage( HomePage(),iconos.sinIcono,'Home Page');
     Provider.of<DBProvider>(context).init(Provider.of<AuthProvider>(context));
+    Provider.of<DBProjectProvider>(context).init(Provider.of<AuthProvider>(context));
     return StructurePage(MyLoginPage(), enumIconos.sinIcono, 'Inicio');
     /* return Scaffold(
         appBar: AppBar(

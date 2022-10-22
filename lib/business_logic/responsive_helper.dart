@@ -14,6 +14,8 @@ class ResponsiveHelper {
     return MediaQuery.of(context).size.width >= 800 &&
         MediaQuery.of(context).size.width <= 1200;
   }
-
+  static bool isSmallScreenListView(BuildContext context) {
+    return MediaQuery.of(context).size.width < 900 ;
+  }
 
 }

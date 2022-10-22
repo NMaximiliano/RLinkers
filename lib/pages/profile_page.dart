@@ -10,6 +10,7 @@ import '../widgets/customForms/my_textfield.dart';
 import '../widgets/customForms/my_drop_down.dart';
 import '../widgets/edit_box_drop_down.dart';
 import '../widgets/edit_box_text_area.dart';
+import '../widgets/profile/image_box_profile.dart';
 import '../widgets/list_box_project.dart';
 
 late Profile miPerfil;
@@ -32,12 +33,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
-
+  String descripcion = "primera";
+  double progress = 0.0;
 
 
   @override
   void initState() {
     //Incializo los valores seleccionados
+
 
     _chosenCapacidad = capacidadesInvestigacion[0];
     _chosenPaises = paises[0];
@@ -47,8 +50,8 @@ class ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
 
 
-
     return FutureBuilder<void>(
+
         future: Provider.of<DBProvider>(context, listen: false).loadLoggedUserData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
@@ -67,25 +70,15 @@ class ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 400,
-                          width: 400,
-                          margin: const EdgeInsets.all(50),
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                                image: AssetImage("assets/images/perfil.jpg"),
-                                fit: BoxFit.cover),
-                            border: Border.all(
-                                color: Colors.blue.shade100, width: 5),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
+
+                        ImageBoxProfile(miPerfil: miPerfil),
+
                         ResponsiveHelper.isSmallScreen(context)
                             ? SizedBox.shrink()
                             : Flexible(
                                 child: Container(
                                   width: 600,
-                                  height: 400,
+                                  height: 420,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.vertical(
                                         bottom: Radius.elliptical(20, 30),
@@ -260,4 +253,6 @@ class ProfilePageState extends State<ProfilePage> {
           );
         }); //);
   }
+
+
 }

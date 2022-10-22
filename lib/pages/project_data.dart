@@ -60,7 +60,7 @@ class _ProjectDataState extends State<ProjectData> {
           // the App.build method, and use it to set our appbar title.
           title: const Text("Project Data"),
         ),
-        drawer: const NavigationDrawerWidget(),
+        drawer:  NavigationDrawerWidget(),
         body: Center(
 
             child: SingleChildScrollView(

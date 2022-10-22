@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/section_profile_provider.dart';
 
 class EncabezadoPubli extends StatefulWidget {
+
+
   EncabezadoPubli({
     required this.fontSize,
     Key? key,
@@ -23,7 +25,7 @@ class _EncabezadoPubliState extends State<EncabezadoPubli> {
     SectionProfileProvider model = Provider.of<SectionProfileProvider>(context, listen: true);
     return (Row(children: [
       SizedBox(
-        width: 30,
+        width: 40,
       ),
       Text(
         model.textoEncabezado,
