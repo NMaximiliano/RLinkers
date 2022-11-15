@@ -31,11 +31,11 @@ class _ImageBoxProfileState extends State<ImageBoxProfile> {
             margin: const EdgeInsets.all(50),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image.network(
+                child:/* Image.network(
                   widget.urlImage!,
                   fit: BoxFit.cover,
-                )),
-            //(widget.miPerfil.urlImage != null)? Image.network(widget.miPerfil.urlImage!,fit: BoxFit.cover,) : Image.asset("assets/images/perfil.jpg",fit: BoxFit.cover,),
+                )),*/
+            (widget.miPerfil.urlImage != null)? Image.network(widget.miPerfil.urlImage!,fit: BoxFit.cover,) : Image.asset("assets/images/imagenNodisponible.png",fit: BoxFit.cover,),),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blue.shade100, width: 5),
               borderRadius: BorderRadius.circular(50),

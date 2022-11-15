@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:rlinkers/business_logic/DB_Provider.dart';
+import 'package:rlinkers/business_logic/DB_Profile_Provider.dart';
 import 'package:rlinkers/widgets/customForms/my_textfield.dart';
 
 import '../business_logic/Auth_Provider.dart';
@@ -66,7 +66,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                   chosenValue: _chosenPaises = paises.first,
                   choosingValue: (String value) {
                     _chosenPaises = value;
-                    Provider.of<DBProvider>(context,
+                    Provider.of<DBProfileProvider>(context,
                         listen: false)
                         .updateLugarNacimiento(value);
                   }),
@@ -160,6 +160,6 @@ Future<void> crearUsuario({context, required Profile perfil, password}) async {
   await Provider.of<AuthProvider>(context, listen: false)
       .register(perfil.mail, password, context);
 
-  await Provider.of<DBProvider>(context, listen: false).addUsuario(
+  await Provider.of<DBProfileProvider>(context, listen: false).addUsuario(
       perfil);
 }

@@ -4,7 +4,6 @@ import 'package:rlinkers/models/project_model.dart';
 import '../business_logic/DB_Project_Provider.dart';
 import '../business_logic/section_projects_provider.dart';
 import '../widgets/list_box_project_internal.dart';
-import '/pages/project_data.dart';
 
 late List<ProjectInternal> myProjectInternal;
 
@@ -95,26 +94,7 @@ class ProjectPageState extends State<ProjectPage> {
                     proyectosList: Provider.of<DBProjectProvider>(context, listen: false).projectsInternal,
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.dataset),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ProjectData(),
-                          ));
-                        },
-                        label: const Text("Project Data"),
-                      ),
-                    ],
-                  ),
-                ),
+
               ],
             ),
           );

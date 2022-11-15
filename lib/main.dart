@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/Auth_Provider.dart';
-import 'package:rlinkers/business_logic/DB_Provider.dart';
+import 'package:rlinkers/business_logic/DB_FileData_Provider.dart';
+import 'package:rlinkers/business_logic/DB_Profile_Provider.dart';
 import 'package:rlinkers/pages/login_page.dart';
+import 'package:rlinkers/pages/profile_page.dart';
 import 'package:rlinkers/pages/structure_page.dart';
 import 'business_logic/DB_Project_Provider.dart';
 import 'business_logic/Storage_Provider.dart';
@@ -14,6 +18,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
   runApp(const MyApp());
 }
@@ -28,8 +33,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<StorageProvider>(create: (_) => StorageProvider()),
-        ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
+        ChangeNotifierProvider<DBProfileProvider>(create: (_) => DBProfileProvider()),
         ChangeNotifierProvider<DBProjectProvider>(create: (_) => DBProjectProvider()),
+        ChangeNotifierProvider<DBFileDataProvider>(create: (_) => DBFileDataProvider()),
       ]
       , child: MaterialApp(
 
@@ -63,7 +69,6 @@ class MyHomePage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
   final String title;
 
   @override
@@ -74,6 +79,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+
+      FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user!=null) {
+        onRefresh(user.uid);
+          // ...
+          } else {
+          // User is signed out
+          // ...
+          }
+      });
+    });
+
+  super.initState();
+
+  }
+
+  onRefresh(userCredentials){
+  setState(() {
+    Provider.of<AuthProvider>(context,listen: false).uid = userCredentials;
+    if(userCredentials!=null){
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              StructurePage(ProfilePage(), enumIconos.menu, "Perfil")));
+    }
+  });
+  }
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -82,8 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     //return StructurePage( HomePage(),iconos.sinIcono,'Home Page');
-    Provider.of<DBProvider>(context).init(Provider.of<AuthProvider>(context));
-    Provider.of<DBProjectProvider>(context).init(Provider.of<AuthProvider>(context));
+    Provider.of<DBProfileProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
+    Provider.of<DBProjectProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
+    Provider.of<DBFileDataProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
     return StructurePage(MyLoginPage(), enumIconos.sinIcono, 'Inicio');
     /* return Scaffold(
         appBar: AppBar(

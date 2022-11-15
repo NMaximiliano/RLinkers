@@ -6,6 +6,7 @@ import 'package:rlinkers/widgets/texto_publi.dart';
 import '../business_logic/responsive_helper.dart';
 import '../business_logic/section_projects_provider.dart';
 import '../models/project_model.dart';
+import '../pages/edit_project_detail_page.dart';
 import '../pages/structure_page.dart';
 import 'encabezado_publicacion_projects.dart';
 
@@ -105,7 +106,7 @@ class ListBoxProjectInternal extends StatelessWidget {
                                     projectInternal: project,
                                   ),
                                   enumIconos.menu,
-                                  "")));
+                                  "Detalle del Proyecto")));
 
                         },
                       ),
@@ -126,11 +127,17 @@ class ListBoxProjectInternal extends StatelessWidget {
                       ),
                       child: IconButton(
                         icon: Icon(
-                          Icons.remove_circle_outline,
+                          Icons.edit_calendar_outlined,
                           color: Colors.redAccent.shade100,
                         ),
                         onPressed: () {
-                          model.functionDeleteProjectnternal(project);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => StructurePage(
+                                  EditProjectDetailPage(
+                                    projectInternal: project,
+                                  ),
+                                  enumIconos.menu,
+                                  "Detalle del Proyecto")));
                         },
                       ),
                     ),

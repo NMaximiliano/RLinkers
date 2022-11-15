@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../business_logic/DB_Provider.dart';
+import '../business_logic/DB_Profile_Provider.dart';
 import '../pages/profile_page.dart';
 import '../pages/structure_page.dart';
 import 'customForms/my_drop_down.dart';
@@ -13,7 +13,7 @@ class EditBoxDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    DBProvider _dbProvider = Provider.of<DBProvider>(context, listen: false);
+    DBProfileProvider _dbProvider = Provider.of<DBProfileProvider>(context, listen: false);
 
     List<String> interesesInString = _dbProvider.allInterests.map((e) => e.descripcion).toList();
     _chosenInteres = interesesInString[0];
@@ -97,7 +97,7 @@ class EditBoxDropDown extends StatelessWidget {
       miPerfil.tituloCargo = tituloCargoController.text;
       miPerfil.pacientesTratados = pacientesTratadosController.text;
       if (miPerfil != null) {
-        Provider.of<DBProvider>(context, listen: false).updateUsuario(
+        Provider.of<DBProfileProvider>(context, listen: false).updateUsuario(
             miPerfil);
       } else {
         return;

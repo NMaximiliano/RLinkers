@@ -53,7 +53,6 @@ class _AddButtonChangeProjectImageState extends State<AddButtonChangeProjectImag
         }catch(error){
           print('__error: ${error.toString()}');
         }
-        Navigator.of(context).pop();
       },
     );
   }

@@ -25,3 +25,9 @@ List<String> intereses = [
   'Intereses 3',
   'Intereses 4'
 ];
+final List<String> estados = [
+  'Activo',
+  'Cerrado',
+  'En Progreso',
+
+];

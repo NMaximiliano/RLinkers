@@ -3,10 +3,10 @@ class Usuario {
 
   Usuario({required this.perfil});
 
-  Usuario.fromJson(Map<String, dynamic> json) {
+  Usuario.fromJson(Map<String, dynamic> json, key) {
     perfil = json['t4bMSOFM5bgp81BoCOCKm5TUdbp2'] != null
         ? new Profile.fromJson(
-        json['t4bMSOFM5bgp81BoCOCKm5TUdbp2'])
+        json['t4bMSOFM5bgp81BoCOCKm5TUdbp2'],key)
         : null;
   }
 
@@ -21,6 +21,7 @@ class Usuario {
 }
 
 class Profile {
+  String? id;
   String? acercaDe;
   String? apellido;
   late String mail;
@@ -34,7 +35,9 @@ class Profile {
   String? urlImage;
   String? url;
   Profile(
-      {this.acercaDe,
+      {
+        this.id,
+        this.acercaDe,
         this.apellido,
         required this.mail,
         this.nombre,
@@ -46,7 +49,7 @@ class Profile {
         this.urlImage,
       this.fechaNacimiento});
 
-  Profile.fromJson(Map<String, dynamic> json) {
+  Profile.fromJson(Map<String, dynamic> json, key) {
     acercaDe = json['AcercaDe'];
     apellido = json['Apellido'];
     urlImage = json['ImagenUrl'];
@@ -59,6 +62,7 @@ class Profile {
         : null;
     puntaje = json['Puntaje'];
     tituloCargo = json['TituloCargo'];
+    id = key;
   }
 
   Map<String, dynamic> toJson() {
@@ -76,6 +80,7 @@ class Profile {
     data['Puntaje'] = this.puntaje;
     data['TituloCargo'] = this.tituloCargo;
     data['ImagenUrl'] = this.urlImage;
+
     return data;
   }
 }

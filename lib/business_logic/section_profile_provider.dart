@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:rlinkers/models/project_model.dart';
 import '../pages/profile_page.dart';
 import '../pages/structure_page.dart';
-import 'DB_Provider.dart';
+import 'DB_Profile_Provider.dart';
 
 enum enumEncabezado {
   acercaDe,
@@ -27,7 +27,7 @@ class SectionProfileProvider with ChangeNotifier {
   init(enumEncabezado strEncabezado, context) {
     switch (strEncabezado) {
       case enumEncabezado.acercaDe:
-        iconToShow = Icons.edit;
+        iconToShow = Icons.save;
         textoEncabezado = "Acerca de:";
         functionToUse = () {
           miPerfil.acercaDe = acercaDeController.text;
@@ -37,7 +37,7 @@ class SectionProfileProvider with ChangeNotifier {
           miPerfil.tituloCargo = tituloCargoController.text;
           miPerfil.pacientesTratados = pacientesTratadosController.text;
           if (miPerfil != null) {
-            Provider.of<DBProvider>(context, listen: false)
+            Provider.of<DBProfileProvider>(context, listen: false)
                 .updateUsuario(miPerfil);
             notifyListeners();
           } else {
@@ -48,7 +48,7 @@ class SectionProfileProvider with ChangeNotifier {
         break;
 
       case enumEncabezado.pacientesTratados:
-        iconToShow = Icons.edit;
+        iconToShow = Icons.save;
         textoEncabezado = "Pacientes Tratados:";
         functionToUse = () {
           miPerfil.acercaDe = acercaDeController.text;
@@ -58,7 +58,7 @@ class SectionProfileProvider with ChangeNotifier {
           miPerfil.tituloCargo = tituloCargoController.text;
           miPerfil.pacientesTratados = pacientesTratadosController.text;
           if (miPerfil != null) {
-            Provider.of<DBProvider>(context, listen: false).updateUsuario(
+            Provider.of<DBProfileProvider>(context, listen: false).updateUsuario(
               miPerfil,
             );
           } else {
@@ -93,7 +93,7 @@ class SectionProfileProvider with ChangeNotifier {
                   icon: Icon(Icons.warning_amber),
                   content: Container(
                     child: TextButton(onPressed: () {
-                      Provider.of<DBProvider>(context, listen: false).removeProjectImported(
+                      Provider.of<DBProfileProvider>(context, listen: false).removeProjectImported(
                         projectImported,
                       );
                       Navigator.of(context).push(MaterialPageRoute(
@@ -194,7 +194,7 @@ class SectionProfileProvider with ChangeNotifier {
                                       title: descriptionProjectimportedController
                                           .text);
 
-                                  Provider.of<DBProvider>(context, listen: false)
+                                  Provider.of<DBProfileProvider>(context, listen: false)
                                       .createProjectImported(_projectImporter!);
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => StructurePage(

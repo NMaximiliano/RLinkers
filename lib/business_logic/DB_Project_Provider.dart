@@ -14,18 +14,25 @@ class DBProjectProvider with ChangeNotifier {
       FirebaseDatabase.instance.ref('Usuarios/').onChildChanged;
 
   List<Profile> profiles = [];
+
   List<ProjectImported> projectsImported = [];
   List<ProjectInternal> projectsInternal = [];
-
+  List<FilesDataProject> filesDataProject = [];
+  late Profile profile;
+  late FilesDataProject fileDataProject;
   late ProjectInternal projectInternal;
   late AuthProvider _authProvider;
+
+
   void init(AuthProvider authProvider) {
     _authProvider = authProvider;
   }
   AuthProvider get authProvider => _authProvider;
   Future<void> loadLoggedUserData() async {
     await getProjectsInternalFromUserId();
+    await getFilesFromProjectInternal();
   }
+
   Future<List<ProjectInternal>> getProjectsInternalFromUserId() async {
     projectsInternal.clear();
     final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}');
@@ -40,6 +47,29 @@ class DBProjectProvider with ChangeNotifier {
     notifyListeners();
     return projectsInternal;
   }
+
+  Future<ProjectInternal> getFilesFromProjectInternal() async {
+    filesDataProject.clear();
+    projectsInternal.forEach((_projectInternal) async {
+      final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/ArchivosSubidos');
+      DataSnapshot snapshot = await ref.get();
+      if (snapshot.exists) {
+        (snapshot.value as Map).forEach((key, value) {
+          filesDataProject.add(FilesDataProject.fromJson(value, key));
+        });
+        projectsInternal.firstWhere((e) => e.idProyectoIntUsuario == _projectInternal.idProyectoIntUsuario).filesDataProject = filesDataProject;
+
+      } else {
+        print('No Files Data available.');
+      }
+      notifyListeners();
+
+
+    });
+
+    return projectInternal;
+  }
+
   Future<void> updateTituloProyecto(String nuevoValor) async {
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
     await ref.update({'Nombre': nuevoValor});
@@ -61,4 +91,15 @@ class DBProjectProvider with ChangeNotifier {
     final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/');
     await ref.update({'ImagenUrl': downloadURL});
   }
+
+  Future<void> updateProjectInternal(ProjectInternal _projectInternal) async{
+    final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/');
+    if (ref == null) {
+      createProjectInternal(_projectInternal);
+    } else {
+      await ref.update(_projectInternal.toJson());
+    }
+  }
+
+
 }

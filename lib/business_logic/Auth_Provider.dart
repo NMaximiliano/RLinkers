@@ -7,7 +7,7 @@ import '../pages/structure_page.dart';
 class AuthProvider with ChangeNotifier {
   //ChangeNotifier es para los Provider que necesitan
 
-  String? uid;
+   String? uid;
 
   bool get isLoggedIn => uid != null;
 

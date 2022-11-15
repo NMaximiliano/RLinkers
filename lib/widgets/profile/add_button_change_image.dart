@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 
 import '../../business_logic/Auth_Provider.dart';
-import '../../business_logic/DB_Provider.dart';
+import '../../business_logic/DB_Profile_Provider.dart';
 import '../../business_logic/Storage_Provider.dart';
 import '../../business_logic/file_picker_helper.dart';
 
@@ -45,7 +45,7 @@ class _AddButtonChangeImageState extends State<AddButtonChangeImage> {
               .now()
               .millisecondsSinceEpoch
               .toString(), "profile/$_uid/");
-          Provider.of<DBProvider>(context,
+          Provider.of<DBProfileProvider>(context,
               listen: false)
               .insertImageProfileURL(url!);
               widget.callbackFunction(url);
@@ -53,7 +53,7 @@ class _AddButtonChangeImageState extends State<AddButtonChangeImage> {
         }catch(error){
           print('__error: ${error.toString()}');
         }
-        Navigator.of(context).pop();
+
       },
     );
   }

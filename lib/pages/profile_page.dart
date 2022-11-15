@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/section_profile_provider.dart';
-import '../business_logic/DB_Provider.dart';
+import '../business_logic/DB_Profile_Provider.dart';
 import '../business_logic/responsive_helper.dart';
 import '../generic_enums.dart';
 import '../models/user_model.dart';
@@ -52,7 +52,7 @@ class ProfilePageState extends State<ProfilePage> {
 
     return FutureBuilder<void>(
 
-        future: Provider.of<DBProvider>(context, listen: false).loadLoggedUserData(),
+        future: Provider.of<DBProfileProvider>(context, listen: false).loadLoggedUserData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(
@@ -60,7 +60,7 @@ class ProfilePageState extends State<ProfilePage> {
             );
           }
           miPerfil =
-              Provider.of<DBProvider>(context, listen: false).profiles[0];
+              Provider.of<DBProfileProvider>(context, listen: false).profile;
 
           return SingleChildScrollView(
             child: Column(
@@ -94,7 +94,7 @@ class ProfilePageState extends State<ProfilePage> {
                                           nameController: nameController,
                                           initialValue: miPerfil.nombre ?? '',
                                           onChanged: (String nuevoValor) {
-                                            Provider.of<DBProvider>(context,
+                                            Provider.of<DBProfileProvider>(context,
                                                     listen: false)
                                                 .updateNombre(nuevoValor);
                                           },
@@ -103,7 +103,7 @@ class ProfilePageState extends State<ProfilePage> {
                                           nameController: surnameController,
                                           initialValue: miPerfil.apellido ?? '',
                                           onChanged: (String nuevoValor) {
-                                            Provider.of<DBProvider>(context,
+                                            Provider.of<DBProfileProvider>(context,
                                                     listen: false)
                                                 .updateApellido(nuevoValor);
                                           },
@@ -113,7 +113,7 @@ class ProfilePageState extends State<ProfilePage> {
                                         initialValue:
                                             miPerfil.tituloCargo ?? '',
                                         onChanged: (String nuevoValor) {
-                                          Provider.of<DBProvider>(context,
+                                          Provider.of<DBProfileProvider>(context,
                                                   listen: false)
                                               .updateTituloCargo(nuevoValor);
                                         },
@@ -125,7 +125,7 @@ class ProfilePageState extends State<ProfilePage> {
                                               miPerfil.lugarNacimiento ?? 'Argentina',
                                           choosingValue: (String value) {
                                             _chosenPaises = value;
-                                            Provider.of<DBProvider>(context,
+                                            Provider.of<DBProfileProvider>(context,
                                                     listen: false)
                                                 .updateLugarNacimiento(value);
                                           }),
@@ -151,7 +151,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 nameController: nameController,
                                 initialValue: miPerfil.nombre ?? '',
                                 onChanged: (String nuevoValor) {
-                                  Provider.of<DBProvider>(context,
+                                  Provider.of<DBProfileProvider>(context,
                                           listen: false)
                                       .updateNombre(nuevoValor);
                                 },
@@ -160,7 +160,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 nameController: surnameController,
                                 initialValue: miPerfil.apellido ?? '',
                                 onChanged: (String nuevoValor) {
-                                  Provider.of<DBProvider>(context,
+                                  Provider.of<DBProfileProvider>(context,
                                           listen: false)
                                       .updateApellido(nuevoValor);
                                 },
@@ -169,7 +169,7 @@ class ProfilePageState extends State<ProfilePage> {
                               nameController: tituloCargoController,
                               initialValue: miPerfil.tituloCargo ?? '',
                               onChanged: (String nuevoValor) {
-                                Provider.of<DBProvider>(context, listen: false)
+                                Provider.of<DBProfileProvider>(context, listen: false)
                                     .updateTituloCargo(nuevoValor);
                               },
                               titleField: "Titulo Cargo",
@@ -179,7 +179,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 chosenValue: miPerfil.lugarNacimiento ?? '',
                                 choosingValue: (String value) {
                                   _chosenPaises = value;
-                                  Provider.of<DBProvider>(context,
+                                  Provider.of<DBProfileProvider>(context,
                                           listen: false)
                                       .updateLugarNacimiento(value);
                                 }),
@@ -218,7 +218,7 @@ class ProfilePageState extends State<ProfilePage> {
                 ChangeNotifierProvider<SectionProfileProvider>.value(
                   value:SectionProfileProvider()..init(enumEncabezado.proyectosExternas, context),
                   child: ListBoxProject(
-                    proyectosList: Provider.of<DBProvider>(context, listen: false).projectsImported,
+                    proyectosList: Provider.of<DBProfileProvider>(context, listen: false).projectsImported,
                   ),
                 ),
                 SizedBox(
