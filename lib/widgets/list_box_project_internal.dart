@@ -114,33 +114,37 @@ class ListBoxProjectInternal extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Container(
-                      height: 51,
-                      width: 51,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white38,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.blueGrey.shade50, spreadRadius: 2),
-                        ],
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.edit_calendar_outlined,
-                          color: Colors.redAccent.shade100,
+                    if(model.iconToShow != Icons.accessibility) //?  SizedBox.shrink()
+                        Container(
+                          height: 51,
+                          width: 51,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white38,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.blueGrey.shade50,
+                                  spreadRadius: 2),
+                            ],
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.edit_calendar_outlined,
+                              color: Colors.redAccent.shade100,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      StructurePage(
+                                          EditProjectDetailPage(
+                                            projectInternal: project,
+                                          ),
+                                          enumIconos.menu,
+                                          "Detalle del Proyecto")));
+                            },
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => StructurePage(
-                                  EditProjectDetailPage(
-                                    projectInternal: project,
-                                  ),
-                                  enumIconos.menu,
-                                  "Detalle del Proyecto")));
-                        },
-                      ),
-                    ),
+
                   ],
                 ),
               ),

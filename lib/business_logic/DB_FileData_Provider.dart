@@ -26,7 +26,7 @@ class DBFileDataProvider with ChangeNotifier {
   }
   Future<List<FilesDataProject>> getFilesUploadedFromProjectInternal(ProjectInternal _projectInternal) async {
     filesDataProject.clear();
-    final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/Archivos');
+    final ref = database.ref('ProyectosInternosXUsuarios/${_projectInternal.idUsuario}/${_projectInternal.idProyectoIntUsuario}/Archivos');
     DataSnapshot snapshot = await ref.get();
     if (snapshot.exists) {
       (snapshot.value as Map).forEach((key, value) {
@@ -62,14 +62,14 @@ class DBFileDataProvider with ChangeNotifier {
     return nombre + " " + apellido;
   }
   
-  Future<void> insertDataFileToProject(String? idProyectoIntUsuario, String urlArchivo, String descripcion) async {
+  Future<void> insertDataFileToProject(ProjectInternal projectInternal, String urlArchivo, String descripcion) async {
     fileDataProject = FilesDataProject();
     fileDataProject.usuarioID =  _authProvider.uid!;
     fileDataProject.descripcion = descripcion;
     fileDataProject.urlArchivo = urlArchivo;
 
 
-    final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${idProyectoIntUsuario}/Archivos/');
+    final ref = database.ref('ProyectosInternosXUsuarios/${projectInternal.idUsuario}/${projectInternal.idProyectoIntUsuario}/Archivos/');
     await ref
         .child(DateTime.now().millisecondsSinceEpoch.toString())
         .set(fileDataProject.toJson());

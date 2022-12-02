@@ -94,7 +94,15 @@ class ProjectPageState extends State<ProjectPage> {
                     proyectosList: Provider.of<DBProjectProvider>(context, listen: false).projectsInternal,
                   ),
                 ),
-
+                SizedBox(
+                  height: 20,
+                ),
+                ChangeNotifierProvider<SectionProjectsProvider>.value(
+                  value:SectionProjectsProvider()..init(enumEncabezadoProjects.shared, context),
+                  child: ListBoxProjectInternal(
+                    proyectosList: Provider.of<DBProjectProvider>(context, listen: false).sharedProjects,
+                  ),
+                ),
               ],
             ),
           );

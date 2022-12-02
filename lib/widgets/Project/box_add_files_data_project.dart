@@ -130,7 +130,7 @@ class _BoxAddFilesDataProjectState extends State<BoxAddFilesDataProject> {
                                     await Provider.of<DBFileDataProvider>(context,
                                         listen: false).insertDataFileToProject(
                                         widget.projectInternal
-                                            .idProyectoIntUsuario, urlImage!,
+                                            , urlImage!,
                                         widget.descriptionFileProjectController
                                             .text);
 
@@ -223,16 +223,7 @@ class _BoxAddFilesDataProjectState extends State<BoxAddFilesDataProject> {
                                             trailing: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                IconButton(
-                                                  icon: const Icon(
-                                                    Icons.manage_search_sharp,
-                                                    color: Colors.blueGrey,
-                                                  ),
-                                                  onPressed: () {
-                                                    //downloadFile(file.urlArchivo!);
 
-                                                  },
-                                                ),
                                                 IconButton(
                                                   icon: const Icon(
                                                     Icons.download,

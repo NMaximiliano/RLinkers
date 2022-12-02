@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rlinkers/models/project_model.dart';
 import '../widgets/Project/box_edit_project.dart';
 import '../widgets/Project/box_files_data_projects.dart';
+import '../widgets/Project/box_invite_users.dart';
 
 class EditProjectDetailPage extends StatefulWidget {
   //En vez de pasar dato por dato, paso un objeto de tipo Machine con todo
@@ -25,6 +26,7 @@ class _EditProjectDetailPageState extends State<EditProjectDetailPage> {
     child: Column(
       children: [
         BoxEditProject(projectInternal: widget.projectInternal),
+        BoxInviteUsers(projectInternal: widget.projectInternal),
         BoxFilesDataProjects(projectInternal: widget.projectInternal),
       ],
     ),

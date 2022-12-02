@@ -1,3 +1,5 @@
+import 'package:rlinkers/models/user_invited_to_project.dart';
+
 abstract class Project{
   late String title;
   late int date;
@@ -38,7 +40,6 @@ class FilesDataProject {
   String? fechaCarga;
   String? urlArchivo;
   String? usuarioID;
-
   String? fileId;
 
   FilesDataProject({this.descripcion, this.fechaCarga, this.urlArchivo, this.usuarioID,});
@@ -71,8 +72,10 @@ class ProjectInternal implements Project {
   String? idProyectoIntUsuario;
   String? urlImagen;
   String? estado;
+  late String idUsuario;
    List<FilesDataProject> filesDataProject = [];
-  ProjectInternal({ required this.date, required this.title,required this.description});
+  List<UserInvitedProject> userInvitedProject = [];
+  ProjectInternal({ required this.date, required this.title,required this.description,required this.idUsuario});
 
   ProjectInternal.fromJson(Map<String, dynamic> json, key) {
     title = json['Titulo'];
@@ -81,12 +84,21 @@ class ProjectInternal implements Project {
     idProyectoIntUsuario = key;
     urlImagen = json['ImagenUrl'];
     estado = json['Estado'];
+    idUsuario = json['IdUsuario'];
     if (json['Archivos'] != null) {
       filesDataProject = [];
 
       (json['Archivos'] as Map<String,dynamic>).forEach(
               (k,v) {
         filesDataProject.add(new FilesDataProject.fromJson(v, k));}
+      );
+    }
+    if (json['Invitados'] != null) {
+      userInvitedProject = [];
+
+      (json['Invitados'] as Map<String,dynamic>).forEach(
+              (k,v) {
+                userInvitedProject.add(new UserInvitedProject.fromJson(v, k));}
       );
     }
   }
@@ -98,6 +110,7 @@ class ProjectInternal implements Project {
     data['Descripcion'] = this.description;
     data['ImagenUrl'] = this.urlImagen;
     data['Estado'] = this.estado;
+    data['IdUsuario'] = this.idUsuario;
     if (this.filesDataProject != null) {
       data['Archivos'] = this.filesDataProject.map((v) => v.toJson()).toList();
     }

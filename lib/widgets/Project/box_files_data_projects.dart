@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/models/project_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../business_logic/Auth_Provider.dart';
+import '../../business_logic/DB_FileData_Provider.dart';
+import '../../business_logic/responsive_helper.dart';
 import '../../pages/project_data.dart';
 import '../../pages/structure_page.dart';
+import '../texto_publi.dart';
 
 class BoxFilesDataProjects extends StatefulWidget {
   BoxFilesDataProjects({Key? key, required this.projectInternal})
@@ -23,7 +27,7 @@ class BoxFilesDataProjects extends StatefulWidget {
 class _BoxFilesDataProjectsState extends State<BoxFilesDataProjects> {
   double progress = 0.0;
 
-  late Future<ListResult> futureFiles;
+  late Future<List<FilesDataProject>> futureFiles;
   late String _uid;
   late String _projectInternalId;
 
@@ -33,9 +37,7 @@ class _BoxFilesDataProjectsState extends State<BoxFilesDataProjects> {
     _projectInternalId = widget.projectInternal.idProyectoIntUsuario!;
 
     _uid = Provider.of<AuthProvider>(context, listen: false).uid!;
-    futureFiles = FirebaseStorage.instance
-        .ref('/project/$_uid/$_projectInternalId/files')
-        .listAll();
+    futureFiles =  Provider.of<DBFileDataProvider>(context, listen: false).loadFilesUploader(widget.projectInternal);
     List<UploadTask> _uploadTask = [];
   }
 
@@ -113,32 +115,75 @@ class _BoxFilesDataProjectsState extends State<BoxFilesDataProjects> {
                         ),
                         Divider(),
                         Expanded(
-                            child: FutureBuilder<ListResult>(
+                            child: FutureBuilder<List<FilesDataProject>>(
                           future: futureFiles,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              final files = snapshot.data!.items;
+                              final files = snapshot.data!;
 
                               return ListView.builder(
                                   itemCount: files.length,
                                   itemBuilder: (context, index) {
                                     final file = files[index];
-
+                                    String fullName = Provider.of<DBFileDataProvider>(context, listen: false).getFullNameFromUserID(file);
                                     return ListTile(
-                                        title: Text(file.name,
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: GoogleFonts.getFont(
-                                                        "Playfair Display")
-                                                    .fontFamily)),
-                                        trailing: IconButton(
-                                          icon: const Icon(
-                                            Icons.download,
-                                            color: Colors.blueGrey,
-                                          ),
-                                          onPressed: () {
-                                            downloadFile(file);
-                                          },
+                                        title:
+                                        Row(
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 20,
+                                                  horizontal: 40,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  color: Colors.lightBlue.shade50,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.lightBlue.shade600,
+                                                        spreadRadius: 2),
+                                                  ],
+                                                ),
+                                                width: ResponsiveHelper.isSmallScreenListView(context) ? 130 : 230,
+                                                child: TextoPubli(file.descripcion!, 16)),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 20,
+                                                  horizontal: 40,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  color: Colors.lightBlue.shade50,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.lightBlue.shade600,
+                                                        spreadRadius: 2),
+                                                  ],
+                                                ),
+                                                width: ResponsiveHelper.isSmallScreenListView(context) ? 130 : 230,
+
+                                                child: TextoPubli( fullName   , 16)),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.download,
+                                                color: Colors.blueGrey,
+                                              ),
+                                              onPressed: () {
+                                                launchUrl(Uri.parse(file.urlArchivo!));
+                                              },
+                                            ),
+                                          ],
                                         ));
                                   });
                             } else if (snapshot.hasError) {

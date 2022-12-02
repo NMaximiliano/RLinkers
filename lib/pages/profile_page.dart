@@ -253,6 +253,10 @@ class ProfilePageState extends State<ProfilePage> {
           );
         }); //);
   }
-
-
+  /*callback(String cambioImagen) {
+    setState(() {
+      bool isLoading = true;
+      miPerfil.urlImage = cambioImagen;
+    });
+  }*/
 }

@@ -13,7 +13,7 @@ enum enumEncabezadoProjects {
   general,
   internal,
   projectsImported,
-  internalDetail
+  internalDetail, shared
 }
 
 class SectionProjectsProvider with ChangeNotifier {
@@ -28,6 +28,10 @@ class SectionProjectsProvider with ChangeNotifier {
 
   init(enumEncabezadoProjects strEncabezado, context) {
     switch (strEncabezado) {
+      case enumEncabezadoProjects.shared:
+        buttonVisible = false;
+        textoEncabezado = "Proyectos Compartidos";
+        break;
       case enumEncabezadoProjects.internal:
         iconToShow = Icons.edit;
         textoEncabezado = "Proyectos Activos:";
@@ -120,8 +124,9 @@ class SectionProjectsProvider with ChangeNotifier {
                                   _projectInternal = ProjectInternal(
                                       date: dateProjectImported.millisecondsSinceEpoch,
                                       description: descriptionProjectInternalController.text,
-                                      title: titleProjectInternalController
-                                          .text);
+                                      title: titleProjectInternalController.text,
+                                    idUsuario: Provider.of<DBProjectProvider>(context, listen: false).authProvider.uid!
+                                  );
 
                                   Provider.of<DBProjectProvider>(context, listen: false)
                                       .createProjectInternal(_projectInternal!);

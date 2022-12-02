@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/Auth_Provider.dart';
 import 'package:rlinkers/business_logic/DB_FileData_Provider.dart';
 import 'package:rlinkers/business_logic/DB_Profile_Provider.dart';
+import 'package:rlinkers/business_logic/DB_Users_Invited_Project_Provider.dart';
 import 'package:rlinkers/pages/login_page.dart';
 import 'package:rlinkers/pages/profile_page.dart';
 import 'package:rlinkers/pages/structure_page.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<DBProfileProvider>(create: (_) => DBProfileProvider()),
         ChangeNotifierProvider<DBProjectProvider>(create: (_) => DBProjectProvider()),
         ChangeNotifierProvider<DBFileDataProvider>(create: (_) => DBFileDataProvider()),
+        ChangeNotifierProvider<DBUsersInvitedProjectProvider>(create: (_) => DBUsersInvitedProjectProvider()),
       ]
       , child: MaterialApp(
 
@@ -119,6 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Provider.of<DBProfileProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
     Provider.of<DBProjectProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
     Provider.of<DBFileDataProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
+    Provider.of<DBUsersInvitedProjectProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
+
     return StructurePage(MyLoginPage(), enumIconos.sinIcono, 'Inicio');
     /* return Scaffold(
         appBar: AppBar(

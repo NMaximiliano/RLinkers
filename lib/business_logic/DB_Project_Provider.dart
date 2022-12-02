@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rlinkers/models/project_model.dart';
+import 'package:rlinkers/models/user_invited_to_project.dart';
 import 'package:rlinkers/models/user_model.dart';
 import 'Auth_Provider.dart';
 
@@ -14,10 +15,13 @@ class DBProjectProvider with ChangeNotifier {
       FirebaseDatabase.instance.ref('Usuarios/').onChildChanged;
 
   List<Profile> profiles = [];
-
+  List<UserInvitedProject> UsersInvitedProject=[];
   List<ProjectImported> projectsImported = [];
   List<ProjectInternal> projectsInternal = [];
+  List<ProjectInternal> allProjects = [];
+  List<ProjectInternal> sharedProjects = [];
   List<FilesDataProject> filesDataProject = [];
+  late UserInvitedProject userInvitedProject;
   late Profile profile;
   late FilesDataProject fileDataProject;
   late ProjectInternal projectInternal;
@@ -30,7 +34,9 @@ class DBProjectProvider with ChangeNotifier {
   AuthProvider get authProvider => _authProvider;
   Future<void> loadLoggedUserData() async {
     await getProjectsInternalFromUserId();
-    await getFilesFromProjectInternal();
+    //await getFilesFromProjectInternal();
+    await getAllProjects();
+    await getSharedProjects();
   }
 
   Future<List<ProjectInternal>> getProjectsInternalFromUserId() async {
@@ -69,18 +75,51 @@ class DBProjectProvider with ChangeNotifier {
 
     return projectInternal;
   }
+  Future<void> getAllProjects() async {
+    allProjects.clear();
+    final ref = database.ref('ProyectosInternosXUsuarios/');
+    DataSnapshot snapshot = await ref.get();
+    if (snapshot.exists) {
+      (snapshot.value as Map).forEach((key, value) {
+        (value as Map).forEach((key, value) {
+          allProjects.add(ProjectInternal.fromJson(value, key));
+        });
 
+      });
+
+
+    } else {
+      print('No Project Internal available.');
+    }
+    notifyListeners();
+  }
+  Future<void> getSharedProjects() async {
+    sharedProjects.clear();
+    String? idUser = _authProvider.uid;
+    allProjects.forEach((el) {
+      el.userInvitedProject.forEach((element) {
+        if (element.Uid == idUser)
+        {
+          sharedProjects.add(el);
+        }
+      });
+    });
+    notifyListeners();
+  }
   Future<void> updateTituloProyecto(String nuevoValor) async {
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
     await ref.update({'Nombre': nuevoValor});
   }
   Future<void> createProjectInternal(ProjectInternal projectInternal) async {
     AuthProvider().uid;
+    if (projectInternal.idUsuario == null)
+      projectInternal.idUsuario =  _authProvider.uid!;
     final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}');
     await ref
         .child(DateTime.now().millisecondsSinceEpoch.toString())
         .set(projectInternal.toJson());
   }
+
   Future<void> removeProjectInternal(ProjectInternal _projectInteral) async {
     final ref = database.ref(
         'ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInteral.idProyectoIntUsuario}');

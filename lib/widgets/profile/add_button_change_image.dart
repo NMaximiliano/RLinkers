@@ -37,6 +37,7 @@ class _AddButtonChangeImageState extends State<AddButtonChangeImage> {
         String _uid = Provider.of<AuthProvider>(context,listen: false).uid!;
         Uint8List? file = await FilePickerHelper().imagePicker();
         try {
+          widget.callbackFunction("", true);
           Provider.of<StorageProvider>(context, listen: false).init(
               context);
           String? url = await Provider.of<
@@ -45,10 +46,10 @@ class _AddButtonChangeImageState extends State<AddButtonChangeImage> {
               .now()
               .millisecondsSinceEpoch
               .toString(), "profile/$_uid/");
-          Provider.of<DBProfileProvider>(context,
+          await Provider.of<DBProfileProvider>(context,
               listen: false)
               .insertImageProfileURL(url!);
-              widget.callbackFunction(url);
+              await widget.callbackFunction(url, false);
 
         }catch(error){
           print('__error: ${error.toString()}');

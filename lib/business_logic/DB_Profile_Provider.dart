@@ -49,7 +49,22 @@ class DBProfileProvider with ChangeNotifier {
   Interest getInteresFromDescripcion(String descripcion) {
     return allInterests.firstWhere((e) => e.descripcion == descripcion);
   }
+  Future<List<Profile>> getAllProfiles() async{
+    profiles.clear();
+    final ref = database.ref('Usuarios');
+    DataSnapshot snapshot = await ref.get();
 
+    if (snapshot.exists) {
+      (snapshot.value as Map).forEach((key, value) {
+        profiles.add(Profile.fromJson(value, key));
+      });
+      // profiles.add(Profile.fromJson(snapshot.value as Map<String, dynamic>));
+    } else {
+      print('No data available.');
+    }
+    notifyListeners();
+    return profiles;
+  }
   Future<Profile> getProfileOfUser() async {
     //Leo las maquinas de la DB
 
