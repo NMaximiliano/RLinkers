@@ -88,6 +88,7 @@ class ProjectPageState extends State<ProjectPage> {
                 SizedBox(
                   height: 20,
                 ),
+                //proyectos propios
                 ChangeNotifierProvider<SectionProjectsProvider>.value(
                   value:SectionProjectsProvider()..init(enumEncabezadoProjects.internal, context),
                   child: ListBoxProjectInternal(
@@ -97,6 +98,7 @@ class ProjectPageState extends State<ProjectPage> {
                 SizedBox(
                   height: 20,
                 ),
+                //proyectos compartidos
                 ChangeNotifierProvider<SectionProjectsProvider>.value(
                   value:SectionProjectsProvider()..init(enumEncabezadoProjects.shared, context),
                   child: ListBoxProjectInternal(

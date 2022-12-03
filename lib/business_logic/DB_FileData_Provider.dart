@@ -30,7 +30,12 @@ class DBFileDataProvider with ChangeNotifier {
     DataSnapshot snapshot = await ref.get();
     if (snapshot.exists) {
       (snapshot.value as Map).forEach((key, value) {
-        filesDataProject.add(FilesDataProject.fromJson(value, key));
+        //valido que el usuario si no es el creador del proyecto unicamente vea sus archivos publicados
+        if(_projectInternal.idUsuario == _authProvider.uid)
+          filesDataProject.add(FilesDataProject.fromJson(value, key));
+        else
+          if(value["UsuarioID"] == _authProvider.uid)
+            filesDataProject.add(FilesDataProject.fromJson(value, key));
       });
 
     } else {
