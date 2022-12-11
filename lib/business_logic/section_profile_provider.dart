@@ -114,6 +114,11 @@ class SectionProfileProvider with ChangeNotifier {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  actions: [
+                    IconButton(onPressed: (){
+                      Navigator.pop(context,false);
+                    }, icon: Icon(Icons.close))
+                  ],
                   scrollable: true,
                   title: Text('Alta de Proyectos Externos'),
                   content: Container(
@@ -126,6 +131,7 @@ class SectionProfileProvider with ChangeNotifier {
                           children: <Widget>[
                             TextFormField(
                               controller: descriptionProjectimportedController,
+                              maxLines: 4,
                               decoration: InputDecoration(
                                 labelText: 'Descripcion',
                                 icon: Icon(Icons.title),

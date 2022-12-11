@@ -62,8 +62,8 @@ class DBFileDataProvider with ChangeNotifier {
     notifyListeners();
   }
   String getFullNameFromUserID(FilesDataProject _fileDataProject){
-    String nombre = profiles.firstWhere((e) => e.id == _authProvider.uid).nombre!;
-    String apellido = profiles.firstWhere((e) => e.id == _authProvider.uid).apellido!;
+    String nombre = profiles.firstWhere((e) => e.id == _fileDataProject.usuarioID).nombre!;
+    String apellido = profiles.firstWhere((e) => e.id == _fileDataProject.usuarioID).apellido!;
     return nombre + " " + apellido;
   }
   

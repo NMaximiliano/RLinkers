@@ -12,12 +12,13 @@ class NavigationDrawerWidget extends StatelessWidget {
    NavigationDrawerWidget({Key? key}) : super(key: key);
 
 
-  List items = ['Login/Registro', 'Home', 'Proyectos','Perfil','Mensajes'];
-  List icons = [Icons.login, Icons.home, Icons.article, Icons.assignment_ind,Icons.attach_email];
-  List isShownOnLogin = [true,false,false,false,false];
+  List items = ['Salir', 'Home', 'Proyectos','Perfil','Mensajes'];
+  List icons = [Icons.logout, Icons.home, Icons.article, Icons.assignment_ind,Icons.attach_email];
+  List isShownOnLogin = [false,false,false,false,false];
   @override
   Widget build(BuildContext context) {
-    return(Drawer(child: ListView(
+    return( (Provider.of<AuthProvider>(context).uid==null) ? SizedBox(width: 10,) :
+        Drawer(child: ListView(
       children: [
         FutureBuilder(
             future: Provider.of<DBProfileProvider>(context, listen: false)
@@ -38,7 +39,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
         for(String item in items)
         Visibility(
-          visible: isShownOnLogin[items.indexOf(item)] || Provider.of<AuthProvider>(context).uid!=null,
+          visible:  isShownOnLogin[items.indexOf(item)] || Provider.of<AuthProvider>(context).uid!=null,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
             child: Card(
@@ -73,6 +74,8 @@ class NavigationDrawerWidget extends StatelessWidget {
   selectedItem(BuildContext context, int index) {
     switch (index) {
       case 0:
+        Provider.of<AuthProvider>(context,listen: false).logout();
+       // Provider.of<AuthProvider>(context,listen: false).uid = null;
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => StructurePage(MyLoginPage(),enumIconos.sinIcono, "Login"),
         ));
@@ -95,4 +98,8 @@ class NavigationDrawerWidget extends StatelessWidget {
 
     }
   }
+}
+
+validarLogin() {
+
 }

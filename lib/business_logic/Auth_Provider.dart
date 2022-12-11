@@ -69,10 +69,11 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool logout() {
-    notifyListeners();
+  logout() {
 
-    return false;
+      FirebaseAuth.instance.signOut();
+
+
   }
 
   Future resetPassword(String email, BuildContext context) async {

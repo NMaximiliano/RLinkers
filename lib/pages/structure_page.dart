@@ -19,7 +19,7 @@ class StructurePage extends StatelessWidget {
 
     return Scaffold(
      // backgroundColor: Color(0xFF222222),
-      appBar: AppBar(
+      appBar:  AppBar(
         backgroundColor: Colors.blue.shade300,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
