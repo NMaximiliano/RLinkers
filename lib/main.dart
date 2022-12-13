@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<DBUsersInvitedProjectProvider>(create: (_) => DBUsersInvitedProjectProvider()),
       ]
       , child: MaterialApp(
-
         title: 'Flutter Demo',
         theme: ThemeData(
           // This is the theme of your application.
@@ -52,7 +51,13 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
+        elevatedButtonTheme: ElevatedButtonThemeData(
+              style:
+              ButtonStyle(side: MaterialStatePropertyAll<BorderSide>(BorderSide(width: 2)),
+                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.green)     //  <-- dark color
+              )),
           primarySwatch: Colors.blue,
+
         ),
         home: const MyHomePage(title: 'Flutter Demo Home Page'),
 

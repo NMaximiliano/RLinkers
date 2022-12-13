@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rlinkers/models/project_model.dart';
+import 'package:rlinkers/pages/project_add_users.dart';
+import 'package:rlinkers/pages/structure_page.dart';
 import '../widgets/Project/box_edit_project.dart';
 import '../widgets/Project/box_files_data_projects.dart';
-import '../widgets/Project/box_invite_users.dart';
+
 
 class EditProjectDetailPage extends StatefulWidget {
   //En vez de pasar dato por dato, paso un objeto de tipo Machine con todo
@@ -26,7 +29,29 @@ class _EditProjectDetailPageState extends State<EditProjectDetailPage> {
     child: Column(
       children: [
         BoxEditProject(projectInternal: widget.projectInternal),
-        BoxInviteUsers(projectInternal: widget.projectInternal),
+        SizedBox(
+          height: 20,
+        ),
+
+        ElevatedButton.icon(
+          icon: const Icon(Icons.dataset),
+          label: Text('Add Users',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily:
+                  GoogleFonts.getFont("Playfair Display")
+                      .fontFamily)),
+          onPressed: ()  {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    StructurePage(ProjectAddUsers(projectInternal: widget.projectInternal,), enumIconos.menu, "Add Users")));
+
+          },
+        ),
+        SizedBox(
+          height: 20,
+        ),
+
         BoxFilesDataProjects(projectInternal: widget.projectInternal),
       ],
     ),

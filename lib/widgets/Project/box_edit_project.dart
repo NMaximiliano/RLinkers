@@ -55,7 +55,7 @@ class _BoxEditProjectState extends State<BoxEditProject> {
                       height: 20,
                     ),
                     MyTextField(
-                      titleField: "Titulo Proyecto",
+                      titleField: "Project Title",
                       nameController: widget.titleProjectController,
                       initialValue: widget.projectInternal.title,
                     ),
@@ -102,7 +102,7 @@ class _BoxEditProjectState extends State<BoxEditProject> {
                       endIndent: 20,
                     ),
                     MyTextField(
-                      titleField: "Descripcion del Proyecto",
+                      titleField: "Project Description",
                       nameController: widget.descripcionProjectController,
                       initialValue: widget.projectInternal.description,
                     ),
@@ -126,7 +126,7 @@ class _BoxEditProjectState extends State<BoxEditProject> {
                         padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                         child: ElevatedButton(
                           child: Text(
-                            'Guardar',
+                            'Save',
                             style: TextStyle(
                                 fontSize: 20,
                                 fontFamily:

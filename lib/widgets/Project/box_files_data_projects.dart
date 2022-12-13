@@ -61,35 +61,7 @@ class _BoxFilesDataProjectsState extends State<BoxFilesDataProjects> {
               return Column(
                 children: [
 
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ElevatedButton.icon(
-                          icon: const Icon(Icons.dataset),
-                          label: Text('Subir datos del Proyecto',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily:
-                                      GoogleFonts.getFont("Playfair Display")
-                                          .fontFamily)),
-                          onPressed: ()  {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    StructurePage(ProjectData(projectInternal: widget.projectInternal,), enumIconos.menu, "Project Data")));
 
-                          },
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(
                     height: 30,
                   ),
@@ -105,7 +77,7 @@ class _BoxFilesDataProjectsState extends State<BoxFilesDataProjects> {
                     child: Column(
                       children: [
                         Text(
-                          "Archivos Subidos del Proyecto",
+                          "Project Files",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 24,
@@ -203,7 +175,38 @@ class _BoxFilesDataProjectsState extends State<BoxFilesDataProjects> {
                   const SizedBox(
                     height: 40,
                   ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.dataset),
+                          label: Text('Add Files From Project',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily:
+                                  GoogleFonts.getFont("Playfair Display")
+                                      .fontFamily)),
+                          onPressed: ()  {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    StructurePage(ProjectData(projectInternal: widget.projectInternal,), enumIconos.menu, "Project Data")));
+
+                          },
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+
                 ],
+
               );
             })));
   }

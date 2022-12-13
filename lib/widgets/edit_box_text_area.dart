@@ -12,7 +12,6 @@ class EditBoxTextArea extends StatelessWidget {
 
 
   TextEditingController nameController = TextEditingController();
-
  String? texto;
  // String tituloEncabezado;
 

@@ -7,7 +7,6 @@ class BoxAddPublicacion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var distanciaWidth = MediaQuery.of(context).size.width * 0.05;
-
     return (Container(
       width: 900,
       decoration: BoxDecoration(

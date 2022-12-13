@@ -12,7 +12,7 @@ import '../texto_publi.dart';
 
 class BoxInviteUsers extends StatefulWidget {
   BoxInviteUsers({Key? key, required this.projectInternal}) : super(key: key);
-  late ProjectInternal projectInternal;
+  ProjectInternal projectInternal;
 
   @override
   State<BoxInviteUsers> createState() => _BoxInviteUsersState();
