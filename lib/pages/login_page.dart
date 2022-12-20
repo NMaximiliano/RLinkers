@@ -33,7 +33,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.all(55),
-                      child: Text('Login de Usuario',
+                      child: Text('User Login',
                           style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.w500,
@@ -45,7 +45,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                     SizedBox(
                       height: 30,
                     ),
-                    MyTextField(titleField: "Usuario",
+                    MyTextField(titleField: "User",
                         nameController: nameController,
                         onSubmited: () {
                           if (_formKey.currentState != null) {
@@ -108,7 +108,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
                               StructurePage(MyRecoverUserPage(),
-                                  enumIconos.sinIcono, "Recuperacion de Usuario"),
+                                  enumIconos.sinIcono, "User Recovery"),
                         ));
                       },
                       child: Text(
@@ -148,7 +148,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
                                   StructurePage(MyRegisterPage(),
-                                      enumIconos.sinIcono, "Registro de Usuario"),
+                                      enumIconos.sinIcono, "Register"),
                             ));
                           },
                         )

@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<DBUsersInvitedProjectProvider>(create: (_) => DBUsersInvitedProjectProvider()),
       ]
       , child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'RLinkers',
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
 
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const MyHomePage(title: 'RLinkers'),
 
     ));
   }
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if(userCredentials!=null){
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              StructurePage(ProfilePage(), enumIconos.menu, "Perfil")));
+              StructurePage(ProfilePage(), enumIconos.menu, "Profile")));
     }
   });
   }
@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Provider.of<DBFileDataProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
     Provider.of<DBUsersInvitedProjectProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
 
-    return StructurePage(MyLoginPage(), enumIconos.sinIcono, 'Inicio');
+    return StructurePage(MyLoginPage(), enumIconos.sinIcono, 'Home');
     /* return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue.shade300,
