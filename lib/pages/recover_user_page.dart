@@ -28,7 +28,7 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(55),
                 child:  Text(
-                    'Recuperacion de Usuario',
+                    'User Recovery',
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w500,
@@ -36,7 +36,7 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
                         fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily)),
               ),
               SizedBox(height: 30,),
-              MyTextField(titleField: "Usuario",
+              MyTextField(titleField: "User",
                   nameController: emailController,
                   onSubmited: () {
                     if (formKey.currentState != null) {
@@ -54,7 +54,7 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
                     labelText: 'Usuario',
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (email) => email != null && !EmailValidator.validate(email) ? "Ingrese un mail valido" : null,
+                  validator: (email) => email != null && !EmailValidator.validate(email) ? "Enter a valid email" : null,
                   style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
                 ),
               ),
@@ -64,7 +64,7 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(55, 0, 55, 0),
                   child: ElevatedButton(
-                    child:  Text('Recuperar usuario', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
+                    child:  Text('User Recovery', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
                     onPressed: () {
                       Provider.of<AuthProvider>(context, listen:false).resetPassword(emailController.text, context);
                     },
@@ -73,7 +73,7 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
               SizedBox(height: 50,),
               Row(
                 children: <Widget>[
-                  Text('Usted no tiene cuenta?', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
+                  Text('No user yet?', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
                   TextButton(
                     child:  Text(
                       'Registro',
@@ -82,7 +82,7 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => StructurePage(MyRegisterPage(),
-                            enumIconos.sinIcono,"Registro de Usuario"),
+                            enumIconos.sinIcono,"Register"),
                       ));
 
                     },

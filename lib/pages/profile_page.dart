@@ -98,7 +98,7 @@ class ProfilePageState extends State<ProfilePage> {
                                                     listen: false)
                                                 .updateNombre(nuevoValor);
                                           },
-                                          titleField: "Nombre"),
+                                          titleField: "First Name"),
                                       MyTextField(
                                           nameController: surnameController,
                                           initialValue: miPerfil.apellido ?? '',
@@ -107,7 +107,7 @@ class ProfilePageState extends State<ProfilePage> {
                                                     listen: false)
                                                 .updateApellido(nuevoValor);
                                           },
-                                          titleField: "Apellido"),
+                                          titleField: "Last Name"),
                                       MyTextField(
                                         nameController: tituloCargoController,
                                         initialValue:
@@ -117,7 +117,7 @@ class ProfilePageState extends State<ProfilePage> {
                                                   listen: false)
                                               .updateTituloCargo(nuevoValor);
                                         },
-                                        titleField: "Titulo Cargo",
+                                        titleField: "Title/Charge",
                                       ),
                                       myDropDown(
                                           dropItems: paises,
@@ -155,7 +155,7 @@ class ProfilePageState extends State<ProfilePage> {
                                           listen: false)
                                       .updateNombre(nuevoValor);
                                 },
-                                titleField: "Nombre"),
+                                titleField: "First Name"),
                             MyTextField(
                                 nameController: surnameController,
                                 initialValue: miPerfil.apellido ?? '',
@@ -164,7 +164,7 @@ class ProfilePageState extends State<ProfilePage> {
                                           listen: false)
                                       .updateApellido(nuevoValor);
                                 },
-                                titleField: "Apellido"),
+                                titleField: "Last Name"),
                             MyTextField(
                               nameController: tituloCargoController,
                               initialValue: miPerfil.tituloCargo ?? '',
@@ -172,7 +172,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 Provider.of<DBProfileProvider>(context, listen: false)
                                     .updateTituloCargo(nuevoValor);
                               },
-                              titleField: "Titulo Cargo",
+                              titleField: "Title/Charge",
                             ),
                             myDropDown(
                                 dropItems: paises,

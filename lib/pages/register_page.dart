@@ -58,9 +58,9 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
               SizedBox(
                 height: 30,
               ),
-              MyTextField(titleField: "Nombre", nameController: nameController),
+              MyTextField(titleField: "First Name", nameController: nameController),
               MyTextField(
-                  titleField: "Apellido", nameController: surnameController),
+                  titleField: "Last Name", nameController: surnameController),
               myDropDown(
                   dropItems: paises,
                   chosenValue: _chosenPaises = paises.first,
@@ -71,7 +71,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                         .updateLugarNacimiento(value);
                   }),
               MyDatePicker(
-                  titleField: "Fecha de Nacimiento",
+                  titleField: "Birth date",
                   nameController: dateBirthController),
               MyTextField(titleField: "Mail", nameController: mailController),
               MyTextField(
@@ -80,7 +80,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                 passwordController: passwordController,
               ),
               MyTextField(
-                  titleField: "Repetir Password",
+                  titleField: "Repeat Password",
                   nameController: repeatPasswordController),
               MyValidationPassword(
                 passwordController: repeatPasswordController,
@@ -106,11 +106,11 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                             // you'd often call a server or save the information in a database.
                             if (EmailValidator.validate(mailController.text)) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Email valido')),
+                                const SnackBar(content: Text('Valid email')),
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Email Invalido')),
+                                const SnackBar(content: Text('Invalid email')),
                               );
                               return;
                             }
@@ -119,7 +119,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content:
-                                        Text('Los password son distintos')),
+                                        Text('Password does not match')),
                               );
                               return;
                             }
@@ -139,14 +139,14 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text('Revise los datos ingresados')),
+                                  content: Text('Please review the input data')),
                             );
                             return;
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('El current State es Null')),
+                                content: Text('Current State is Null')),
                           );
                         }
                       })),
