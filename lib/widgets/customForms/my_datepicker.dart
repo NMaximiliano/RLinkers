@@ -50,7 +50,7 @@ class _MyDatePickerState extends State<MyDatePicker> {
           final date = await showDatePicker(
 
               context: context,
-              firstDate: DateTime(1960),
+              firstDate: DateTime(1900),
               initialDate: DateTime.now(),
               lastDate: DateTime(2100));
           if (date != null) {
