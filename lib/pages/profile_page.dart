@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:rlinkers/business_logic/section_profile_provider.dart';
-import '../business_logic/DB_Profile_Provider.dart';
+import 'package:rlinkers/business_logic/provider/home_section/section_profile_provider.dart';
+import '../business_logic/provider/db/DB_Profile_Provider.dart';
 import '../business_logic/responsive_helper.dart';
 import '../generic_enums.dart';
 import '../models/user_model.dart';
@@ -60,7 +60,7 @@ class ProfilePageState extends State<ProfilePage> {
             );
           }
           miPerfil =
-              Provider.of<DBProfileProvider>(context, listen: false).profile;
+              Provider.of<DBProfileProvider>(context, listen: false).profile!;
 
           return SingleChildScrollView(
             child: Column(

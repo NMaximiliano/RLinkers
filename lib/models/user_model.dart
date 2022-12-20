@@ -83,6 +83,11 @@ class Profile {
 
     return data;
   }
+
+  @override
+  String toString() {
+    return this.nombre!;
+  }
 }
 
 

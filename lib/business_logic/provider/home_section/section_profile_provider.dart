@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/models/project_model.dart';
-import '../pages/profile_page.dart';
-import '../pages/structure_page.dart';
-import 'DB_Profile_Provider.dart';
+import '../../../pages/profile_page.dart';
+import '../../../pages/structure_page.dart';
+import '../db/DB_Profile_Provider.dart';
 
 enum enumEncabezado {
   acercaDe,

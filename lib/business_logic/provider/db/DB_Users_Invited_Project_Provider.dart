@@ -1,19 +1,21 @@
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import '../models/project_model.dart';
-import '../models/user_invited_to_project.dart';
-import '../models/user_model.dart';
-import 'Auth_Provider.dart';
+import '../../../models/project_model.dart';
+import '../../../models/user_invited_to_project.dart';
+import '../../../models/user_model.dart';
+import '../../Auth_Provider.dart';
+
 import 'DB_Profile_Provider.dart';
 
 class DBUsersInvitedProjectProvider with ChangeNotifier {
   static FirebaseDatabase database = FirebaseDatabase.instance;
 
-  List<Profile> profiles = [];
+
   List<Profile> profilesInvited = [];
-  List<Profile> profilesDontInvited = [];
+  List<Profile> profilesNotInvited = [];
 
   List<UserInvitedProject> usersInvitedProject=[];
 
@@ -23,8 +25,10 @@ class DBUsersInvitedProjectProvider with ChangeNotifier {
   late Profile profile;
   late ProjectInternal projectInternal;
   late AuthProvider _authProvider;
-  void init(AuthProvider authProvider) {
-    _authProvider = authProvider;
+  late DBProfileProvider _dbProfileProvider;
+  void init(BuildContext context) {
+    _authProvider = Provider.of<AuthProvider>(context,listen: false);
+    _dbProfileProvider = Provider.of<DBProfileProvider>(context,listen: false);
   }
 
 
@@ -42,7 +46,6 @@ class DBUsersInvitedProjectProvider with ChangeNotifier {
   }
   Future<List<Profile>> getProfilesInvitedToProject(ProjectInternal projectInternal, BuildContext context) async {
     usersInvitedProject.clear();
-    profiles = await Provider.of<DBProfileProvider>(context, listen: false).getAllProfiles();
     final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${projectInternal.idProyectoIntUsuario}/Invitados');
     DataSnapshot snapshot = await ref.get();
     if (snapshot.exists) {
@@ -53,21 +56,21 @@ class DBUsersInvitedProjectProvider with ChangeNotifier {
     } else {
       print('No Users invited available.');
     }
-    notifyListeners();
 
-    usersInvitedProject.forEach((element) {
-      profilesInvited.add( profiles.firstWhere((e) => e.id == usersInvitedProject.firstWhere((userinvited) => userinvited.Uid == element.Uid).Uid) );
-    });
+    notifyListeners();
+    // usersInvitedProject.forEach((element) {
+    //   profilesInvited.add( profiles.firstWhere((e) => e.id == usersInvitedProject.firstWhere((userinvited) => userinvited.Uid == element.Uid).Uid) );
+    // }    );
 
     return profilesInvited;
   }
-  Future<List<Profile>> getProfilesDontInvited(ProjectInternal projectInternal, BuildContext context) async {
+  Future<void> getProfilesDontInvited(ProjectInternal projectInternal, BuildContext context) async {
     profilesInvited.clear();
     profilesInvited = await  getProfilesInvitedToProject(projectInternal, context);
-    profilesDontInvited = profiles;
+    profilesNotInvited = _dbProfileProvider.profiles;
     profilesInvited.forEach((profInvited) {
-      profilesDontInvited.removeWhere((element) => element.id ==profInvited.id);
+      profilesNotInvited.removeWhere((element) => element.id ==profInvited.id);
     });
-    return profilesDontInvited;
+    notifyListeners();
   }
 }

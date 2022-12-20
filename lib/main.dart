@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/Auth_Provider.dart';
-import 'package:rlinkers/business_logic/DB_FileData_Provider.dart';
-import 'package:rlinkers/business_logic/DB_Profile_Provider.dart';
-import 'package:rlinkers/business_logic/DB_Users_Invited_Project_Provider.dart';
+import 'package:rlinkers/business_logic/provider/db/DB_FileData_Provider.dart';
 import 'package:rlinkers/pages/login_page.dart';
 import 'package:rlinkers/pages/profile_page.dart';
 import 'package:rlinkers/pages/structure_page.dart';
-import 'business_logic/DB_Project_Provider.dart';
+
 import 'business_logic/Storage_Provider.dart';
+import 'business_logic/provider/db/DB_Profile_Provider.dart';
+import 'business_logic/provider/db/DB_Project_Provider.dart';
+import 'business_logic/provider/db/DB_Users_Invited_Project_Provider.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -53,9 +54,19 @@ class MyApp extends StatelessWidget {
           // is not restarted.
         elevatedButtonTheme: ElevatedButtonThemeData(
               style:
-              ButtonStyle(side: MaterialStatePropertyAll<BorderSide>(BorderSide(width: 2)),
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.green)     //  <-- dark color
-              )),
+              ButtonStyle(
+                overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.redAccent; //<-- SEE HERE
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.cyanAccent.shade700; //<-- SEE HERE
+                    return null; // Defer to the widget's default.
+                  },
+                ),
+              ),
+
+        ),
           primarySwatch: Colors.blue,
 
         ),
@@ -116,17 +127,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    //return StructurePage( HomePage(),iconos.sinIcono,'Home Page');
     Provider.of<DBProfileProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
     Provider.of<DBProjectProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
     Provider.of<DBFileDataProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
-    Provider.of<DBUsersInvitedProjectProvider>(context).init(Provider.of<AuthProvider>(context, listen: false));
+    Provider.of<DBUsersInvitedProjectProvider>(context).init(context);
 
     return StructurePage(MyLoginPage(), enumIconos.sinIcono, 'Inicio');
     /* return Scaffold(

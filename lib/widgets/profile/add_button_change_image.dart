@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 
 
 import '../../business_logic/Auth_Provider.dart';
-import '../../business_logic/DB_Profile_Provider.dart';
 import '../../business_logic/Storage_Provider.dart';
 import '../../business_logic/file_picker_helper.dart';
+import '../../business_logic/provider/db/DB_Profile_Provider.dart';
 
 class AddButtonChangeImage extends StatefulWidget {
   AddButtonChangeImage({Key? key, required this.callbackFunction}) : super(key: key);

@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:rlinkers/business_logic/DB_Users_Invited_Project_Provider.dart';
+
+import 'package:rlinkers/business_logic/provider/home_section/section_projects_provider.dart';
+import 'package:rlinkers/widgets/customForms/my_textfield.dart';
 
 import '../../business_logic/Auth_Provider.dart';
+import '../../business_logic/provider/db/DB_Users_Invited_Project_Provider.dart';
 import '../../business_logic/responsive_helper.dart';
 import '../../models/project_model.dart';
-import '../../models/user_model.dart';
 import '../texto_publi.dart';
 
 class BoxInviteUsers extends StatefulWidget {
@@ -22,18 +24,23 @@ class _BoxInviteUsersState extends State<BoxInviteUsers> {
   late String _uid;
   late String _projectInternalId;
   void initState() {
-    super.initState();
     _projectInternalId = widget.projectInternal.idProyectoIntUsuario!;
     _uid = Provider
         .of<AuthProvider>(context, listen: false)
         .uid!;
 
+    _getDataInit();
+    super.initState();
   }
-
+  void _getDataInit() async{
+    await Provider.of<DBUsersInvitedProjectProvider>(context, listen: false).getProfilesDontInvited(widget.projectInternal,context);
+  }
   @override
   Widget build(BuildContext context) {
+    SectionProjectsProvider model = Provider.of<SectionProjectsProvider>(context, listen: true);
    return( Container(
-      padding:const EdgeInsets.all(10),
+      padding:const EdgeInsets.all(30),
+      margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
       width:(MediaQuery.of(context).size.width<=850)? MediaQuery.of(context).size.width - 200 : MediaQuery.of(context).size.width - 400 ,
       decoration: BoxDecoration(
         border: Border.all(
@@ -43,7 +50,7 @@ class _BoxInviteUsersState extends State<BoxInviteUsers> {
       ),
       child: Column(
         children:[
-          Text("Invitar a Usuarios al Proyecto",
+          Text(model.textoEncabezado,
             textAlign:TextAlign.center,
             style:TextStyle(fontSize:24                            ,
                 fontFamily:GoogleFonts.getFont("Playfair Display").fontFamily),
@@ -51,17 +58,11 @@ class _BoxInviteUsersState extends State<BoxInviteUsers> {
           Divider(),
           Expanded(
               child:
-              FutureBuilder<List<Profile>>
-                (
-                //future: Provider.of<DBProfileProvider>(context, listen: false).getAllProfiles(),
-                future: Provider.of<DBUsersInvitedProjectProvider>(context, listen: false).getProfilesDontInvited(widget.projectInternal,context),
-                builder: (context,snapshot) {
-                  if (snapshot.hasData) {
-                    final files = snapshot.data!;
-                    return ListView.builder(
-                        itemCount: files.length,
+                    // provider of de la variable que va a quedar como autcomplete
+                     ListView.builder(
+                        itemCount: model.listProfiles.length,
                         itemBuilder: (context, index) {
-                          final profile = files[index];
+                          final profile = model.listProfiles[index];
                           String? id = profile.id;
                           return ListTile(
                               title:
@@ -129,17 +130,14 @@ class _BoxInviteUsersState extends State<BoxInviteUsers> {
                                   ),
                                 ],
                               ));
-                        });
-                  } else if (snapshot.hasError) {
-                    return const Center(
-                        child: Text('Error Occurred'));
-                  } else {
-                    return const Center(
-                        child: CircularProgressIndicator());
-                  }
-                },
-              )
-          )
+                        })
+
+              ),
+
+          Divider(),
+          SizedBox(height: 20,),
+          MyTextField(titleField: "Profiles",onChanged: (value){model.functionForOnChanged!(value);},)
+
         ],
       ),
       height : 300,

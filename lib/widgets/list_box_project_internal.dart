@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rlinkers/pages/project_detail.dart';
 import 'package:rlinkers/widgets/texto_publi.dart';
 import '../business_logic/responsive_helper.dart';
-import '../business_logic/section_projects_provider.dart';
+import '../business_logic/provider/home_section/section_projects_provider.dart';
 import '../models/project_model.dart';
 import '../pages/edit_project_detail_page.dart';
 import '../pages/structure_page.dart';
@@ -99,6 +99,7 @@ class ListBoxProjectInternal extends StatelessWidget {
                           Icons.zoom_in,
                           color: Colors.blueAccent.shade100,
                         ),
+                        tooltip: "ver Detalles del Proyecto",
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => StructurePage(
@@ -128,6 +129,7 @@ class ListBoxProjectInternal extends StatelessWidget {
                             ],
                           ),
                           child: IconButton(
+                            tooltip: "Editar Proyecto",
                             icon: Icon(
                               Icons.edit_calendar_outlined,
                               color: Colors.redAccent.shade100,

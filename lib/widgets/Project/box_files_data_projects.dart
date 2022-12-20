@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:rlinkers/models/project_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../business_logic/Auth_Provider.dart';
-import '../../business_logic/DB_FileData_Provider.dart';
+import '../../business_logic/provider/db/DB_FileData_Provider.dart';
 import '../../business_logic/responsive_helper.dart';
 import '../../pages/project_data.dart';
 import '../../pages/structure_page.dart';

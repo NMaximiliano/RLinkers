@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:rlinkers/models/project_model.dart';
 import 'package:rlinkers/models/user_invited_to_project.dart';
 import 'package:rlinkers/models/user_model.dart';
-import 'Auth_Provider.dart';
+import '../../Auth_Provider.dart';
 
 class DBProjectProvider with ChangeNotifier {
   //ChangeNotifier para poder usarlo como Provider

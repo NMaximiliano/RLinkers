@@ -3,46 +3,100 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
+import 'package:rlinkers/business_logic/provider/db/DB_Users_Invited_Project_Provider.dart';
 import 'package:rlinkers/models/project_model.dart';
+import 'package:rlinkers/models/user_model.dart';
 import 'package:rlinkers/pages/project_page.dart';
-import '../pages/structure_page.dart';
-import 'DB_Project_Provider.dart';
-
+import '../../../pages/structure_page.dart';
+import '../db/DB_Profile_Provider.dart';
+import '../db/DB_Project_Provider.dart';
 
 enum enumEncabezadoProjects {
   general,
   internal,
   projectsImported,
-  internalDetail, shared
+  internalDetail,
+  shared,
+  usersInvited
 }
 
 class SectionProjectsProvider with ChangeNotifier {
+
+  SectionProjectsProvider(enumEncabezadoProjects strEncabezado, BuildContext context){
+  init(strEncabezado, context);
+  notifyListeners();
+  }
+
   final _formProjectInternalKey = GlobalKey<FormState>();
-  dynamic functionToUse;
+  Function(String?)? functionForOnChanged;
+  Function()? functionForOnPressed;
+  String textoBusqueda ='';
   dynamic functionDeleteProjectnternal;
   IconData iconToShow = Icons.accessibility;
   bool buttonVisible = true;
   String textoEncabezado = "";
+  var profiles;
+
+  List<Profile> searchProfile = [];
+  late DBProfileProvider _dbProfileProvider;
+  late DBUsersInvitedProjectProvider _dbUsersInvitedProjectProvider;
 
   ProjectInternal? _projectInternal;
 
+  List<Profile> _listProfiles = [];
+
+  List<Profile> get listProfiles => _listProfiles;
+
+  set listProfiles(List<Profile> value) {
+    _listProfiles = value;
+    notifyListeners();
+  }
+
+
   init(enumEncabezadoProjects strEncabezado, context) {
+    _dbProfileProvider = Provider.of<DBProfileProvider>(context,listen: true);
+    _dbUsersInvitedProjectProvider = Provider.of<DBUsersInvitedProjectProvider>(context,listen: true);
     switch (strEncabezado) {
       case enumEncabezadoProjects.shared:
         buttonVisible = false;
         textoEncabezado = "Proyectos Compartidos";
+        break;
+      case enumEncabezadoProjects.usersInvited:
+
+
+       // profiles = Provider.of<DBProfileProvider>(context,
+       //      listen: false)
+       //      .profiles;
+        listProfiles = _dbUsersInvitedProjectProvider.profilesNotInvited;
+        profiles = _dbProfileProvider.profiles;
+        List<Profile> searchProfile = [];
+        buttonVisible = false;
+        textoEncabezado = "Project - AddUsers";
+        TextEditingController searchProfilesController =
+        TextEditingController();
+        updateListProfiles();
+        functionForOnChanged = (String? value) {
+          textoBusqueda = value??'';
+          searchProfile =  profiles.where((Profile element) {
+            print(element.toString());
+            print(value.toString());
+            return element.nombre!.toLowerCase().contains(value!.toLowerCase()) || element.apellido!.toLowerCase().contains(value!.toLowerCase());
+          }).toList();
+        print(searchProfile[0].nombre.toString() +' '+searchProfile[0].apellido.toString());
+          updateListProfiles();
+        };
         break;
       case enumEncabezadoProjects.internal:
         iconToShow = Icons.edit;
         textoEncabezado = "Proyectos Activos:";
         iconToShow = Icons.add;
         TextEditingController descriptionProjectInternalController =
-        TextEditingController();
+            TextEditingController();
         TextEditingController titleProjectInternalController =
-        TextEditingController();
+            TextEditingController();
         TextEditingController dateTimeProjectInternalController =
-        TextEditingController();
-        functionToUse = () {
+            TextEditingController();
+        functionForOnPressed = () {
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -77,7 +131,7 @@ class SectionProjectsProvider with ChangeNotifier {
                                 icon: Icon(Icons.link),
                               ),
                               validator: (value) {
-                                if (value == null || value.isEmpty ) {
+                                if (value == null || value.isEmpty) {
                                   return 'Ingrese una descripcion';
                                 }
                                 return null;
@@ -92,13 +146,14 @@ class SectionProjectsProvider with ChangeNotifier {
                               onTap: () async {
                                 await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now() ,
+                                  initialDate: DateTime.now(),
                                   firstDate: DateTime(1945),
                                   lastDate: DateTime(2023),
                                 ).then((selectedDate) {
                                   if (selectedDate != null) {
                                     dateTimeProjectInternalController.text =
-                                        DateFormat('dd/MM/yyyy').format(selectedDate);
+                                        DateFormat('dd/MM/yyyy')
+                                            .format(selectedDate);
                                   }
                                 });
                               },
@@ -114,21 +169,33 @@ class SectionProjectsProvider with ChangeNotifier {
                             ),
                             TextButton(
                               onPressed: () {
-
-                                if (_formProjectInternalKey.currentState!.validate()) {
+                                if (_formProjectInternalKey.currentState!
+                                    .validate()) {
                                   // If the form is valid, display a snackbar. In the real world,
                                   // you'd often call a server or save the information in a database.
 
-                                  DateTime dateProjectImported = Jiffy(dateTimeProjectInternalController.text, "dd/MM/yyyy").dateTime ;
+                                  DateTime dateProjectImported = Jiffy(
+                                          dateTimeProjectInternalController
+                                              .text,
+                                          "dd/MM/yyyy")
+                                      .dateTime;
 
                                   _projectInternal = ProjectInternal(
-                                      date: dateProjectImported.millisecondsSinceEpoch,
-                                      description: descriptionProjectInternalController.text,
-                                      title: titleProjectInternalController.text,
-                                    idUsuario: Provider.of<DBProjectProvider>(context, listen: false).authProvider.uid!
-                                  );
+                                      date: dateProjectImported
+                                          .millisecondsSinceEpoch,
+                                      description:
+                                          descriptionProjectInternalController
+                                              .text,
+                                      title:
+                                          titleProjectInternalController.text,
+                                      idUsuario: Provider.of<DBProjectProvider>(
+                                              context,
+                                              listen: false)
+                                          .authProvider
+                                          .uid!);
 
-                                  Provider.of<DBProjectProvider>(context, listen: false)
+                                  Provider.of<DBProjectProvider>(context,
+                                          listen: false)
                                       .createProjectInternal(_projectInternal!);
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => StructurePage(
@@ -137,7 +204,6 @@ class SectionProjectsProvider with ChangeNotifier {
                                         "Proyectos"),
                                   ));
                                 }
-
                               },
                               child: Text("Crear Proyecto"),
                             )
@@ -148,7 +214,6 @@ class SectionProjectsProvider with ChangeNotifier {
                   ),
                 );
               });
-
         };
         functionDeleteProjectnternal = (ProjectInternal projectInternal) {
           showDialog(
@@ -160,18 +225,18 @@ class SectionProjectsProvider with ChangeNotifier {
                       "Esta seguro que quiere borrar el dato seleccionado"),
                   icon: Icon(Icons.warning_amber),
                   content: Container(
-                    child: TextButton(onPressed: () {
-                      Provider.of<DBProjectProvider>(context, listen: false).removeProjectInternal(
-                        projectInternal,
-                      );
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StructurePage(
-                            ProjectPage(),
-                            enumIconos.menu,
-                            "Proyectos"),
-                      ));
-                    }, child: Text("OK"),
-
+                    child: TextButton(
+                      onPressed: () {
+                        Provider.of<DBProjectProvider>(context, listen: false)
+                            .removeProjectInternal(
+                          projectInternal,
+                        );
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => StructurePage(
+                              ProjectPage(), enumIconos.menu, "Proyectos"),
+                        ));
+                      },
+                      child: Text("OK"),
                     ),
                   ),
                 );
@@ -181,7 +246,21 @@ class SectionProjectsProvider with ChangeNotifier {
       case enumEncabezadoProjects.internalDetail:
         buttonVisible = false;
         textoEncabezado = "Detalle de Proyectos";
-
     }
   }
+
+  void updateListProfiles() {
+       if(textoBusqueda.isNotEmpty&&searchProfile.isNotEmpty){
+      listProfiles = searchProfile;
+    }else{
+      listProfiles = _dbUsersInvitedProjectProvider.profilesNotInvited;
+    }
+       notifyListeners();
+  }
+
+  loadProfilesNotInvited(List<Profile> profilesNotInvited) {
+    listProfiles = _dbUsersInvitedProjectProvider.profilesNotInvited;
+  }
+
+
 }

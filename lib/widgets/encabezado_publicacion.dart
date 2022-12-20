@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:rlinkers/business_logic/section_profile_provider.dart';
+import 'package:rlinkers/business_logic/provider/home_section/section_profile_provider.dart';
 
 class EncabezadoPubli extends StatefulWidget {
 

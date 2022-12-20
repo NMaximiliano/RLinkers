@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../business_logic/DB_Profile_Provider.dart';
+
+import '../business_logic/provider/db/DB_Profile_Provider.dart';
 import '../pages/profile_page.dart';
 import '../pages/structure_page.dart';
 import 'customForms/my_drop_down.dart';

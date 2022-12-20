@@ -1,8 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import '../models/project_model.dart';
-import '../models/user_model.dart';
-import 'Auth_Provider.dart';
+import '../../../models/project_model.dart';
+import '../../../models/user_model.dart';
+import '../../Auth_Provider.dart';
 
 class DBFileDataProvider with ChangeNotifier {
   //ChangeNotifier para poder usarlo como Provider

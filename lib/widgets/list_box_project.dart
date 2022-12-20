@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/widgets/texto_publi.dart';
 import '../business_logic/responsive_helper.dart';
-import '../business_logic/section_profile_provider.dart';
+import '../business_logic/provider/home_section/section_profile_provider.dart';
 import '../models/project_model.dart';
 import 'encabezado_publicacion.dart';
 import 'package:url_launcher/url_launcher.dart';

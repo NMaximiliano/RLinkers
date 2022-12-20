@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../business_logic/section_projects_provider.dart';
+import '../business_logic/provider/home_section/section_projects_provider.dart';
 
 class EncabezadoPubliProyectos extends StatefulWidget {
 
@@ -49,7 +49,7 @@ class _EncabezadoPubliProyectosState extends State<EncabezadoPubliProyectos> {
         disabledColor: Colors.amber,
         iconSize: 30,
         onPressed: () {
-          model.functionToUse();
+          model.functionForOnPressed!();
         },
       )
           : SizedBox.shrink(),

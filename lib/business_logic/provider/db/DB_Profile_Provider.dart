@@ -2,8 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rlinkers/models/project_model.dart';
 import 'package:rlinkers/models/user_model.dart';
-import '../models/interest_model.dart';
-import 'Auth_Provider.dart';
+import '../../../models/interest_model.dart';
+import '../../Auth_Provider.dart';
 
 class DBProfileProvider with ChangeNotifier {
   //ChangeNotifier para poder usarlo como Provider
@@ -21,35 +21,37 @@ class DBProfileProvider with ChangeNotifier {
   List<Interest> interestsOfUser = [];
   late ProjectImported projectImported;
   late AuthProvider _authProvider;
-  late Profile profile;
+  Profile? profile;
+
   void init(AuthProvider authProvider) {
     _authProvider = authProvider;
   }
 
-
   AuthProvider get authProvider => _authProvider;
 
   Future<void> loadLoggedUserData() async {
-    await getProfileOfUser();
+    await getAllProfiles();
+    getProfileOfUser();
     await getAllInterests();
     await getInterestsOfUser();
     await getProjectsImportedFromUserId();
   }
 
-  List getMatchingIntereses() {
+  void getMatchingIntereses() {
     interestsOfUser.clear();
     //Esto mezcla los datos en interesesUsuario y la variable Intereses,
     // en un list llamado matchingIntereses
     for (String miInteresId in interestsIdsOfUser) {
       interestsOfUser.add(allInterests.firstWhere((e) => e.id == miInteresId));
     }
-    return interestsOfUser;
+    return;
   }
 
   Interest getInteresFromDescripcion(String descripcion) {
     return allInterests.firstWhere((e) => e.descripcion == descripcion);
   }
-  Future<List<Profile>> getAllProfiles() async{
+
+  Future<void> getAllProfiles() async {
     profiles.clear();
     final ref = database.ref('Usuarios');
     DataSnapshot snapshot = await ref.get();
@@ -63,29 +65,13 @@ class DBProfileProvider with ChangeNotifier {
       print('No data available.');
     }
     notifyListeners();
-    return profiles;
+    return;
   }
-  Future<Profile> getProfileOfUser() async {
-    //Leo las maquinas de la DB
 
-    profiles.clear();
-    //final ref = database.ref('Usuarios/${_authProvider.uid}');
-    final ref = database.ref('Usuarios');
-    DataSnapshot snapshot = await ref.get();
-
-    if (snapshot.exists) {
-      (snapshot.value as Map).forEach((key, value) {
-        profiles.add(Profile.fromJson(value, key));
-      });
-     // profiles.add(Profile.fromJson(snapshot.value as Map<String, dynamic>));
-    } else {
-      print('No data available.');
-    }
-    //usuarios.sort((a, b) => a.t4bMSOFM5bgp81BoCOCKm5TUdbp2.toLowerCase().compareTo(b.t4bMSOFM5bgp81BoCOCKm5TUdbp2.mail.toLowerCase()));
-    notifyListeners();
+  void getProfileOfUser() {
     profile = profiles.firstWhere((e) => e.id == _authProvider.uid);
 
-    return profile;
+    return;
   }
 
   Future<void> removeStop(Usuario usuarios) async {
@@ -119,7 +105,7 @@ class DBProfileProvider with ChangeNotifier {
     await ref.set(perfil.toJson());
   }
 
-  Future<List<Interest>> getAllInterests() async {
+  Future<void> getAllInterests() async {
     allInterests.clear();
     final ref = database.ref('Intereses/');
     DataSnapshot snapshot = await ref.get();
@@ -132,9 +118,10 @@ class DBProfileProvider with ChangeNotifier {
       print('No data available.');
     }
     notifyListeners();
-    return allInterests;
+    return;
   }
-  Future<List<ProjectImported>> getProjectsImportedFromUserId() async {
+
+  Future<void> getProjectsImportedFromUserId() async {
     projectsImported.clear();
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
     DataSnapshot snapshot = await ref.get();
@@ -146,9 +133,10 @@ class DBProfileProvider with ChangeNotifier {
       print('No Project Imported available.');
     }
     notifyListeners();
-    return projectsImported;
+    return;
   }
-  Future<List<String>> getInterestsOfUser() async {
+
+  Future<void> getInterestsOfUser() async {
     interestsIdsOfUser.clear();
     final ref = database.ref('InteresesUsuarios/${_authProvider.uid}');
     DataSnapshot snapshot = await ref.get();
@@ -162,41 +150,51 @@ class DBProfileProvider with ChangeNotifier {
     }
     notifyListeners();
     getMatchingIntereses();
-    return interestsIdsOfUser;
+    return;
   }
+
   Future<void> updateTituloProyecto(String nuevoValor) async {
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
     await ref.update({'Nombre': nuevoValor});
   }
+
   Future<void> updateNombre(String nuevoValor) async {
     final ref = database.ref('Usuarios/${_authProvider.uid}');
     await ref.update({'Nombre': nuevoValor});
   }
+
   Future<void> updateApellido(String nuevoValor) async {
     final ref = database.ref('Usuarios/${_authProvider.uid}');
     await ref.update({'Apellido': nuevoValor});
   }
+
   Future<void> updateTituloCargo(
     String nuevoValor,
   ) async {
     final ref = database.ref('Usuarios/${_authProvider.uid}');
     await ref.update({'TituloCargo': nuevoValor});
   }
+
   Future<void> updateLugarNacimiento(String nuevoValor) async {
     final ref = database.ref('Usuarios/${_authProvider.uid}');
     await ref.update({'LugarNacimiento': nuevoValor});
   }
+
   Future<void> createProjectImported(ProjectImported projectImported) async {
     AuthProvider().uid;
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
-    await ref.child(DateTime.now().millisecondsSinceEpoch.toString()).set(projectImported.toJson());
+    await ref
+        .child(DateTime.now().millisecondsSinceEpoch.toString())
+        .set(projectImported.toJson());
   }
-  Future<ProjectImported> getProjectsImportedFromId(String idProjectImported) async{
-   // projectImported;
+
+  Future<ProjectImported> getProjectsImportedFromId(
+      String idProjectImported) async {
+    // projectImported;
     final ref = database.ref('ProyectosExternosXUsuarios/${idProjectImported}');
     DataSnapshot snapshot = await ref.get();
     if (snapshot.exists) {
-     projectImported = snapshot as ProjectImported;
+      projectImported = snapshot as ProjectImported;
     } else {
       print('No get Project Imported .');
     }
@@ -204,8 +202,10 @@ class DBProfileProvider with ChangeNotifier {
 
     return projectImported;
   }
+
   Future<void> removeProjectImported(ProjectImported _projectImported) async {
-    final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}/${_projectImported.idProyectoExtUsuario}');
+    final ref = database.ref(
+        'ProyectosExternosXUsuarios/${_authProvider.uid}/${_projectImported.idProyectoExtUsuario}');
     await ref.remove();
   }
 

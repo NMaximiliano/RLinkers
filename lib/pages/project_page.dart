@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/models/project_model.dart';
-import '../business_logic/DB_Project_Provider.dart';
-import '../business_logic/section_projects_provider.dart';
+import '../business_logic/provider/db/DB_Project_Provider.dart';
+import '../business_logic/provider/home_section/section_projects_provider.dart';
 import '../widgets/list_box_project_internal.dart';
 
 late List<ProjectInternal> myProjectInternal;
@@ -90,7 +90,7 @@ class ProjectPageState extends State<ProjectPage> {
                 ),
                 //proyectos propios
                 ChangeNotifierProvider<SectionProjectsProvider>.value(
-                  value:SectionProjectsProvider()..init(enumEncabezadoProjects.internal, context),
+                  value:SectionProjectsProvider(enumEncabezadoProjects.internal, context),
                   child: ListBoxProjectInternal(
                     proyectosList: Provider.of<DBProjectProvider>(context, listen: false).projectsInternal,
                   ),
@@ -100,7 +100,7 @@ class ProjectPageState extends State<ProjectPage> {
                 ),
                 //proyectos compartidos
                 ChangeNotifierProvider<SectionProjectsProvider>.value(
-                  value:SectionProjectsProvider()..init(enumEncabezadoProjects.shared, context),
+                  value:SectionProjectsProvider(enumEncabezadoProjects.shared, context),
                   child: ListBoxProjectInternal(
                     proyectosList: Provider.of<DBProjectProvider>(context, listen: false).sharedProjects,
                   ),
