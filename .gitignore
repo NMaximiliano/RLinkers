@@ -48,3 +48,6 @@ app.*.map.json
 /.vs/RLinkers/FileContentIndex
 /.vs/RLinkers/v17
 /.vs
+/windows/ (2).gitignore
+/.gitignore
+/.gitignore
