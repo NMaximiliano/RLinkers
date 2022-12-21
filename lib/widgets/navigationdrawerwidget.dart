@@ -17,7 +17,7 @@ class NavigationDrawerWidget extends StatefulWidget {
 }
 
 class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
-  List items = ['Salir', 'Home', 'Proyectos','Perfil','Mensajes'];
+  List items = ['Logout', 'Home', 'Projects','Profile','Messages'];
 
   List icons = [Icons.logout, Icons.home, Icons.article, Icons.assignment_ind,Icons.attach_email];
 
@@ -92,17 +92,17 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(HomePage(),enumIconos.sinIcono, "Inicio"),
+          builder: (context) => StructurePage(HomePage(),enumIconos.sinIcono, "Home"),
         ));
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(ProfilePage(), enumIconos.menu,"Perfil de Usuario"),
+          builder: (context) => StructurePage(ProfilePage(), enumIconos.menu,"User Profile"),
         ));
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StructurePage(ProjectPage(), enumIconos.menu,"Proyectos"),
+          builder: (context) => StructurePage(ProjectPage(), enumIconos.menu,"Projects"),
         ));
         break;
 

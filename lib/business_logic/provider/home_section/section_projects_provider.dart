@@ -59,7 +59,7 @@ class SectionProjectsProvider with ChangeNotifier {
     switch (strEncabezado) {
       case enumEncabezadoProjects.shared:
         buttonVisible = false;
-        textoEncabezado = "Proyectos Compartidos";
+        textoEncabezado = "Shared Projects";
         break;
       case enumEncabezadoProjects.usersInvited:
 
@@ -88,7 +88,7 @@ class SectionProjectsProvider with ChangeNotifier {
         break;
       case enumEncabezadoProjects.internal:
         iconToShow = Icons.edit;
-        textoEncabezado = "Proyectos Activos:";
+        textoEncabezado = "Projects:";
         iconToShow = Icons.add;
         TextEditingController descriptionProjectInternalController =
             TextEditingController();

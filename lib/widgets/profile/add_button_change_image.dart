@@ -25,7 +25,7 @@ class _AddButtonChangeImageState extends State<AddButtonChangeImage> {
     print("build method Switch"); // <-- setState triggers build here!
     return ElevatedButton(
       child: Text(
-        'Cambiar Imagen',
+        'Change Picture',
         style: TextStyle(
             fontSize: 10,
             fontFamily: GoogleFonts

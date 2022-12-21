@@ -4,7 +4,7 @@ import '../models/project_model.dart';
 class gridProyectos extends StatelessWidget {
    gridProyectos({ required this.project}) ;
   final ProjectImported project;
- // List<Proyectos> ProyectosList = List.generate(13, (index) => Proyectos(titulo: "Nombre1", link: "link2", fecha: DateTime.now().toString()))
+ // List<Proyectos> ProyectosList = List.generate(13, (index) => Proyectos(titulo: "name1", link: "link2", fecha: DateTime.now().toString()))
   @override
   Widget build(BuildContext context) {
     //final TextStyle textStyle = Theme.of(context).textTheme;

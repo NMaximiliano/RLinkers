@@ -238,7 +238,7 @@ class ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Text(
-                    "Puntaje",
+                    "Score",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 20,

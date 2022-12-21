@@ -28,7 +28,7 @@ class SectionProfileProvider with ChangeNotifier {
     switch (strEncabezado) {
       case enumEncabezado.acercaDe:
         iconToShow = Icons.save;
-        textoEncabezado = "Acerca de:";
+        textoEncabezado = "About me:";
         functionToUse = () {
           miPerfil.acercaDe = acercaDeController.text;
           miPerfil.nombre = nameController.text;
@@ -49,7 +49,7 @@ class SectionProfileProvider with ChangeNotifier {
 
       case enumEncabezado.pacientesTratados:
         iconToShow = Icons.save;
-        textoEncabezado = "Pacientes Tratados:";
+        textoEncabezado = "Treated Patients:";
         functionToUse = () {
           miPerfil.acercaDe = acercaDeController.text;
           miPerfil.nombre = nameController.text;
@@ -70,11 +70,11 @@ class SectionProfileProvider with ChangeNotifier {
       case enumEncabezado.intereses:
         // TODO: Handle this case.
         buttonVisible = false;
-        textoEncabezado = "Intereses:";
+        textoEncabezado = "Interests:";
         break;
       case enumEncabezado.proyectosExternas:
         buttonVisible = true;
-        textoEncabezado = "Proyectos Externos:";
+        textoEncabezado = "Projects:";
         iconToShow = Icons.add;
         TextEditingController descriptionProjectimportedController =
             TextEditingController();
@@ -89,7 +89,7 @@ class SectionProfileProvider with ChangeNotifier {
                 return AlertDialog(
                   scrollable: true,
                   title: Text(
-                      "Esta seguro que quiere borrar el dato seleccionado"),
+                      "Are you sure that you want to delete the selected item?"),
                   icon: Icon(Icons.warning_amber),
                   content: Container(
                     child: TextButton(onPressed: () {
@@ -100,7 +100,7 @@ class SectionProfileProvider with ChangeNotifier {
                         builder: (context) => StructurePage(
                             ProfilePage(),
                             enumIconos.menu,
-                            "Perfil de Usuario"),
+                            "User Profile"),
                       ));
                     }, child: Text("OK"),
 
@@ -120,7 +120,7 @@ class SectionProfileProvider with ChangeNotifier {
                     }, icon: Icon(Icons.close))
                   ],
                   scrollable: true,
-                  title: Text('Alta de Proyectos Externos'),
+                  title: Text('Add Projects'),
                   content: Container(
                     width: 500,
                     child: Padding(
@@ -133,12 +133,12 @@ class SectionProfileProvider with ChangeNotifier {
                               controller: descriptionProjectimportedController,
                               maxLines: 4,
                               decoration: InputDecoration(
-                                labelText: 'Descripcion',
+                                labelText: 'Description',
                                 icon: Icon(Icons.title),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una descripcion';
+                                  return 'Enter a description';
                                 }
                                 return null;
                               },
@@ -151,7 +151,7 @@ class SectionProfileProvider with ChangeNotifier {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty ) {
-                                  return 'Ingrese un link';
+                                  return 'Enter a link';
                                 }
                                 return null;
                               },
@@ -159,15 +159,15 @@ class SectionProfileProvider with ChangeNotifier {
                             TextFormField(
                               controller: dateTimeProjectimportedController,
                               decoration: InputDecoration(
-                                labelText: 'Fecha',
+                                labelText: 'Date',
                                 icon: Icon(Icons.date_range),
                               ),
                               onTap: () async {
                                 await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now() ,
-                                  firstDate: DateTime(1945),
-                                  lastDate: DateTime(2023),
+                                  firstDate: DateTime(1905),
+                                  lastDate: DateTime.now(),
                                 ).then((selectedDate) {
                                   if (selectedDate != null) {
                                     dateTimeProjectimportedController.text =
@@ -177,7 +177,7 @@ class SectionProfileProvider with ChangeNotifier {
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una fecha';
+                                  return 'Enter a date';
                                 }
                                 return null;
                               },
@@ -206,12 +206,12 @@ class SectionProfileProvider with ChangeNotifier {
                                     builder: (context) => StructurePage(
                                         ProfilePage(),
                                         enumIconos.menu,
-                                        "Perfil de Usuario"),
+                                        "User Profile"),
                                   ));
                                 }
 
                               },
-                              child: Text("Guardar"),
+                              child: Text("Save"),
                             )
                           ],
                         ),
