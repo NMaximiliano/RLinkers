@@ -112,7 +112,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                         ));
                       },
                       child: Text(
-                        'Olvido su Password',
+                        'Forgot your Password?',
                         style: TextStyle(
                             fontSize: 20,
                             fontFamily:
@@ -127,7 +127,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                     Row(
                       children: <Widget>[
                         Text(
-                          'Usted no tiene cuenta?',
+                          'Need an account?',
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily:
@@ -137,7 +137,7 @@ class _MyStatefulWidgetState extends State<MyLoginPage> {
                         ),
                         TextButton(
                           child: Text(
-                            'Registro',
+                            'Register',
                             style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts
