@@ -111,7 +111,7 @@ class _BoxEditProjectState extends State<BoxEditProject> {
                     ),
                     myDropDown(
                         dropItems: estados,
-                        chosenValue: widget.projectInternal.estado ?? 'Activo',
+                        chosenValue: widget.projectInternal.estado ?? 'Active',
                         choosingValue: (String value) {
                           _chosenEstado = value;
                           if (value != null) {

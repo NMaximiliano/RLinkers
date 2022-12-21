@@ -88,7 +88,7 @@ class _BoxAddFilesDataProjectState extends State<BoxAddFilesDataProject> {
                     width: 15,
                   ),
                   MyTextField(
-                    titleField: "Descripcion del archivo",
+                    titleField: "file description",
                     nameController: widget.descriptionFileProjectController,
                   ),
                   SizedBox(
@@ -101,7 +101,7 @@ class _BoxAddFilesDataProjectState extends State<BoxAddFilesDataProject> {
                       children: <Widget>[
                         ElevatedButton.icon(
                             icon: const Icon(Icons.dataset),
-                            label: Text('Subir Archivo',
+                            label: Text('Upload file',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily:
@@ -155,7 +155,7 @@ class _BoxAddFilesDataProjectState extends State<BoxAddFilesDataProject> {
                                 ),
                     child: Column(
                       children:[
-                        Text("Archivos Subidos del Proyecto",
+                        Text("Project Uploaded Files",
                           textAlign:TextAlign.center,
                           style:TextStyle(fontSize:24                            ,
                               fontFamily:GoogleFonts.getFont("Playfair Display").fontFamily),

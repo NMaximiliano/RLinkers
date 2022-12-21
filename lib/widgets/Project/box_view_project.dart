@@ -102,7 +102,7 @@ class _BoxViewProjectState extends State<BoxViewProject> {
               endIndent: 20,
             ),
             Text(
-              "Estado del Proyecto : ${widget.projectInternal.estado}",
+              "Project status : ${widget.projectInternal.estado}",
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
               style: TextStyle(

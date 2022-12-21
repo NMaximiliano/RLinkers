@@ -45,9 +45,9 @@ class AuthProvider with ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       late String errorText;
       if (e.code == 'user-not-found') {
-        errorText = 'El usuario no existe';
+        errorText = 'Username does not exist';
       } else if (e.code == 'wrong-password') {
-        errorText = 'Password Incorrecto';
+        errorText = 'Incorrect Password';
       } else {
         errorText = e.code;
       }
@@ -64,7 +64,7 @@ class AuthProvider with ChangeNotifier {
 
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              StructurePage(ProfilePage(), enumIconos.menu, "Perfil")));
+              StructurePage(ProfilePage(), enumIconos.menu, "User Profile")));
     }
     notifyListeners();
   }

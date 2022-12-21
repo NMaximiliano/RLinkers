@@ -99,7 +99,7 @@ class ListBoxProjectInternal extends StatelessWidget {
                           Icons.zoom_in,
                           color: Colors.blueAccent.shade100,
                         ),
-                        tooltip: "ver Detalles del Proyecto",
+                        tooltip: "see Project Details",
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => StructurePage(
@@ -107,7 +107,7 @@ class ListBoxProjectInternal extends StatelessWidget {
                                     projectInternal: project,
                                   ),
                                   enumIconos.menu,
-                                  "Detalle del Proyecto")));
+                                  "Project Detail")));
 
                         },
                       ),
@@ -129,7 +129,7 @@ class ListBoxProjectInternal extends StatelessWidget {
                             ],
                           ),
                           child: IconButton(
-                            tooltip: "Editar Proyecto",
+                            tooltip: "Edit Project",
                             icon: Icon(
                               Icons.edit_calendar_outlined,
                               color: Colors.redAccent.shade100,
@@ -142,7 +142,7 @@ class ListBoxProjectInternal extends StatelessWidget {
                                             projectInternal: project,
                                           ),
                                           enumIconos.menu,
-                                          "Detalle del Proyecto")));
+                                          "Project Detail")));
                             },
                           ),
                         ),
