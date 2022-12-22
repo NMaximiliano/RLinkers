@@ -15,7 +15,7 @@ class DBProjectProvider with ChangeNotifier {
       FirebaseDatabase.instance.ref('Usuarios/').onChildChanged;
 
   List<Profile> profiles = [];
-  List<UserInvitedProject> UsersInvitedProject=[];
+  List<UserInvitedProject> UsersInvitedProject = [];
   List<ProjectImported> projectsImported = [];
   List<ProjectInternal> projectsInternal = [];
   List<ProjectInternal> allProjects = [];
@@ -27,10 +27,10 @@ class DBProjectProvider with ChangeNotifier {
   late ProjectInternal projectInternal;
   late AuthProvider _authProvider;
 
-
   void init(AuthProvider authProvider) {
     _authProvider = authProvider;
   }
+
   AuthProvider get authProvider => _authProvider;
   Future<void> loadLoggedUserData() async {
     await getProjectsInternalFromUserId();
@@ -48,7 +48,7 @@ class DBProjectProvider with ChangeNotifier {
         projectsInternal.add(ProjectInternal.fromJson(value, key));
       });
     } else {
-      print('No Project Internal available.');
+      print('No available projects.');
     }
     notifyListeners();
     return projectsInternal;
@@ -57,24 +57,26 @@ class DBProjectProvider with ChangeNotifier {
   Future<ProjectInternal> getFilesFromProjectInternal() async {
     filesDataProject.clear();
     projectsInternal.forEach((_projectInternal) async {
-      final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/ArchivosSubidos');
+      final ref = database.ref(
+          'ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/ArchivosSubidos');
       DataSnapshot snapshot = await ref.get();
       if (snapshot.exists) {
         (snapshot.value as Map).forEach((key, value) {
           filesDataProject.add(FilesDataProject.fromJson(value, key));
         });
-        projectsInternal.firstWhere((e) => e.idProyectoIntUsuario == _projectInternal.idProyectoIntUsuario).filesDataProject = filesDataProject;
-
+        projectsInternal
+            .firstWhere((e) =>
+                e.idProyectoIntUsuario == _projectInternal.idProyectoIntUsuario)
+            .filesDataProject = filesDataProject;
       } else {
-        print('No Files Data available.');
+        print('No available files.');
       }
       notifyListeners();
-
-
     });
 
     return projectInternal;
   }
+
   Future<void> getAllProjects() async {
     allProjects.clear();
     final ref = database.ref('ProyectosInternosXUsuarios/');
@@ -84,36 +86,35 @@ class DBProjectProvider with ChangeNotifier {
         (value as Map).forEach((key, value) {
           allProjects.add(ProjectInternal.fromJson(value, key));
         });
-
       });
-
-
     } else {
-      print('No Project Internal available.');
+      print('No available projects.');
     }
     notifyListeners();
   }
+
   Future<void> getSharedProjects() async {
     sharedProjects.clear();
     String? idUser = _authProvider.uid;
     allProjects.forEach((el) {
       el.userInvitedProject.forEach((element) {
-        if (element.Uid == idUser)
-        {
+        if (element.Uid == idUser) {
           sharedProjects.add(el);
         }
       });
     });
     notifyListeners();
   }
+
   Future<void> updateTituloProyecto(String nuevoValor) async {
     final ref = database.ref('ProyectosExternosXUsuarios/${_authProvider.uid}');
     await ref.update({'Nombre': nuevoValor});
   }
+
   Future<void> createProjectInternal(ProjectInternal projectInternal) async {
     AuthProvider().uid;
     if (projectInternal.idUsuario == null)
-      projectInternal.idUsuario =  _authProvider.uid!;
+      projectInternal.idUsuario = _authProvider.uid!;
     final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}');
     await ref
         .child(DateTime.now().millisecondsSinceEpoch.toString())
@@ -126,19 +127,20 @@ class DBProjectProvider with ChangeNotifier {
     await ref.remove();
   }
 
-  Future<void>  insertImageProjectURL(String downloadURL,ProjectInternal _projectInternal) async {
-    final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/');
+  Future<void> insertImageProjectURL(
+      String downloadURL, ProjectInternal _projectInternal) async {
+    final ref = database.ref(
+        'ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/');
     await ref.update({'ImagenUrl': downloadURL});
   }
 
-  Future<void> updateProjectInternal(ProjectInternal _projectInternal) async{
-    final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/');
+  Future<void> updateProjectInternal(ProjectInternal _projectInternal) async {
+    final ref = database.ref(
+        'ProyectosInternosXUsuarios/${_authProvider.uid}/${_projectInternal.idProyectoIntUsuario}/');
     if (ref == null) {
       createProjectInternal(_projectInternal);
     } else {
       await ref.update(_projectInternal.toJson());
     }
   }
-
-
 }

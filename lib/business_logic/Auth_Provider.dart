@@ -7,7 +7,7 @@ import '../pages/structure_page.dart';
 class AuthProvider with ChangeNotifier {
   //ChangeNotifier es para los Provider que necesitan
 
-   String? uid;
+  String? uid;
 
   bool get isLoggedIn => uid != null;
 
@@ -47,7 +47,7 @@ class AuthProvider with ChangeNotifier {
       if (e.code == 'user-not-found') {
         errorText = 'Username does not exist';
       } else if (e.code == 'wrong-password') {
-        errorText = 'Incorrect Password';
+        errorText = 'Wrong Password';
       } else {
         errorText = e.code;
       }
@@ -70,18 +70,21 @@ class AuthProvider with ChangeNotifier {
   }
 
   logout() {
-
-      FirebaseAuth.instance.signOut();
-
-
+    FirebaseAuth.instance.signOut();
   }
 
   Future resetPassword(String email, BuildContext context) async {
-    showDialog(context: context, barrierDismissible: false, builder: (context) => Center(child: CircularProgressIndicator(),));
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Se envio un mail a su cuenta. Por favor revise su bandeja de Spam"),
+        content: Text(
+            "Email has been sent. Please check your email. Remember to look at your junk mail folder also"),
       ));
       notifyListeners();
       Navigator.of(context).push(MaterialPageRoute(

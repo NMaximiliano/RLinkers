@@ -21,16 +21,16 @@ enum enumEncabezadoProjects {
 }
 
 class SectionProjectsProvider with ChangeNotifier {
-
-  SectionProjectsProvider(enumEncabezadoProjects strEncabezado, BuildContext context){
-  init(strEncabezado, context);
-  notifyListeners();
+  SectionProjectsProvider(
+      enumEncabezadoProjects strEncabezado, BuildContext context) {
+    init(strEncabezado, context);
+    notifyListeners();
   }
 
   final _formProjectInternalKey = GlobalKey<FormState>();
   Function(String?)? functionForOnChanged;
   Function()? functionForOnPressed;
-  String textoBusqueda ='';
+  String textoBusqueda = '';
   dynamic functionDeleteProjectnternal;
   IconData iconToShow = Icons.accessibility;
   bool buttonVisible = true;
@@ -52,10 +52,10 @@ class SectionProjectsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   init(enumEncabezadoProjects strEncabezado, context) {
-    _dbProfileProvider = Provider.of<DBProfileProvider>(context,listen: true);
-    _dbUsersInvitedProjectProvider = Provider.of<DBUsersInvitedProjectProvider>(context,listen: true);
+    _dbProfileProvider = Provider.of<DBProfileProvider>(context, listen: true);
+    _dbUsersInvitedProjectProvider =
+        Provider.of<DBUsersInvitedProjectProvider>(context, listen: true);
     switch (strEncabezado) {
       case enumEncabezadoProjects.shared:
         buttonVisible = false;
@@ -63,26 +63,30 @@ class SectionProjectsProvider with ChangeNotifier {
         break;
       case enumEncabezadoProjects.usersInvited:
 
-
-       // profiles = Provider.of<DBProfileProvider>(context,
-       //      listen: false)
-       //      .profiles;
+        // profiles = Provider.of<DBProfileProvider>(context,
+        //      listen: false)
+        //      .profiles;
         listProfiles = _dbUsersInvitedProjectProvider.profilesNotInvited;
         profiles = _dbProfileProvider.profiles;
         List<Profile> searchProfile = [];
         buttonVisible = false;
-        textoEncabezado = "Project - AddUsers";
+        textoEncabezado = "Project - Add Users";
         TextEditingController searchProfilesController =
-        TextEditingController();
+            TextEditingController();
         updateListProfiles();
         functionForOnChanged = (String? value) {
-          textoBusqueda = value??'';
-          searchProfile =  profiles.where((Profile element) {
+          textoBusqueda = value ?? '';
+          searchProfile = profiles.where((Profile element) {
             print(element.toString());
             print(value.toString());
-            return element.nombre!.toLowerCase().contains(value!.toLowerCase()) || element.apellido!.toLowerCase().contains(value!.toLowerCase());
+            return element.nombre!
+                    .toLowerCase()
+                    .contains(value!.toLowerCase()) ||
+                element.apellido!.toLowerCase().contains(value!.toLowerCase());
           }).toList();
-        print(searchProfile[0].nombre.toString() +' '+searchProfile[0].apellido.toString());
+          print(searchProfile[0].nombre.toString() +
+              ' ' +
+              searchProfile[0].apellido.toString());
           updateListProfiles();
         };
         break;
@@ -102,7 +106,7 @@ class SectionProjectsProvider with ChangeNotifier {
               builder: (BuildContext context) {
                 return AlertDialog(
                   scrollable: true,
-                  title: Text('Alta de Proyectos '),
+                  title: Text('Add Projects'),
                   content: Container(
                     width: 500,
                     child: Padding(
@@ -114,12 +118,12 @@ class SectionProjectsProvider with ChangeNotifier {
                             TextFormField(
                               controller: titleProjectInternalController,
                               decoration: InputDecoration(
-                                labelText: 'Titulo',
+                                labelText: 'Title',
                                 icon: Icon(Icons.title),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una titulo';
+                                  return 'Enter a title';
                                 }
                                 return null;
                               },
@@ -127,12 +131,12 @@ class SectionProjectsProvider with ChangeNotifier {
                             TextFormField(
                               controller: descriptionProjectInternalController,
                               decoration: InputDecoration(
-                                labelText: 'Descripcion',
+                                labelText: 'Description',
                                 icon: Icon(Icons.link),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una descripcion';
+                                  return 'Enter a description';
                                 }
                                 return null;
                               },
@@ -140,7 +144,7 @@ class SectionProjectsProvider with ChangeNotifier {
                             TextFormField(
                               controller: dateTimeProjectInternalController,
                               decoration: InputDecoration(
-                                labelText: 'Fecha',
+                                labelText: 'Date',
                                 icon: Icon(Icons.date_range),
                               ),
                               onTap: () async {
@@ -148,7 +152,7 @@ class SectionProjectsProvider with ChangeNotifier {
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(1945),
-                                  lastDate: DateTime(2023),
+                                  lastDate: DateTime.now(),
                                 ).then((selectedDate) {
                                   if (selectedDate != null) {
                                     dateTimeProjectInternalController.text =
@@ -159,7 +163,7 @@ class SectionProjectsProvider with ChangeNotifier {
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una fecha';
+                                  return 'Select date';
                                 }
                                 return null;
                               },
@@ -201,11 +205,11 @@ class SectionProjectsProvider with ChangeNotifier {
                                     builder: (context) => StructurePage(
                                         ProjectPage(),
                                         enumIconos.menu,
-                                        "Proyectos"),
+                                        "Projects"),
                                   ));
                                 }
                               },
-                              child: Text("Crear Proyecto"),
+                              child: Text("Create Project"),
                             )
                           ],
                         ),
@@ -222,7 +226,7 @@ class SectionProjectsProvider with ChangeNotifier {
                 return AlertDialog(
                   scrollable: true,
                   title: Text(
-                      "Esta seguro que quiere borrar el dato seleccionado"),
+                      "Are you sure you want to delete the selected record?"),
                   icon: Icon(Icons.warning_amber),
                   content: Container(
                     child: TextButton(
@@ -233,7 +237,7 @@ class SectionProjectsProvider with ChangeNotifier {
                         );
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => StructurePage(
-                              ProjectPage(), enumIconos.menu, "Proyectos"),
+                              ProjectPage(), enumIconos.menu, "Projects"),
                         ));
                       },
                       child: Text("OK"),
@@ -245,22 +249,20 @@ class SectionProjectsProvider with ChangeNotifier {
         break;
       case enumEncabezadoProjects.internalDetail:
         buttonVisible = false;
-        textoEncabezado = "Detalle de Proyectos";
+        textoEncabezado = "Project Details";
     }
   }
 
   void updateListProfiles() {
-       if(textoBusqueda.isNotEmpty&&searchProfile.isNotEmpty){
+    if (textoBusqueda.isNotEmpty && searchProfile.isNotEmpty) {
       listProfiles = searchProfile;
-    }else{
+    } else {
       listProfiles = _dbUsersInvitedProjectProvider.profilesNotInvited;
     }
-       notifyListeners();
+    notifyListeners();
   }
 
   loadProfilesNotInvited(List<Profile> profilesNotInvited) {
     listProfiles = _dbUsersInvitedProjectProvider.profilesNotInvited;
   }
-
-
 }

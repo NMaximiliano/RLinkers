@@ -5,6 +5,7 @@ import 'package:rlinkers/pages/register_page.dart';
 import 'package:rlinkers/pages/structure_page.dart';
 import '../business_logic/Auth_Provider.dart';
 import '../widgets/customForms/my_textfield.dart';
+
 class MyRecoverUserPage extends StatefulWidget {
   const MyRecoverUserPage({Key? key}) : super(key: key);
 
@@ -27,22 +28,23 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(55),
-                child:  Text(
-                    'User Recovery',
+                child: Text('User Recovery',
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w500,
                         fontSize: 30,
-                        fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily)),
+                        fontFamily: GoogleFonts.getFont("Playfair Display")
+                            .fontFamily)),
               ),
-              SizedBox(height: 30,),
-              MyTextField(titleField: "User",
+              SizedBox(
+                height: 30,
+              ),
+              MyTextField(
+                  titleField: "User",
                   nameController: emailController,
                   onSubmited: () {
                     if (formKey.currentState != null) {
-                      if (formKey.currentState!.validate()) {
-
-                      }
+                      if (formKey.currentState!.validate()) {}
                     }
                   }),
               /*Container(
@@ -59,32 +61,50 @@ class _MyStatefulWidgetState extends State<MyRecoverUserPage> {
                 ),
               ),
 */
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Container(
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(55, 0, 55, 0),
                   child: ElevatedButton(
-                    child:  Text('User Recovery', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
+                    child: Text(
+                      'User Recovery',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: GoogleFonts.getFont("Playfair Display")
+                              .fontFamily),
+                    ),
                     onPressed: () {
-                      Provider.of<AuthProvider>(context, listen:false).resetPassword(emailController.text, context);
+                      Provider.of<AuthProvider>(context, listen: false)
+                          .resetPassword(emailController.text, context);
                     },
-                  )
+                  )),
+              SizedBox(
+                height: 50,
               ),
-              SizedBox(height: 50,),
               Row(
                 children: <Widget>[
-                  Text('No user yet?', style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),),
+                  Text(
+                    'No user yet?',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily:
+                            GoogleFonts.getFont("Playfair Display").fontFamily),
+                  ),
                   TextButton(
-                    child:  Text(
-                      'Registro',
-                      style: TextStyle(fontSize: 20, fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: GoogleFonts.getFont("Playfair Display")
+                              .fontFamily),
                     ),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StructurePage(MyRegisterPage(),
-                            enumIconos.sinIcono,"Register"),
+                        builder: (context) => StructurePage(
+                            MyRegisterPage(), enumIconos.sinIcono, "Register"),
                       ));
-
                     },
                   )
                 ],
