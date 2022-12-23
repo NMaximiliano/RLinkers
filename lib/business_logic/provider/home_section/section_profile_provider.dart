@@ -75,7 +75,7 @@ class SectionProfileProvider with ChangeNotifier {
         break;
       case enumEncabezado.proyectosExternas:
         buttonVisible = true;
-        textoEncabezado = "Projects:";
+        textoEncabezado = "Publications:";
         iconToShow = Icons.add;
         TextEditingController descriptionProjectimportedController =
             TextEditingController();
@@ -123,7 +123,7 @@ class SectionProfileProvider with ChangeNotifier {
                         icon: Icon(Icons.close))
                   ],
                   scrollable: true,
-                  title: Text('Add Projects'),
+                  title: Text('Add Publications'),
                   content: Container(
                     width: 500,
                     child: Padding(
