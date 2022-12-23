@@ -61,3 +61,4 @@ app.*.map.json
 /firebase.json
 /database.rules.json
 /lib/firebase_options.dart
+/.firebase/hosting..cache
