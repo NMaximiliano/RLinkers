@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "339477941630",
+    "firebase_url": "https://rlinkers-bc0eb-default-rtdb.firebaseio.com",
+    "project_id": "rlinkers-bc0eb",
+    "storage_bucket": "rlinkers-bc0eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339477941630:android:dd727534f13cfa70f2b72f",
+        "android_client_info": {
+          "package_name": "com.example.rlinkers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339477941630-ggnb2vk72dc1cd0k344jodhepu7qogif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCztZDy1bTaBk-_Llm-XrWe4UXJsw00XO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339477941630-ggnb2vk72dc1cd0k344jodhepu7qogif.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "339477941630-mq8pmpe22qnei352fbo01su5o9sq9dah.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rlinkers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

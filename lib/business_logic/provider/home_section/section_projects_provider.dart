@@ -81,7 +81,7 @@ getprofilesAddUser(BuildContext context) async
         profiles = _dbProfileProvider.profiles;
         List<Profile> searchProfile = [];
         buttonVisible = false;
-        textoEncabezado = "Project - AddUsers";
+        textoEncabezado = "Project - Add Users";
         TextEditingController searchProfilesController =
         TextEditingController();
         updateListProfiles();
@@ -113,7 +113,7 @@ getprofilesAddUser(BuildContext context) async
               builder: (BuildContext context) {
                 return AlertDialog(
                   scrollable: true,
-                  title: Text('Alta de Proyectos '),
+                  title: Text('Add Projects'),
                   content: Container(
                     width: 500,
                     child: Padding(
@@ -125,12 +125,12 @@ getprofilesAddUser(BuildContext context) async
                             TextFormField(
                               controller: titleProjectInternalController,
                               decoration: InputDecoration(
-                                labelText: 'Titulo',
+                                labelText: 'Title',
                                 icon: Icon(Icons.title),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una titulo';
+                                  return 'Enter a title';
                                 }
                                 return null;
                               },
@@ -138,12 +138,12 @@ getprofilesAddUser(BuildContext context) async
                             TextFormField(
                               controller: descriptionProjectInternalController,
                               decoration: InputDecoration(
-                                labelText: 'Descripcion',
+                                labelText: 'Description',
                                 icon: Icon(Icons.link),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una descripcion';
+                                  return 'Enter a description';
                                 }
                                 return null;
                               },
@@ -151,7 +151,7 @@ getprofilesAddUser(BuildContext context) async
                             TextFormField(
                               controller: dateTimeProjectInternalController,
                               decoration: InputDecoration(
-                                labelText: 'Fecha',
+                                labelText: 'Date',
                                 icon: Icon(Icons.date_range),
                               ),
                               onTap: () async {
@@ -159,7 +159,7 @@ getprofilesAddUser(BuildContext context) async
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(1945),
-                                  lastDate: DateTime(2023),
+                                  lastDate: DateTime.now(),
                                 ).then((selectedDate) {
                                   if (selectedDate != null) {
                                     dateTimeProjectInternalController.text =
@@ -170,7 +170,7 @@ getprofilesAddUser(BuildContext context) async
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Ingrese una fecha';
+                                  return 'Select date';
                                 }
                                 return null;
                               },
@@ -212,11 +212,11 @@ getprofilesAddUser(BuildContext context) async
                                     builder: (context) => StructurePage(
                                         ProjectPage(),
                                         enumIconos.menu,
-                                        "Proyectos"),
+                                        "Projects"),
                                   ));
                                 }
                               },
-                              child: Text("Crear Proyecto"),
+                              child: Text("Create Project"),
                             )
                           ],
                         ),
@@ -233,7 +233,7 @@ getprofilesAddUser(BuildContext context) async
                 return AlertDialog(
                   scrollable: true,
                   title: Text(
-                      "Esta seguro que quiere borrar el dato seleccionado"),
+                      "Are you sure you want to delete the selected record?"),
                   icon: Icon(Icons.warning_amber),
                   content: Container(
                     child: TextButton(
@@ -244,7 +244,7 @@ getprofilesAddUser(BuildContext context) async
                         );
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => StructurePage(
-                              ProjectPage(), enumIconos.menu, "Proyectos"),
+                              ProjectPage(), enumIconos.menu, "Projects"),
                         ));
                       },
                       child: Text("OK"),
@@ -256,7 +256,7 @@ getprofilesAddUser(BuildContext context) async
         break;
       case enumEncabezadoProjects.internalDetail:
         buttonVisible = false;
-        textoEncabezado = "Detalle de Proyectos";
+        textoEncabezado = "Project Details";
     }
   }
 
