@@ -47,7 +47,7 @@ class AuthProvider with ChangeNotifier {
       if (e.code == 'user-not-found') {
         errorText = 'Username does not exist';
       } else if (e.code == 'wrong-password') {
-        errorText = 'Incorrect Password';
+        errorText = 'Wrong Password';
       } else {
         errorText = e.code;
       }
@@ -81,7 +81,7 @@ class AuthProvider with ChangeNotifier {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Se envio un mail a su cuenta. Por favor revise su bandeja de Spam"),
+        content: Text("Email has been sent. Please check your email. Remember to look at your junk mail folder also"),
       ));
       notifyListeners();
       Navigator.of(context).push(MaterialPageRoute(
