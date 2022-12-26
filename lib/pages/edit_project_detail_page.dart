@@ -33,20 +33,24 @@ class _EditProjectDetailPageState extends State<EditProjectDetailPage> {
           height: 20,
         ),
 
-        ElevatedButton.icon(
-          icon: const Icon(Icons.dataset),
-          label: Text('Add Users',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontFamily:
-                  GoogleFonts.getFont("Playfair Display")
-                      .fontFamily)),
-          onPressed: ()  {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    StructurePage(ProjectAddUsers(projectInternal: widget.projectInternal,), enumIconos.menu, "Add Users")));
+        SizedBox(
+          width: 300,
+          height: 100,
+          child: ElevatedButton.icon(
+            icon: const Icon(Icons.dataset),
+            label: Text('Add Users',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily:
+                    GoogleFonts.getFont("Playfair Display")
+                        .fontFamily)),
+            onPressed: ()  {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      StructurePage(ProjectAddUsers(projectInternal: widget.projectInternal,), enumIconos.menu, "Add Users")));
 
-          },
+            },
+          ),
         ),
         SizedBox(
           height: 20,

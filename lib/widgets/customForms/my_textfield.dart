@@ -25,15 +25,16 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
+
+
   @override
   void initState() {
-    if (widget.nameController == null) {
-      widget.nameController = TextEditingController();
+    if(widget.nameController==null){
+      widget.nameController= TextEditingController();
     }
-    widget.nameController!.text = widget.initialValue ?? '';
+    widget.nameController!.text = widget.initialValue??'';
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,12 +44,12 @@ class _MyTextFieldState extends State<MyTextField> {
               ? MediaQuery.of(context).size.width * 0.05
               : 34),
       child: TextFormField(
-        onChanged: (value) {
-          if (widget.onChanged != null) {
+        onChanged: (value){
+          if(widget.onChanged!=null){
             widget.onChanged!(value);
           }
-        },
-        onFieldSubmitted: (value) {
+          },
+        onFieldSubmitted: (value){
           widget.onSubmited!();
         },
         maxLines: widget.lines,
@@ -59,8 +60,7 @@ class _MyTextFieldState extends State<MyTextField> {
             fontSize: 18,
             fontFamily: GoogleFonts.getFont("Playfair Display").fontFamily),
         cursorColor: Colors.black87,
-        obscureText: widget.titleField == "Password" ||
-            widget.titleField == "Repeat Password",
+        obscureText: widget.titleField == "Password" || widget.titleField == "Repetir Password",
         decoration: InputDecoration(
             labelText: widget.titleField ?? "",
             border: OutlineInputBorder(
@@ -76,13 +76,15 @@ class _MyTextFieldState extends State<MyTextField> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             if (widget.titleField == "Password")
-              return 'Enter a Password';
+              return 'Ingrese un Password';
             else
-              return 'Enter a text';
+              return 'Ingrese un Texto';
+
           }
           //return null;
         },
       ),
     );
   }
+
 }

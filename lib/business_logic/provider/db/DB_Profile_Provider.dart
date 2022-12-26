@@ -25,6 +25,7 @@ class DBProfileProvider with ChangeNotifier {
 
   void init(AuthProvider authProvider) {
     _authProvider = authProvider;
+
   }
 
   AuthProvider get authProvider => _authProvider;

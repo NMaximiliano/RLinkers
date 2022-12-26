@@ -33,7 +33,7 @@ class DBUsersInvitedProjectProvider with ChangeNotifier {
 
 
   AuthProvider get authProvider => _authProvider;
-  Future<void> addUserInvitedFromProject(ProjectInternal projectInternal, String idUser) async {
+  Future<bool> addUserInvitedFromProject(ProjectInternal projectInternal, String idUser) async {
     AuthProvider().uid;
     userInvitedProject = UserInvitedProject();
     userInvitedProject.estado = "Esperando Confirmacion";
@@ -43,14 +43,20 @@ class DBUsersInvitedProjectProvider with ChangeNotifier {
     await ref
         .child(DateTime.now().millisecondsSinceEpoch.toString())
         .set(userInvitedProject.toJson());
+    return true;
   }
   Future<List<Profile>> getProfilesInvitedToProject(ProjectInternal projectInternal, BuildContext context) async {
+    profilesInvited.clear();
     usersInvitedProject.clear();
     final ref = database.ref('ProyectosInternosXUsuarios/${_authProvider.uid}/${projectInternal.idProyectoIntUsuario}/Invitados');
     DataSnapshot snapshot = await ref.get();
     if (snapshot.exists) {
+      int contador = 0;
       (snapshot.value as Map).forEach((key, value) {
         usersInvitedProject.add(UserInvitedProject.fromJson(value, key));
+        profile = _dbProfileProvider.profiles.firstWhere((element) => element.id == usersInvitedProject[contador].Uid);
+        profilesInvited.add(profile);
+        contador = contador+1;
       });
 
     } else {
@@ -68,6 +74,7 @@ class DBUsersInvitedProjectProvider with ChangeNotifier {
     profilesInvited.clear();
     profilesInvited = await  getProfilesInvitedToProject(projectInternal, context);
     profilesNotInvited = _dbProfileProvider.profiles;
+    profilesNotInvited.removeWhere((element) => element.id == _authProvider.uid);
     profilesInvited.forEach((profInvited) {
       profilesNotInvited.removeWhere((element) => element.id ==profInvited.id);
     });
