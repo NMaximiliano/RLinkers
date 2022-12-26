@@ -51,3 +51,5 @@ app.*.map.json
 /windows/ (2).gitignore
 /.gitignore
 /.gitignore
+/.firebase
+/firebase.json

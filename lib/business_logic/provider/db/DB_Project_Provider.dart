@@ -48,7 +48,7 @@ class DBProjectProvider with ChangeNotifier {
         projectsInternal.add(ProjectInternal.fromJson(value, key));
       });
     } else {
-      print('No Project Internal available.');
+      print('No available projects.');
     }
     notifyListeners();
     return projectsInternal;
@@ -66,7 +66,7 @@ class DBProjectProvider with ChangeNotifier {
         projectsInternal.firstWhere((e) => e.idProyectoIntUsuario == _projectInternal.idProyectoIntUsuario).filesDataProject = filesDataProject;
 
       } else {
-        print('No Files Data available.');
+        print('No available files.');
       }
       notifyListeners();
 
