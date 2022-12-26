@@ -92,7 +92,7 @@ getprofilesAddUser(BuildContext context) async
             print(value.toString());
             return element.nombre!.toLowerCase().contains(value!.toLowerCase()) || element.apellido!.toLowerCase().contains(value!.toLowerCase());
           }).toList();*/
-          searchProfile = listProfiles.where((element) => element.nombre!.toLowerCase().contains(value.toLowerCase()) || element.apellido!.toLowerCase().contains(value!.toLowerCase())).toList();
+          searchProfile = listProfiles.where((element) => element.nombre!.toLowerCase().contains(value!.toLowerCase()) || element.apellido!.toLowerCase().contains(value!.toLowerCase())).toList();
 
           updateListProfiles();
         };
