@@ -115,7 +115,10 @@ class ListBoxProjectInternal extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    if(model.iconToShow != Icons.accessibility) //?  SizedBox.shrink()
+
+                    if(model.iconToShow != Icons.accessibility)
+                       //?  SizedBox.shrink()
+                        
                         Container(
                           height: 51,
                           width: 51,
