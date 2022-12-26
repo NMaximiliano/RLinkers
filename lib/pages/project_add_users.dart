@@ -18,7 +18,7 @@ class _ProjectAddUsersState extends State<ProjectAddUsers> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SectionProjectsProvider>(
-        create:(_)=>SectionProjectsProvider(enumEncabezadoProjects.usersInvited, context),
+        create:(_)=>SectionProjectsProvider(enumEncabezadoProjects.usersInvited, context, widget.projectInternal),
         // update:(_,DBUsersInvitedProjectProvider db, SectionProjectsProvider? sectionProvider)=>
         //     sectionProvider!..loadProfilesNotInvited(db.profilesNotInvited),
         child: BoxInviteUsers(projectInternal: widget.projectInternal)

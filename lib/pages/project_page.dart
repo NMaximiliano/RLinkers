@@ -90,7 +90,7 @@ class ProjectPageState extends State<ProjectPage> {
                 ),
                 //proyectos propios
                 ChangeNotifierProvider<SectionProjectsProvider>.value(
-                  value:SectionProjectsProvider(enumEncabezadoProjects.internal, context),
+                  value:SectionProjectsProvider(enumEncabezadoProjects.internal, context,null),
                   child: ListBoxProjectInternal(
                     proyectosList: Provider.of<DBProjectProvider>(context, listen: false).projectsInternal,
                   ),
@@ -100,7 +100,7 @@ class ProjectPageState extends State<ProjectPage> {
                 ),
                 //proyectos compartidos
                 ChangeNotifierProvider<SectionProjectsProvider>.value(
-                  value:SectionProjectsProvider(enumEncabezadoProjects.shared, context),
+                  value:SectionProjectsProvider(enumEncabezadoProjects.shared, context, null),
                   child: ListBoxProjectInternal(
                     proyectosList: Provider.of<DBProjectProvider>(context, listen: false).sharedProjects,
                   ),

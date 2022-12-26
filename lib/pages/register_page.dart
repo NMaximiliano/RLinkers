@@ -13,7 +13,9 @@ import '../widgets/customForms/my_datepicker.dart';
 import '../widgets/customForms/my_drop_down.dart';
 import '../widgets/customForms/validationPassword.dart';
 
-late String _chosenPaises;
+
+ late String _chosenPaises;
+
 
 class MyRegisterPage extends StatefulWidget {
   const MyRegisterPage({Key? key}) : super(key: key);
@@ -46,7 +48,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
               Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
-                  child: Text('User Register',
+                  child: Text('Registro de Usuario',
                       style: TextStyle(
                           color: Colors.blue,
                           //fontWeight: FontWeight.w500,
@@ -56,8 +58,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
               SizedBox(
                 height: 30,
               ),
-              MyTextField(
-                  titleField: "First Name", nameController: nameController),
+              MyTextField(titleField: "First Name", nameController: nameController),
               MyTextField(
                   titleField: "Last Name", nameController: surnameController),
               myDropDown(
@@ -65,7 +66,8 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                   chosenValue: _chosenPaises = paises.first,
                   choosingValue: (String value) {
                     _chosenPaises = value;
-                    Provider.of<DBProfileProvider>(context, listen: false)
+                    Provider.of<DBProfileProvider>(context,
+                        listen: false)
                         .updateLugarNacimiento(value);
                   }),
               MyDatePicker(
@@ -90,7 +92,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ElevatedButton(
-                      child: Text('Register',
+                      child: Text('Registro',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -116,7 +118,8 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                                 repeatPasswordController.text) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text('Password does not match')),
+                                    content:
+                                        Text('Password does not match')),
                               );
                               return;
                             }
@@ -136,8 +139,7 @@ class _MyStatefulWidgetState extends State<MyRegisterPage> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content:
-                                      Text('Please review the input data')),
+                                  content: Text('Please review the input data')),
                             );
                             return;
                           }
@@ -158,6 +160,6 @@ Future<void> crearUsuario({context, required Profile perfil, password}) async {
   await Provider.of<AuthProvider>(context, listen: false)
       .register(perfil.mail, password, context);
 
-  await Provider.of<DBProfileProvider>(context, listen: false)
-      .addUsuario(perfil);
+  await Provider.of<DBProfileProvider>(context, listen: false).addUsuario(
+      perfil);
 }

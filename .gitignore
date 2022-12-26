@@ -51,14 +51,3 @@ app.*.map.json
 /windows/ (2).gitignore
 /.gitignore
 /.gitignore
-/.vscode/launch.json
-/android/app/google-services.json
-/android/app/build.gradle
-/ios/Runner/GoogleService-Info.plist
-/ios/firebase_app_id_file.json
-/.firebaserc
-/package.json
-/firebase.json
-/database.rules.json
-/lib/firebase_options.dart
-/.firebase/hosting..cache

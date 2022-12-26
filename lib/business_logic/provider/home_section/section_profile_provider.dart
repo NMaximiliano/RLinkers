@@ -22,7 +22,7 @@ class SectionProfileProvider with ChangeNotifier {
   IconData iconToShow = Icons.accessibility;
   bool buttonVisible = true;
   String textoEncabezado = "";
-  ProjectImported? _projectImporter;
+    ProjectImported? _projectImporter;
 
   init(enumEncabezado strEncabezado, context) {
     switch (strEncabezado) {
@@ -58,8 +58,7 @@ class SectionProfileProvider with ChangeNotifier {
           miPerfil.tituloCargo = tituloCargoController.text;
           miPerfil.pacientesTratados = pacientesTratadosController.text;
           if (miPerfil != null) {
-            Provider.of<DBProfileProvider>(context, listen: false)
-                .updateUsuario(
+            Provider.of<DBProfileProvider>(context, listen: false).updateUsuario(
               miPerfil,
             );
           } else {
@@ -75,7 +74,7 @@ class SectionProfileProvider with ChangeNotifier {
         break;
       case enumEncabezado.proyectosExternas:
         buttonVisible = true;
-        textoEncabezado = "Publications:";
+        textoEncabezado = "Projects:";
         iconToShow = Icons.add;
         TextEditingController descriptionProjectimportedController =
             TextEditingController();
@@ -93,18 +92,18 @@ class SectionProfileProvider with ChangeNotifier {
                       "Are you sure that you want to delete the selected item?"),
                   icon: Icon(Icons.warning_amber),
                   content: Container(
-                    child: TextButton(
-                      onPressed: () {
-                        Provider.of<DBProfileProvider>(context, listen: false)
-                            .removeProjectImported(
-                          projectImported,
-                        );
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => StructurePage(
-                              ProfilePage(), enumIconos.menu, "User Profile"),
-                        ));
-                      },
-                      child: Text("OK"),
+                    child: TextButton(onPressed: () {
+                      Provider.of<DBProfileProvider>(context, listen: false).removeProjectImported(
+                        projectImported,
+                      );
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => StructurePage(
+                            ProfilePage(),
+                            enumIconos.menu,
+                            "User Profile"),
+                      ));
+                    }, child: Text("OK"),
+
                     ),
                   ),
                 );
@@ -116,14 +115,12 @@ class SectionProfileProvider with ChangeNotifier {
               builder: (BuildContext context) {
                 return AlertDialog(
                   actions: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context, false);
-                        },
-                        icon: Icon(Icons.close))
+                    IconButton(onPressed: (){
+                      Navigator.pop(context,false);
+                    }, icon: Icon(Icons.close))
                   ],
                   scrollable: true,
-                  title: Text('Add Publications'),
+                  title: Text('Add Projects'),
                   content: Container(
                     width: 500,
                     child: Padding(
@@ -153,7 +150,7 @@ class SectionProfileProvider with ChangeNotifier {
                                 icon: Icon(Icons.link),
                               ),
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.isEmpty ) {
                                   return 'Enter a link';
                                 }
                                 return null;
@@ -168,20 +165,19 @@ class SectionProfileProvider with ChangeNotifier {
                               onTap: () async {
                                 await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
+                                  initialDate: DateTime.now() ,
                                   firstDate: DateTime(1905),
                                   lastDate: DateTime.now(),
                                 ).then((selectedDate) {
                                   if (selectedDate != null) {
                                     dateTimeProjectimportedController.text =
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(selectedDate);
+                                        DateFormat('dd/MM/yyyy').format(selectedDate);
                                   }
                                 });
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Select date';
+                                  return 'Enter a date';
                                 }
                                 return null;
                               },
@@ -191,27 +187,20 @@ class SectionProfileProvider with ChangeNotifier {
                             ),
                             TextButton(
                               onPressed: () {
-                                if (_formProjectImportedKey.currentState!
-                                    .validate()) {
+
+                                if (_formProjectImportedKey.currentState!.validate()) {
                                   // If the form is valid, display a snackbar. In the real world,
                                   // you'd often call a server or save the information in a database.
 
-                                  DateTime dateProjectImported = Jiffy(
-                                          dateTimeProjectimportedController
-                                              .text,
-                                          "dd/MM/yyyy")
-                                      .dateTime;
+                                  DateTime dateProjectImported = Jiffy(dateTimeProjectimportedController.text, "dd/MM/yyyy").dateTime ;
 
                                   _projectImporter = ProjectImported(
-                                      date: dateProjectImported
-                                          .millisecondsSinceEpoch,
+                                      date: dateProjectImported.millisecondsSinceEpoch,
                                       link: linkProjectimportedController.text,
-                                      title:
-                                          descriptionProjectimportedController
-                                              .text);
+                                      title: descriptionProjectimportedController
+                                          .text);
 
-                                  Provider.of<DBProfileProvider>(context,
-                                          listen: false)
+                                  Provider.of<DBProfileProvider>(context, listen: false)
                                       .createProjectImported(_projectImporter!);
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => StructurePage(
@@ -220,6 +209,7 @@ class SectionProfileProvider with ChangeNotifier {
                                         "User Profile"),
                                   ));
                                 }
+
                               },
                               child: Text("Save"),
                             )
@@ -232,6 +222,7 @@ class SectionProfileProvider with ChangeNotifier {
               });
         };
         break;
+
     }
   }
 }
