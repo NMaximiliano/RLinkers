@@ -21,7 +21,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   List icons = [Icons.logout, Icons.home, Icons.article, Icons.assignment_ind,Icons.attach_email];
 
-  List isShownOnLogin = [false,false,false,false,false];
+  List isShownOnLogin = [true,false,true,true,true];
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
         for(String item in items)
         Visibility(
-          visible:  isShownOnLogin[items.indexOf(item)] || Provider.of<AuthProvider>(context).uid!=null,
+          visible:  isShownOnLogin[items.indexOf(item)] && Provider.of<AuthProvider>(context).uid!=null,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
             child: Card(
