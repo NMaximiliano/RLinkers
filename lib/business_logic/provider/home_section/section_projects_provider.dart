@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/provider/db/DB_Users_Invited_Project_Provider.dart';
 import 'package:rlinkers/models/project_model.dart';
@@ -148,33 +146,6 @@ getprofilesAddUser(BuildContext context) async
                                 return null;
                               },
                             ),
-                            TextFormField(
-                              controller: dateTimeProjectInternalController,
-                              decoration: InputDecoration(
-                                labelText: 'Date',
-                                icon: Icon(Icons.date_range),
-                              ),
-                              onTap: () async {
-                                await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1945),
-                                  lastDate: DateTime.now(),
-                                ).then((selectedDate) {
-                                  if (selectedDate != null) {
-                                    dateTimeProjectInternalController.text =
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(selectedDate);
-                                  }
-                                });
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Select date';
-                                }
-                                return null;
-                              },
-                            ),
                             SizedBox(
                               height: 10,
                             ),
@@ -185,14 +156,10 @@ getprofilesAddUser(BuildContext context) async
                                   // If the form is valid, display a snackbar. In the real world,
                                   // you'd often call a server or save the information in a database.
 
-                                  DateTime dateProjectImported = Jiffy(
-                                          dateTimeProjectInternalController
-                                              .text,
-                                          "dd/MM/yyyy")
-                                      .dateTime;
-
+                                  
+                                  DateTime dateProjectInternal = DateTime.now();
                                   _projectInternal = ProjectInternal(
-                                      date: dateProjectImported
+                                      date: dateProjectInternal
                                           .millisecondsSinceEpoch,
                                       description:
                                           descriptionProjectInternalController

@@ -12,6 +12,9 @@ class FilePickerHelper {
     if (result != null) {
       Uint8List? file = result.files.first.bytes;
       return file;
+    }else
+    {
+      print("cerrado");
     }
   }
 

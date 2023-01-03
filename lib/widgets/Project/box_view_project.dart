@@ -11,9 +11,13 @@ class BoxViewProject extends StatefulWidget {
 }
 
 class _BoxViewProjectState extends State<BoxViewProject> {
-  callback(String cambioImagen) {
+  callback(String cambioImagen,  bool loading) {
     setState(() {
-      widget.projectInternal.urlImagen = cambioImagen;
+      if(cambioImagen != "")
+      {
+        widget.projectInternal.urlImagen = cambioImagen;
+      }
+
     });
   }
 

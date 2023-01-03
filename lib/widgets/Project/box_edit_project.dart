@@ -15,17 +15,21 @@ class BoxEditProject extends StatefulWidget {
   TextEditingController titleProjectController = TextEditingController();
   TextEditingController descripcionProjectController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool isLoading = false;
   @override
   State<StatefulWidget> createState() => _BoxEditProjectState();
 }
 
 class _BoxEditProjectState extends State<BoxEditProject> {
-  late String _chosenEstado;
+    late String _chosenEstado = widget.projectInternal.estado ?? estados[0];
 
-  callback(String cambioImagen) {
+  callback(String cambioImagen, bool loading) {
     setState(() {
-      widget.projectInternal.urlImagen = cambioImagen;
+      widget.isLoading = loading;
+      if(cambioImagen != "")
+      {
+          widget.projectInternal.urlImagen = cambioImagen;
+      }
       _chosenEstado = estados[0];
     });
   }
@@ -74,7 +78,9 @@ class _BoxEditProjectState extends State<BoxEditProject> {
                       margin: const EdgeInsets.all(20),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
-                        child: (widget.projectInternal.urlImagen != null)
+                        child: widget.isLoading
+                            ? Center(child: CircularProgressIndicator(),)
+                            :(widget.projectInternal.urlImagen != null)
                             ? Image.network(
                                 widget.projectInternal.urlImagen!,
                                 fit: BoxFit.cover,
@@ -109,9 +115,10 @@ class _BoxEditProjectState extends State<BoxEditProject> {
                     SizedBox(
                       height: 20,
                     ),
+
                     myDropDown(
                         dropItems: estados,
-                        chosenValue: widget.projectInternal.estado ?? 'Active',
+                        chosenValue: widget.projectInternal.estado ?? estados[0],
                         choosingValue: (String value) {
                           _chosenEstado = value;
                           if (value != null) {

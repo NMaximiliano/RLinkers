@@ -136,6 +136,10 @@ class _BoxAddFilesDataProjectState extends State<BoxAddFilesDataProject> {
 
                                     print("valor : $progress");
                                   }
+                                  else
+                                  {
+                                    print("cerrado");
+                                  }
                                 }
                               }
                             }),

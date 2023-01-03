@@ -37,6 +37,7 @@ class _AddButtonChangeProjectImageState extends State<AddButtonChangeProjectImag
         String _uid = Provider.of<AuthProvider>(context,listen: false).uid!;
         Uint8List? file = await FilePickerHelper().imagePicker();
         try {
+          widget.callbackFunction("", true);
           Provider.of<StorageProvider>(context, listen: false).init(
               context);
           String? url = await Provider.of<
@@ -48,9 +49,10 @@ class _AddButtonChangeProjectImageState extends State<AddButtonChangeProjectImag
           Provider.of<DBProjectProvider>(context,
               listen: false)
               .insertImageProjectURL(url!, widget.projectInternal);
-          widget.callbackFunction(url);
+          widget.callbackFunction(url, false);
 
         }catch(error){
+          await widget.callbackFunction(widget.projectInternal.urlImagen, false);
           print('__error: ${error.toString()}');
         }
       },

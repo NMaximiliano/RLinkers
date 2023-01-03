@@ -111,9 +111,9 @@ class ProjectInternal implements Project {
     data['ImagenUrl'] = this.urlImagen;
     data['Estado'] = this.estado;
     data['IdUsuario'] = this.idUsuario;
-    if (this.filesDataProject != null) {
+   /* if (this.filesDataProject != null) {
       data['Archivos'] = this.filesDataProject.map((v) => v.toJson()).toList();
-    }
+    }*/
 
       return data;
   }

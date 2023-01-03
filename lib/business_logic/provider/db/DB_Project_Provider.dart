@@ -45,7 +45,14 @@ class DBProjectProvider with ChangeNotifier {
     DataSnapshot snapshot = await ref.get();
     if (snapshot.exists) {
       (snapshot.value as Map).forEach((key, value) {
-        projectsInternal.add(ProjectInternal.fromJson(value, key));
+        try {
+          projectsInternal.add(ProjectInternal.fromJson(value, key));
+        } on Exception catch (exception) {
+         print("Exception en project internal :" +  exception.toString());
+        } catch (error) {
+          print("Error en project internal" +   error.toString());
+        }
+
       });
     } else {
       print('No available projects.');

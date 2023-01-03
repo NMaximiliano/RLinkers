@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rlinkers/business_logic/Auth_Provider.dart';
-
 import 'package:rlinkers/models/user_model.dart';
 import 'package:rlinkers/pages/home_page.dart';
 import '../business_logic/provider/db/DB_Profile_Provider.dart';
@@ -27,6 +26,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   void initState() {
     Provider.of<DBProfileProvider>(context, listen: false)
         .loadLoggedUserData();
+   // Provider.of<DBProjectProvider>(context, listen: false).loadLoggedUserData();
     super.initState();
   }
 
